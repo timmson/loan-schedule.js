@@ -1,0 +1,25 @@
+{
+  "name": "loan-schedule.js",
+  "version": "0.0.1",
+  "description": "Library for loan amortization schedule manipulation",
+  "main": "index.js",
+  "scripts": {
+    "test": "test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/timmson/loan-schedule.js"
+  },
+  "keywords": [
+    "loan",
+    "schedule",
+    "finance",
+    "mortgage",
+    "lending"
+  ],
+  "author": "timmson",
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/timmson/loan-schedule.js/issues"
+  }
+}
