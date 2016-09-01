@@ -7,3 +7,14 @@ If you have any questions, send their via email: [timmson666@mail.ru](mailto:tim
 ```sh
 npm install loan-schedule.js
 ```
+
+## How to init
+```js
+var LoanSchedule = require('loan-schedule.js');
+
+var loanSchedule = new LoanSchedule({
+    amount : 110000,
+    rate : 12,
+    term : 60
+});
+```
