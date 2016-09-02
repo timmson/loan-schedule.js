@@ -8,14 +8,14 @@ module.exports = LoanSchedule;
 function LoanSchedule(options) {
 
     this.money = {
-        decimal: 2,
-        symbol: 'руб.',
-        format: '%v %s',
-        thousand: ' '
+        decimal: options.decimalDigit != null ? options.decimalDigit : 2,
+        symbol: options.currency != null ? options.currency: 'rub.',
+        format: options.moneyFormat != null ? options.moneyFormat: '%v %s',
+        thousand: options.decimalGroup != null ? options.decimalGroup : ' '
     };
 
     this.date = {
-        format: 'DD.MM.YYYY'
+        format: options.dateFormat != null ? options.dateFormat : 'DD.MM.YYYY'
     };
 }
 
@@ -28,7 +28,7 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (options) {
     var amount = new Decimal(options.amount);
     var rate = new Decimal(options.rate);
     var interestAccruedAmount = new Decimal(0);
-    var paymentAmount = new Decimal(this.calculateAnnuityPaymentAmount(options.amount, options.term, options.rate));
+    var paymentAmount = new Decimal(this.calculateAnnuityPaymentAmount({amount: options.amount, term: options.term, rate: options.rate}));
     var i = 0;
 
     while (i <= term.toNumber()) {
@@ -49,7 +49,7 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (options) {
             pay.paymentDate = date.format(this.date.format);
             pay.initialBalance = schedule.payments[i - 1].finalBalance;
             interestAccruedAmount = interestAccruedAmount.plus(
-                this.calculateInterestByPeriod(schedule.payments[i - 1].paymentDate, pay.paymentDate, pay.initialBalance, pay.interestRate)
+                this.calculateInterestByPeriod({from: schedule.payments[i - 1].paymentDate, to: pay.paymentDate, amount: pay.initialBalance, rate: pay.interestRate})
             );
             if (i != term.toNumber()) {
                 if (interestAccruedAmount.gt(paymentAmount)) {
@@ -77,29 +77,29 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (options) {
 }
 ;
 
-LoanSchedule.prototype.calculateAnnuityPaymentAmount = function (amount, term, rate) {
-    var term = new Decimal(term);
-    var interestRate = new Decimal(rate).div(100).div(12);
-    var paymentAmount = new Decimal(amount).mul(interestRate.div(interestRate.plus(1).pow(term.neg()).neg().plus(1)));
+LoanSchedule.prototype.calculateAnnuityPaymentAmount = function (p) {
+    var term = new Decimal(p.term);
+    var interestRate = new Decimal(p.rate).div(100).div(12);
+    var paymentAmount = new Decimal(p.amount).mul(interestRate.div(interestRate.plus(1).pow(term.neg()).neg().plus(1)));
     return paymentAmount.toFixed(this.money.decimal);
 };
 
-LoanSchedule.prototype.calculateInterestByPeriod = function (dateFrom, dateTo, balance, rate) {
+LoanSchedule.prototype.calculateInterestByPeriod = function (p) {
     var curIntr = new Decimal(0);
-    var dtFr = Moment(dateFrom, this.date.format);
-    var dtTo = Moment(dateTo, this.date.format);
-    if (dtFr.isSame(dtTo, 'year')) {
-        curIntr = curIntr.plus(this.getInterestByPeriod(dtFr, dtTo, balance, rate));
+    var dateFrom = Moment(p.from, this.date.format);
+    var dateTo = Moment(p.to, this.date.format);
+    if (dateFrom.isSame(dateTo, 'year')) {
+        curIntr = curIntr.plus(getInterestByPeriod({from: dateFrom, to: dateTo, amount: p.amount, rate: p.rate}));
     } else {
-        var endOfYear = Moment({years: dtFr.year(), months: 11, days: 31});
-        curIntr = curIntr.plus(new Decimal(this.getInterestByPeriod(dtFr, endOfYear, balance, rate)));
-        curIntr = curIntr.plus(new Decimal(this.getInterestByPeriod(endOfYear, dtTo, balance, rate)));
+        var endOfYear = Moment({years: dateFrom.year(), months: 11, days: 31});
+        curIntr = curIntr.plus(getInterestByPeriod({from: dateFrom, to: endOfYear, amount: p.amount, rate: p.rate}));
+        curIntr = curIntr.plus(getInterestByPeriod({from: endOfYear, to: dateTo, amount: p.amount, rate: p.rate}));
     }
     return curIntr.toFixed(this.money.decimal);
 };
 
-LoanSchedule.prototype.getInterestByPeriod = function (dateFrom, dateTo, balance, rate) {
-    return new Decimal(rate).div(100).div(dateTo.year() % 4 == 0 ? 366 : 365).mul(Moment.duration(dateTo.diff(dateFrom)).asDays()).mul(balance).toFixed(this.money.decimal);
-};
+function getInterestByPeriod(p) {
+    return new Decimal(p.rate).div(100).div(p.to.year() % 4 == 0 ? 366 : 365).mul(Moment.duration(p.to.diff(p.from)).asDays()).mul(p.amount);
+}
 
 //accounting.formatMoney(number, {symbol: 'руб.', format: '%v %s', thousand: ' '})
