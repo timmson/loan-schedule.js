@@ -69,4 +69,24 @@ loanSchedule.calculateSchedule({
 });
 assert.equal(interestSum.toFixed(2), '3111.18');
 
+
+interestSum = new Decimal(0);
+loanSchedule.calculateSchedule({
+    amount: 50000,
+    rate: 11.5,
+    term: 12,
+    paymentOnDay: 25,
+    issueDate: '25.10.2016',
+    scheduleType : loanSchedule.BUBBLE_SCHEDULE
+}).payments.forEach(function (pay) {
+    interestSum = interestSum.plus(pay.interestAmount);
+    /*   console.log(pay.paymentDate + '\t|\t\t'
+     + pay.initialBalance + '\t|\t\t'
+     + pay.paymentAmount + '\t|\t\t'
+     + pay.principalAmount + '\t|\t\t'
+     + pay.interestAmount + '\t|\t\t'
+     + pay.finalBalance
+     );*/
+});
+assert.equal(interestSum.toFixed(2), '5747.13');
 console.log('Test - ok');

@@ -17,10 +17,20 @@ function LoanSchedule(options) {
     this.date = {
         format: options.dateFormat != null ? options.dateFormat : 'DD.MM.YYYY'
     };
+
+
 }
 
 LoanSchedule.prototype.calculateSchedule = function (p) {
-    return (p.scheduleType === this.ANNUITY_SCHEDULE) ? this.calculateAnnuitySchedule(p) : this.calculateDifferentiatedSchedule(p);
+    if (p.scheduleType === this.ANNUITY_SCHEDULE) {
+        return this.calculateAnnuitySchedule(p);
+    }
+    if (p.scheduleType === this.DIFFERENTIATED_SCHEDULE) {
+        return this.calculateDifferentiatedSchedule(p);
+    }
+    if (p.scheduleType === this.BUBBLE_SCHEDULE) {
+        return this.calculateBubbleSchedule(p);
+    }
 };
 
 LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
@@ -117,7 +127,54 @@ LoanSchedule.prototype.calculateDifferentiatedSchedule = function (p) {
                     rate: pay.interestRate
                 })
             ).toFixed(this.money.decimal);
-            pay.paymentAmount = principalAmount.plus(new Decimal(pay.interestAmount)).toFixed(this.money.decimal);
+            pay.paymentAmount = new Decimal(pay.principalAmount).plus(new Decimal(pay.interestAmount)).toFixed(this.money.decimal);
+            pay.finalBalance = new Decimal(pay.initialBalance).minus(new Decimal(pay.principalAmount)).toFixed(this.money.decimal);
+        }
+
+        schedule.payments.push(pay);
+        i++;
+    }
+    return schedule;
+
+};
+
+LoanSchedule.prototype.calculateBubbleSchedule = function (p) {
+    var schedule = {
+        payments: []
+    };
+    var date = Moment(p.issueDate, this.date.format);
+    var term = new Decimal(p.term);
+    var amount = new Decimal(p.amount);
+    var rate = new Decimal(p.rate);
+    var i = 0;
+
+    while (i <= term.toNumber()) {
+
+        var pay = {
+            interestRate: rate.toFixed(this.money.decimal)
+        };
+
+        if (i == 0) {
+            pay.paymentDate = date.format(this.date.format);
+            pay.initialBalance = new Decimal(0).toFixed(this.money.decimal);
+            pay.paymentAmount = new Decimal(0).toFixed(this.money.decimal);
+            pay.interestAmount = new Decimal(0).toFixed(this.money.decimal);
+            pay.principalAmount = new Decimal(0).toFixed(this.money.decimal);
+            pay.finalBalance = new Decimal(amount).toFixed(this.money.decimal);
+        } else {
+            date = date.add(1, 'months').date(p.paymentOnDay);
+            pay.paymentDate = date.format(this.date.format);
+            pay.initialBalance = schedule.payments[i - 1].finalBalance;
+            pay.principalAmount = i == term.toNumber() ? pay.initialBalance : new Decimal(0).toFixed(this.money.decimal);
+            pay.interestAmount = new Decimal(
+                this.calculateInterestByPeriod({
+                    from: schedule.payments[i - 1].paymentDate,
+                    to: pay.paymentDate,
+                    amount: pay.initialBalance,
+                    rate: pay.interestRate
+                })
+            ).toFixed(this.money.decimal);
+            pay.paymentAmount = new Decimal(pay.principalAmount).plus(new Decimal(pay.interestAmount)).toFixed(this.money.decimal);
             pay.finalBalance = new Decimal(pay.initialBalance).minus(new Decimal(pay.principalAmount)).toFixed(this.money.decimal);
         }
 
@@ -149,9 +206,9 @@ LoanSchedule.prototype.calculateInterestByPeriod = function (p) {
     return curIntr.toFixed(this.money.decimal);
 };
 
-LoanSchedule.prototype.ANNUITY_SCHEDULE = 1;
-
-LoanSchedule.prototype.DIFFERENTIATED_SCHEDULE = 2;
+LoanSchedule.prototype.ANNUITY_SCHEDULE = 'ANNUITY';
+LoanSchedule.prototype.DIFFERENTIATED_SCHEDULE = 'DIFFERENTIATED';
+LoanSchedule.prototype.BUBBLE_SCHEDULE = 'BUBBLE';
 
 function getInterestByPeriod(p) {
     return new Decimal(p.rate).div(100).div(p.to.year() % 4 == 0 ? 366 : 365).mul(Moment.duration(p.to.diff(p.from)).asDays()).mul(p.amount);
