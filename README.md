@@ -49,12 +49,13 @@ console.log(payment);
 
 ## Annuity loan schedule
 ```js
-var schedule = loanSchedule.calculateAnnuitySchedule({
+var schedule = loanSchedule.calculateSchedule({
                    amount: 50000,
                    rate: 11.5,
                    term: 12,
                    paymentOnDay: 25,
-                   issueDate: '25.10.2016'
+                   issueDate: '25.10.2016',
+                   scheduleType : loanSchedule.ANNUITY_SCHEDULE
 }).payments.forEach(function (pay) {
     console.log(pay.paymentDate + '\t|\t\t'
      + pay.initialBalance + '\t|\t\t'
@@ -65,3 +66,22 @@ var schedule = loanSchedule.calculateAnnuitySchedule({
      );
 });
 ```
+
+## Differentiated loan schedule
+```js
+var schedule = loanSchedule.calculateSchedule({
+                   amount: 50000,
+                   rate: 11.5,
+                   term: 12,
+                   paymentOnDay: 25,
+                   issueDate: '25.10.2016',
+                   scheduleType : loanSchedule.DIFFERENTIATED_SCHEDULE
+}).payments.forEach(function (pay) {
+    console.log(pay.paymentDate + '\t|\t\t'
+     + pay.initialBalance + '\t|\t\t'
+     + pay.paymentAmount + '\t|\t\t'
+     + pay.principalAmount + '\t|\t\t'
+     + pay.interestAmount + '\t|\t\t'
+     + pay.finalBalance
+     );
+});

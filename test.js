@@ -30,12 +30,13 @@ assert.equal(loanSchedule.calculateInterestByPeriod({
 }), '13.81');
 
 var interestSum = new Decimal(0);
-loanSchedule.calculateAnnuitySchedule({
+loanSchedule.calculateSchedule({
     amount: 50000,
     rate: 11.5,
     term: 12,
     paymentOnDay: 25,
-    issueDate: '25.10.2016'
+    issueDate: '25.10.2016',
+    scheduleType : loanSchedule.ANNUITY_SCHEDULE
 }).payments.forEach(function (pay) {
     interestSum = interestSum.plus(pay.interestAmount);
 /*    console.log(pay.paymentDate + '\t|\t\t'
@@ -47,5 +48,25 @@ loanSchedule.calculateAnnuitySchedule({
      );*/
 });
 assert.equal(interestSum.toFixed(2), '3165.39');
+
+interestSum = new Decimal(0);
+loanSchedule.calculateSchedule({
+    amount: 50000,
+    rate: 11.5,
+    term: 12,
+    paymentOnDay: 25,
+    issueDate: '25.10.2016',
+    scheduleType : loanSchedule.DIFFERENTIATED_SCHEDULE
+}).payments.forEach(function (pay) {
+    interestSum = interestSum.plus(pay.interestAmount);
+     /*   console.log(pay.paymentDate + '\t|\t\t'
+     + pay.initialBalance + '\t|\t\t'
+     + pay.paymentAmount + '\t|\t\t'
+     + pay.principalAmount + '\t|\t\t'
+     + pay.interestAmount + '\t|\t\t'
+     + pay.finalBalance
+     );*/
+});
+assert.equal(interestSum.toFixed(2), '3111.18');
 
 console.log('Test - ok');
