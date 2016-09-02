@@ -20,7 +20,9 @@ function LoanSchedule(options) {
 }
 
 LoanSchedule.prototype.calculateAnnuitySchedule = function (options) {
-    var paymentArray = [];
+    var schedule = {
+        payments: []
+    };
     var date = Moment(options.issueDate, this.date.format);
     var term = new Decimal(options.term);
     var amount = new Decimal(options.amount);
@@ -45,9 +47,9 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (options) {
         } else {
             date = date.add(1, 'months').date(options.paymentOnDay);
             pay.paymentDate = date.format(this.date.format);
-            pay.initialBalance = paymentArray[i - 1].finalBalance;
+            pay.initialBalance = schedule.payments[i - 1].finalBalance;
             interestAccruedAmount = interestAccruedAmount.plus(
-                this.calculateInterestByPeriod(paymentArray[i - 1].paymentDate, pay.paymentDate, pay.initialBalance, pay.interestRate)
+                this.calculateInterestByPeriod(schedule.payments[i - 1].paymentDate, pay.paymentDate, pay.initialBalance, pay.interestRate)
             );
             if (i != term.toNumber()) {
                 if (interestAccruedAmount.gt(paymentAmount)) {
@@ -67,10 +69,10 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (options) {
             pay.finalBalance = new Decimal(pay.initialBalance).minus(new Decimal(pay.principalAmount)).toFixed(this.money.decimal);
         }
 
-        paymentArray.push(pay);
+        schedule.payments.push(pay);
         i++;
     }
-    return paymentArray;
+    return schedule;
 
 }
 ;

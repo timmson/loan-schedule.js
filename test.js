@@ -15,7 +15,7 @@ loanSchedule.calculateAnnuitySchedule({
     term: 12,
     paymentOnDay: 25,
     issueDate: '25.10.2016'
-}).forEach(function (pay) {
+}).payments.forEach(function (pay) {
     interestSum = interestSum.plus(pay.interestAmount);
     /*console.log(pay.paymentDate + '\t|\t\t'
      + pay.initialBalance + '\t|\t\t'
