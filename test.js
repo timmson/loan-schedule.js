@@ -14,6 +14,12 @@ assert.equal(loanSchedule.calculateAnnuityPaymentAmount({
     rate: 12.9
 }), '2497.21');
 
+assert.equal(loanSchedule.calculateMaxLoanAmount({
+    paymentAmount: 2497.21,
+    term: 60,
+    rate: 12.9
+}), '109999.97');
+
 assert.equal(loanSchedule.calculateInterestByPeriod({
     from: '10.12.2015',
     to: '10.01.2016',

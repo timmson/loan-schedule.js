@@ -47,6 +47,16 @@ var payment = loanSchedule.calculateAnnuityPaymentAmount({
 console.log(payment);
 ```
 
+## Max Loan Amount
+```js
+var loanAmount = loanSchedule.calculateMaxLoanAmount({
+                  paymentAmount: 2497.21,
+                  term: 60,
+                  rate: 12.9
+});
+console.log(loanAmount);
+```
+
 ## Annuity loan schedule
 ```js
 var schedule = loanSchedule.calculateSchedule({

@@ -5,16 +5,8 @@ var Moment = require("moment");
 module.exports = LoanSchedule;
 
 function LoanSchedule(options) {
-
-    this.money = {
-        decimal: options.decimalDigit || 2
-    };
-
-    this.date = {
-        format: options.dateFormat || 'DD.MM.YYYY'
-    };
-
-
+    this.decimal = options.decimalDigit || 2;
+    this.dateFormat = options.dateFormat || 'DD.MM.YYYY';
 }
 
 LoanSchedule.prototype.calculateSchedule = function (p) {
@@ -29,65 +21,55 @@ LoanSchedule.prototype.calculateSchedule = function (p) {
         schedule.payments = this.calculateBubbleSchedule(p);
     }
 
-    schedule.amount = new Decimal(p.amount).toFixed(this.money.decimalDigit);
+    schedule.amount = new Decimal(p.amount).toFixed(this.decimal);
     schedule.overAllInterest = new Decimal(0);
     schedule.payments.map(pay => {
         var overAllInterest = new Decimal(schedule.overAllInterest).plus(pay.interestAmount);
-        schedule.overAllInterest = overAllInterest.toFixed(this.money.decimal);
+        schedule.overAllInterest = overAllInterest.toFixed(this.decimal);
     });
 
-    schedule.efficientRate = new Decimal(schedule.overAllInterest).div(schedule.amount).mul(100).toFixed(this.money.decimal);
-    schedule.fullAmount = new Decimal(schedule.overAllInterest).add(schedule.amount).toFixed(this.money.decimal);
+    schedule.efficientRate = new Decimal(schedule.overAllInterest).div(schedule.amount).mul(100).toFixed(this.decimal);
+    schedule.fullAmount = new Decimal(schedule.overAllInterest).add(schedule.amount).toFixed(this.decimal);
     return schedule;
 };
 
 LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
-    var payments = [];
-    var date = Moment(p.issueDate, this.date.format);
+    var date = Moment(p.issueDate, this.dateFormat);
     var term = new Decimal(p.term);
     var amount = new Decimal(p.amount);
     var rate = new Decimal(p.rate);
     var interestAccruedAmount = new Decimal(0);
     var paymentAmount = new Decimal(this.calculateAnnuityPaymentAmount({amount: p.amount, term: p.term, rate: p.rate}));
-    var i = 0;
 
+    var payments = [this.getInitialPayment(amount, date, rate)];
+    var i = 1;
     while (i <= term.toNumber()) {
+        var pay = {};
 
-        var pay = {
-            interestRate: rate.toFixed(this.money.decimal)
-        };
-
-        if (i == 0) {
-            pay.paymentDate = date.format(this.date.format);
-            pay.initialBalance = new Decimal(0).toFixed(this.money.decimal);
-            pay.paymentAmount = new Decimal(0).toFixed(this.money.decimal);
-            pay.interestAmount = new Decimal(0).toFixed(this.money.decimal);
-            pay.principalAmount = new Decimal(0).toFixed(this.money.decimal);
-            pay.finalBalance = new Decimal(amount).toFixed(this.money.decimal);
-        } else {
-            date = date.add(1, 'months').date(p.paymentOnDay);
-            pay.paymentDate = date.format(this.date.format);
-            pay.initialBalance = payments[i - 1].finalBalance;
-            interestAccruedAmount = interestAccruedAmount.plus(
-                this.calculateInterestByPeriod({from: payments[i - 1].paymentDate, to: pay.paymentDate, amount: pay.initialBalance, rate: pay.interestRate})
-            );
-            if (i != term.toNumber()) {
-                if (interestAccruedAmount.gt(paymentAmount)) {
-                    pay.interestAmount = paymentAmount.toFixed(this.money.decimal);
-                    interestAccruedAmount = interestAccruedAmount.minus(paymentAmount);
-                } else {
-                    pay.interestAmount = interestAccruedAmount.toFixed(this.money.decimal);
-                    interestAccruedAmount = Decimal(0);
-                }
-                pay.principalAmount = paymentAmount.minus(new Decimal(pay.interestAmount)).toFixed(this.money.decimal);
-                pay.paymentAmount = paymentAmount.toFixed(this.money.decimal);
+        date = date.add(1, 'months').date(p.paymentOnDay);
+        pay.paymentDate = date.format(this.dateFormat);
+        pay.initialBalance = payments[i - 1].finalBalance;
+        pay.interestRate = rate.toFixed(this.decimal);
+        interestAccruedAmount = interestAccruedAmount.plus(
+            this.calculateInterestByPeriod({from: payments[i - 1].paymentDate, to: pay.paymentDate, amount: pay.initialBalance, rate: pay.interestRate})
+        );
+        if (i != term.toNumber()) {
+            if (interestAccruedAmount.gt(paymentAmount)) {
+                pay.interestAmount = paymentAmount.toFixed(this.decimal);
+                interestAccruedAmount = interestAccruedAmount.minus(paymentAmount);
             } else {
-                pay.interestAmount = interestAccruedAmount.toFixed(this.money.decimal);
-                pay.principalAmount = pay.initialBalance;
-                pay.paymentAmount = new Decimal(pay.principalAmount).plus(new Decimal(pay.interestAmount)).toFixed(this.money.decimal);
+                pay.interestAmount = interestAccruedAmount.toFixed(this.decimal);
+                interestAccruedAmount = Decimal(0);
             }
-            pay.finalBalance = new Decimal(pay.initialBalance).minus(new Decimal(pay.principalAmount)).toFixed(this.money.decimal);
+            pay.principalAmount = paymentAmount.minus(new Decimal(pay.interestAmount)).toFixed(this.decimal);
+            pay.paymentAmount = paymentAmount.toFixed(this.decimal);
+        } else {
+            pay.interestAmount = interestAccruedAmount.toFixed(this.decimal);
+            pay.principalAmount = pay.initialBalance;
+            pay.paymentAmount = new Decimal(pay.principalAmount).plus(new Decimal(pay.interestAmount)).toFixed(this.decimal);
         }
+        pay.finalBalance = new Decimal(pay.initialBalance).minus(new Decimal(pay.principalAmount)).toFixed(this.decimal);
+
 
         payments.push(pay);
         i++;
@@ -98,42 +80,32 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
 
 LoanSchedule.prototype.calculateDifferentiatedSchedule = function (p) {
     var payments = [];
-    var date = Moment(p.issueDate, this.date.format);
+    var date = Moment(p.issueDate, this.dateFormat);
     var term = new Decimal(p.term);
     var amount = new Decimal(p.amount);
     var rate = new Decimal(p.rate);
     var principalAmount = amount.div(term);
-    var i = 0;
 
+    var payments = [this.getInitialPayment(amount, date, rate)];
+    var i = 1;
     while (i <= term.toNumber()) {
+        var pay = {};
 
-        var pay = {
-            interestRate: rate.toFixed(this.money.decimal)
-        };
-
-        if (i == 0) {
-            pay.paymentDate = date.format(this.date.format);
-            pay.initialBalance = new Decimal(0).toFixed(this.money.decimal);
-            pay.paymentAmount = new Decimal(0).toFixed(this.money.decimal);
-            pay.interestAmount = new Decimal(0).toFixed(this.money.decimal);
-            pay.principalAmount = new Decimal(0).toFixed(this.money.decimal);
-            pay.finalBalance = new Decimal(amount).toFixed(this.money.decimal);
-        } else {
-            date = date.add(1, 'months').date(p.paymentOnDay);
-            pay.paymentDate = date.format(this.date.format);
-            pay.initialBalance = payments[i - 1].finalBalance;
-            pay.principalAmount = i == term.toNumber() ? pay.initialBalance : principalAmount.toFixed(this.money.decimal);
-            pay.interestAmount = new Decimal(
-                this.calculateInterestByPeriod({
-                    from: payments[i - 1].paymentDate,
-                    to: pay.paymentDate,
-                    amount: pay.initialBalance,
-                    rate: pay.interestRate
-                })
-            ).toFixed(this.money.decimal);
-            pay.paymentAmount = new Decimal(pay.principalAmount).plus(new Decimal(pay.interestAmount)).toFixed(this.money.decimal);
-            pay.finalBalance = new Decimal(pay.initialBalance).minus(new Decimal(pay.principalAmount)).toFixed(this.money.decimal);
-        }
+        date = date.add(1, 'months').date(p.paymentOnDay);
+        pay.paymentDate = date.format(this.dateFormat);
+        pay.initialBalance = payments[i - 1].finalBalance;
+        pay.interestRate = rate.toFixed(this.decimal);
+        pay.principalAmount = i == term.toNumber() ? pay.initialBalance : principalAmount.toFixed(this.decimal);
+        pay.interestAmount = new Decimal(
+            this.calculateInterestByPeriod({
+                from: payments[i - 1].paymentDate,
+                to: pay.paymentDate,
+                amount: pay.initialBalance,
+                rate: pay.interestRate
+            })
+        ).toFixed(this.decimal);
+        pay.paymentAmount = new Decimal(pay.principalAmount).plus(new Decimal(pay.interestAmount)).toFixed(this.decimal);
+        pay.finalBalance = new Decimal(pay.initialBalance).minus(new Decimal(pay.principalAmount)).toFixed(this.decimal);
 
         payments.push(pay);
         i++;
@@ -144,41 +116,31 @@ LoanSchedule.prototype.calculateDifferentiatedSchedule = function (p) {
 
 LoanSchedule.prototype.calculateBubbleSchedule = function (p) {
     var payments = [];
-    var date = Moment(p.issueDate, this.date.format);
+    var date = Moment(p.issueDate, this.dateFormat);
     var term = new Decimal(p.term);
     var amount = new Decimal(p.amount);
     var rate = new Decimal(p.rate);
-    var i = 0;
 
+    var payments = [this.getInitialPayment(amount, date, rate)];
+    var i = 1;
     while (i <= term.toNumber()) {
+        var pay = {};
 
-        var pay = {
-            interestRate: rate.toFixed(this.money.decimal)
-        };
-
-        if (i == 0) {
-            pay.paymentDate = date.format(this.date.format);
-            pay.initialBalance = new Decimal(0).toFixed(this.money.decimal);
-            pay.paymentAmount = new Decimal(0).toFixed(this.money.decimal);
-            pay.interestAmount = new Decimal(0).toFixed(this.money.decimal);
-            pay.principalAmount = new Decimal(0).toFixed(this.money.decimal);
-            pay.finalBalance = new Decimal(amount).toFixed(this.money.decimal);
-        } else {
-            date = date.add(1, 'months').date(p.paymentOnDay);
-            pay.paymentDate = date.format(this.date.format);
-            pay.initialBalance = payments[i - 1].finalBalance;
-            pay.principalAmount = i == term.toNumber() ? pay.initialBalance : new Decimal(0).toFixed(this.money.decimal);
-            pay.interestAmount = new Decimal(
-                this.calculateInterestByPeriod({
-                    from: payments[i - 1].paymentDate,
-                    to: pay.paymentDate,
-                    amount: pay.initialBalance,
-                    rate: pay.interestRate
-                })
-            ).toFixed(this.money.decimal);
-            pay.paymentAmount = new Decimal(pay.principalAmount).plus(new Decimal(pay.interestAmount)).toFixed(this.money.decimal);
-            pay.finalBalance = new Decimal(pay.initialBalance).minus(new Decimal(pay.principalAmount)).toFixed(this.money.decimal);
-        }
+        date = date.add(1, 'months').date(p.paymentOnDay);
+        pay.paymentDate = date.format(this.dateFormat);
+        pay.initialBalance = payments[i - 1].finalBalance;
+        pay.interestRate = rate.toFixed(this.decimal);
+        pay.principalAmount = i == term.toNumber() ? pay.initialBalance : new Decimal(0).toFixed(this.decimal);
+        pay.interestAmount = new Decimal(
+            this.calculateInterestByPeriod({
+                from: payments[i - 1].paymentDate,
+                to: pay.paymentDate,
+                amount: pay.initialBalance,
+                rate: pay.interestRate
+            })
+        ).toFixed(this.decimal);
+        pay.paymentAmount = new Decimal(pay.principalAmount).plus(new Decimal(pay.interestAmount)).toFixed(this.decimal);
+        pay.finalBalance = new Decimal(pay.initialBalance).minus(new Decimal(pay.principalAmount)).toFixed(this.decimal);
 
         payments.push(pay);
         i++;
@@ -187,17 +149,25 @@ LoanSchedule.prototype.calculateBubbleSchedule = function (p) {
 
 };
 
+LoanSchedule.prototype.calculateMaxLoanAmount = function (p) {
+    var term = new Decimal(p.term);
+    var interestRate = new Decimal(p.rate).div(100).div(12);
+    var paymentAmount = new Decimal(p.paymentAmount);
+    var amount = paymentAmount.div(interestRate.div(interestRate.plus(1).pow(term.neg()).neg().plus(1)));
+    return amount.toFixed(this.decimal);
+};
+
 LoanSchedule.prototype.calculateAnnuityPaymentAmount = function (p) {
     var term = new Decimal(p.term);
     var interestRate = new Decimal(p.rate).div(100).div(12);
     var paymentAmount = new Decimal(p.amount).mul(interestRate.div(interestRate.plus(1).pow(term.neg()).neg().plus(1)));
-    return paymentAmount.toFixed(this.money.decimal);
+    return paymentAmount.toFixed(this.decimal);
 };
 
 LoanSchedule.prototype.calculateInterestByPeriod = function (p) {
     var curIntr = new Decimal(0);
-    var dateFrom = Moment(p.from, this.date.format);
-    var dateTo = Moment(p.to, this.date.format);
+    var dateFrom = Moment(p.from, this.dateFormat);
+    var dateTo = Moment(p.to, this.dateFormat);
     if (dateFrom.isSame(dateTo, 'year')) {
         curIntr = curIntr.plus(getInterestByPeriod({from: dateFrom, to: dateTo, amount: p.amount, rate: p.rate}));
     } else {
@@ -205,7 +175,19 @@ LoanSchedule.prototype.calculateInterestByPeriod = function (p) {
         curIntr = curIntr.plus(getInterestByPeriod({from: dateFrom, to: endOfYear, amount: p.amount, rate: p.rate}));
         curIntr = curIntr.plus(getInterestByPeriod({from: endOfYear, to: dateTo, amount: p.amount, rate: p.rate}));
     }
-    return curIntr.toFixed(this.money.decimal);
+    return curIntr.toFixed(this.decimal);
+};
+
+LoanSchedule.prototype.getInitialPayment = function(amount, date, rate) {
+    return {
+        paymentDate: date.format(this.dateFormat),
+        initialBalance: new Decimal(0).toFixed(this.decimal),
+        paymentAmount: new Decimal(0).toFixed(this.decimal),
+        interestAmount: new Decimal(0).toFixed(this.decimal),
+        principalAmount: new Decimal(0).toFixed(this.decimal),
+        finalBalance: new Decimal(amount).toFixed(this.decimal),
+        interestRate: rate.toFixed(this.decimal)
+    };
 };
 
 LoanSchedule.prototype.ANNUITY_SCHEDULE = 'ANNUITY';
