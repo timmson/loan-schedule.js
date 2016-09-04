@@ -106,3 +106,5 @@ var schedule = loanSchedule.calculateSchedule({
      );
 });
 ```
+
+More demos on http://timmson.github.io

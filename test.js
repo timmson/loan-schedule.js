@@ -1,11 +1,10 @@
 "use strict";
 const assert = require('assert');
 var LoanSchedule = require('./index.js');
-var Decimal = require("decimal.js");
 
 var loanSchedule = new LoanSchedule({
     decimalDigit : 2,
-    dateFormat: 'DD.MM.YYYY'
+    //dateFormat: 'DD.MM.YYYY'
 
 });
 
@@ -29,64 +28,31 @@ assert.equal(loanSchedule.calculateInterestByPeriod({
     rate: 16.8
 }), '13.81');
 
-var interestSum = new Decimal(0);
-loanSchedule.calculateSchedule({
+assert.equal(loanSchedule.calculateSchedule({
     amount: 50000,
     rate: 11.5,
     term: 12,
     paymentOnDay: 25,
     issueDate: '25.10.2016',
     scheduleType : loanSchedule.ANNUITY_SCHEDULE
-}).payments.forEach(function (pay) {
-    interestSum = interestSum.plus(pay.interestAmount);
-/*    console.log(pay.paymentDate + '\t|\t\t'
-     + pay.initialBalance + '\t|\t\t'
-     + pay.paymentAmount + '\t|\t\t'
-     + pay.principalAmount + '\t|\t\t'
-     + pay.interestAmount + '\t|\t\t'
-     + pay.finalBalance
-     );*/
-});
-assert.equal(interestSum.toFixed(2), '3165.39');
+}).overAllInterest, '3165.39');
 
-interestSum = new Decimal(0);
-loanSchedule.calculateSchedule({
+assert.equal(loanSchedule.calculateSchedule({
     amount: 50000,
     rate: 11.5,
     term: 12,
     paymentOnDay: 25,
     issueDate: '25.10.2016',
     scheduleType : loanSchedule.DIFFERENTIATED_SCHEDULE
-}).payments.forEach(function (pay) {
-    interestSum = interestSum.plus(pay.interestAmount);
-     /*   console.log(pay.paymentDate + '\t|\t\t'
-     + pay.initialBalance + '\t|\t\t'
-     + pay.paymentAmount + '\t|\t\t'
-     + pay.principalAmount + '\t|\t\t'
-     + pay.interestAmount + '\t|\t\t'
-     + pay.finalBalance
-     );*/
-});
-assert.equal(interestSum.toFixed(2), '3111.18');
+}).overAllInterest, '3111.18');
 
 
-interestSum = new Decimal(0);
-loanSchedule.calculateSchedule({
+assert.equal(loanSchedule.calculateSchedule({
     amount: 50000,
     rate: 11.5,
     term: 12,
     paymentOnDay: 25,
     issueDate: '25.10.2016',
     scheduleType : loanSchedule.BUBBLE_SCHEDULE
-}).payments.forEach(function (pay) {
-    interestSum = interestSum.plus(pay.interestAmount);
-    /*   console.log(pay.paymentDate + '\t|\t\t'
-     + pay.initialBalance + '\t|\t\t'
-     + pay.paymentAmount + '\t|\t\t'
-     + pay.principalAmount + '\t|\t\t'
-     + pay.interestAmount + '\t|\t\t'
-     + pay.finalBalance
-     );*/
-});
-assert.equal(interestSum.toFixed(2), '5747.13');
+}).overAllInterest, '5747.13');
 console.log('Test - ok');
