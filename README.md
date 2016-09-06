@@ -8,6 +8,11 @@ If you have any questions, send their via email: [timmson666@mail.ru](mailto:tim
 npm install loan-schedule.js
 ```
 
+## Test (depends on [nodeunit](https://github.com/caolan/nodeunit))
+```sh
+npm test
+```
+
 ## Init
 ```js
 var LoanSchedule = require('loan-schedule.js');
