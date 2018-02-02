@@ -61,7 +61,7 @@ module.exports = {
     },
 
     testCalculateAnnuitySchedule2: function (test) {
-        test.equal(this.loanSchedule.calculateSchedule({
+        let schedule = this.loanSchedule.calculateSchedule({
             amount: 500000,
             rate: 11.5,
             term: 24,
@@ -69,7 +69,10 @@ module.exports = {
             paymentOnDay: 28,
             issueDate: '01.10.2016',
             scheduleType: this.loanSchedule.ANNUITY_SCHEDULE
-        }).overAllInterest, '52407.64');
+        });
+        test.equal(schedule.overAllInterest, '52407.64');
+        test.equal(schedule.payments[10].paymentAmount, '30000.00');
+        test.equal(schedule.payments[10].annuityPaymentAmount, '20601.61');
         test.done();
     },
 
