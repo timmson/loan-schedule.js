@@ -56,14 +56,31 @@ module.exports = {
             paymentOnDay: 25,
             issueDate: '25.10.2016',
             scheduleType: this.loanSchedule.ANNUITY_SCHEDULE,
-            earlyRepayment: [{
-                erType: this.loanSchedule.ER_TYPE_MATURITY,
-                erDate: '25.12.2016',
-                erAmount: 2000
-            }]
         });
-        printSchedule(schedule);
         test.equal(schedule.overAllInterest, '31653.95');
+        test.done();
+    },
+
+    testCalculateAnnuityScheduleWithEr: function (test) {
+        let schedule = this.loanSchedule.calculateSchedule({
+            amount: 500000,
+            rate: 11.5,
+            term: 12,
+            paymentOnDay: 25,
+            issueDate: '25.10.2016',
+            scheduleType: this.loanSchedule.ANNUITY_SCHEDULE,
+            earlyRepayment: {
+                '25.12.2016' : {
+                    erType: this.loanSchedule.ER_TYPE_MATURITY,
+                    erAmount: 20000
+                },
+                '25.03.2017' : {
+                    erType: this.loanSchedule.ER_TYPE_MATURITY,
+                    erAmount: 15000
+                }
+            }
+        });
+        test.equal(schedule.overAllInterest, '30005.47');
         test.done();
     },
 
@@ -79,9 +96,9 @@ module.exports = {
         });
         test.equal(schedule.overAllInterest, '52407.64');
         test.equal(schedule.payments[10].paymentAmount, '30000.00');
-        test.equal(schedule.payments[10].annuityPaymentAmount, '20601.61');
+        test.equal(schedule.payments[10].annuityPaymentAmount, '19317.96');
         test.equal(schedule.payments[15].paymentAmount, '30000.00');
-        test.equal(schedule.payments[15].annuityPaymentAmount, '15030.54');
+        test.equal(schedule.payments[15].annuityPaymentAmount, '13591.17');
         test.done();
     },
 
@@ -116,11 +133,12 @@ function printSchedule(schedule) {
     console.log('Payment = {' + schedule.minPaymentAmount + ', ' + schedule.maxPaymentAmount + '}, Term = ' + schedule.term);
     console.log('OverallInterest = ' + schedule.overAllInterest + ' , EfficientRate = ' + schedule.efficientRate);
     schedule.payments.map(pay =>
-        console.log(pay.paymentDate + '\t|\t\t'
-            + pay.initialBalance + '\t|\t\t'
+        console.log(pay.paymentDate + '\t|\t'
+            + pay.initialBalance + '\t|\t'
             + pay.paymentAmount + '\t|\t\t'
-            + pay.principalAmount + '\t|\t\t'
-            + pay.interestAmount + '\t|\t\t'
+            + pay.annuityPaymentAmount + '\t|\t'
+            + pay.principalAmount + '\t|\t'
+            + pay.interestAmount + '\t|\t'
             + pay.finalBalance
         ));
 }

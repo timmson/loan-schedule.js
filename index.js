@@ -60,9 +60,11 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
 
         date = date.add(1, 'months').date(p.paymentOnDay);
         pay.paymentDate = date.format(this.dateFormat);
+        pay.earlyRepayment = (p.earlyRepayment != null && p.earlyRepayment[pay.paymentDate] != null) ? p.earlyRepayment[pay.paymentDate] : null;
         pay.initialBalance = payments[i - 1].finalBalance;
         pay.interestRate = rate.toFixed(this.decimal);
-        pay.annuityPaymentAmount = this.calculateAnnuityPaymentAmount({amount: pay.initialBalance, term: term.toNumber() - i, rate: pay.interestRate});
+        pay.annuityPaymentAmount = this.calculateAnnuityPaymentAmount({amount: pay.initialBalance, term: term.toNumber() - i + 1, rate: pay.interestRate});
+        paymentAmount = payments[i - 1].earlyRepayment ? new Decimal(pay.annuityPaymentAmount) : paymentAmount;
         interestAccruedAmount = interestAccruedAmount.plus(
             this.calculateInterestByPeriod({from: payments[i - 1].paymentDate, to: pay.paymentDate, amount: pay.initialBalance, rate: pay.interestRate})
         );
@@ -81,6 +83,12 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
             pay.principalAmount = pay.initialBalance;
             pay.paymentAmount = new Decimal(pay.principalAmount).plus(new Decimal(pay.interestAmount)).toFixed(this.decimal);
         }
+
+        if (pay.earlyRepayment) {
+            pay.principalAmount = new Decimal(pay.principalAmount).plus(new Decimal(pay.earlyRepayment.erAmount)).toFixed(this.decimal);
+            pay.paymentAmount = new Decimal(pay.paymentAmount).plus(new Decimal(pay.earlyRepayment.erAmount)).toFixed(this.decimal);
+        }
+
         pay.finalBalance = new Decimal(pay.initialBalance).minus(new Decimal(pay.principalAmount)).toFixed(this.decimal);
 
         payments.push(pay);
@@ -193,10 +201,12 @@ LoanSchedule.prototype.getInitialPayment = function (amount, date, rate) {
         paymentDate: date.format(this.dateFormat),
         initialBalance: new Decimal(0).toFixed(this.decimal),
         paymentAmount: new Decimal(0).toFixed(this.decimal),
+        annuityPaymentAmount: new Decimal(0).toFixed(this.decimal),
         interestAmount: new Decimal(0).toFixed(this.decimal),
         principalAmount: new Decimal(0).toFixed(this.decimal),
         finalBalance: new Decimal(amount).toFixed(this.decimal),
-        interestRate: rate.toFixed(this.decimal)
+        interestRate: rate.toFixed(this.decimal),
+        earlyRepayment: null,
     };
 };
 
