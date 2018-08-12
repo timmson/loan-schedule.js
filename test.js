@@ -49,14 +49,21 @@ module.exports = {
     },
 
     testCalculateAnnuitySchedule1: function (test) {
-        test.equal(this.loanSchedule.calculateSchedule({
-            amount: 50000,
+        let schedule = this.loanSchedule.calculateSchedule({
+            amount: 500000,
             rate: 11.5,
             term: 12,
             paymentOnDay: 25,
             issueDate: '25.10.2016',
-            scheduleType: this.loanSchedule.ANNUITY_SCHEDULE
-        }).overAllInterest, '3165.39');
+            scheduleType: this.loanSchedule.ANNUITY_SCHEDULE,
+            earlyRepayment: [{
+                erType: this.loanSchedule.ER_TYPE_MATURITY,
+                erDate: '25.12.2016',
+                erAmount: 2000
+            }]
+        });
+        printSchedule(schedule);
+        test.equal(schedule.overAllInterest, '31653.95');
         test.done();
     },
 
@@ -73,6 +80,8 @@ module.exports = {
         test.equal(schedule.overAllInterest, '52407.64');
         test.equal(schedule.payments[10].paymentAmount, '30000.00');
         test.equal(schedule.payments[10].annuityPaymentAmount, '20601.61');
+        test.equal(schedule.payments[15].paymentAmount, '30000.00');
+        test.equal(schedule.payments[15].annuityPaymentAmount, '15030.54');
         test.done();
     },
 

@@ -203,6 +203,8 @@ LoanSchedule.prototype.getInitialPayment = function (amount, date, rate) {
 LoanSchedule.prototype.ANNUITY_SCHEDULE = 'ANNUITY';
 LoanSchedule.prototype.DIFFERENTIATED_SCHEDULE = 'DIFFERENTIATED';
 LoanSchedule.prototype.BUBBLE_SCHEDULE = 'BUBBLE';
+LoanSchedule.prototype.ER_TYPE_MATURITY = 'ER_MATURITY';
+LoanSchedule.prototype.ER_TYPE_ANNUITY = 'ER_ANNUITY';
 
 function getInterestByPeriod(p) {
     return new Decimal(p.rate).div(100).div(p.to.year() % 4 === 0 ? 366 : 365).mul(Moment.duration(p.to.diff(p.from)).asDays()).mul(p.amount);
