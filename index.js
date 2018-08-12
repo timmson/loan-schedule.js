@@ -12,9 +12,7 @@ function LoanSchedule(options) {
 LoanSchedule.prototype.calculateSchedule = function (p) {
     let schedule = {};
     if (p.scheduleType === this.ANNUITY_SCHEDULE) {
-        p.paymentAmount = p.paymentAmount || this.calculateAnnuityPaymentAmount({amount: p.amount, term: p.term, rate: p.rate});
         schedule.payments = this.calculateAnnuitySchedule(p);
-
     }
     if (p.scheduleType === this.DIFFERENTIATED_SCHEDULE) {
         schedule.payments = this.calculateDifferentiatedSchedule(p);
@@ -51,7 +49,8 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
     let amount = new Decimal(p.amount);
     let rate = new Decimal(p.rate);
     let interestAccruedAmount = new Decimal(0);
-    let paymentAmount = new Decimal(p.paymentAmount);
+    let isFixedPayment = p.paymentAmount ? true : false;
+    let paymentAmount = new Decimal(p.paymentAmount || this.calculateAnnuityPaymentAmount({amount: p.amount, term: p.term, rate: p.rate}));
 
     let payments = [this.getInitialPayment(amount, date, rate)];
     let i = 1;
@@ -64,7 +63,7 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
         pay.initialBalance = payments[i - 1].finalBalance;
         pay.interestRate = rate.toFixed(this.decimal);
         pay.annuityPaymentAmount = this.calculateAnnuityPaymentAmount({amount: pay.initialBalance, term: term.toNumber() - i + 1, rate: pay.interestRate});
-        paymentAmount = payments[i - 1].earlyRepayment ? new Decimal(pay.annuityPaymentAmount) : paymentAmount;
+        paymentAmount = !isFixedPayment && payments[i - 1].earlyRepayment ? new Decimal(pay.annuityPaymentAmount) : paymentAmount;
         interestAccruedAmount = interestAccruedAmount.plus(
             this.calculateInterestByPeriod({from: payments[i - 1].paymentDate, to: pay.paymentDate, amount: pay.initialBalance, rate: pay.interestRate})
         );

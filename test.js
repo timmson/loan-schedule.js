@@ -68,15 +68,16 @@ module.exports = {
             term: 12,
             paymentOnDay: 25,
             issueDate: '25.10.2016',
+            paymentAmount: 50000,
             scheduleType: this.loanSchedule.ANNUITY_SCHEDULE,
             earlyRepayment: {
-                '05.09.2018' : {
+                '25.12.2016' : {
                     erType: this.loanSchedule.ER_TYPE_MATURITY,
                     erAmount: 50000
                 }
             }
         });
-        test.equal(schedule.overAllInterest, '31653.95');
+        test.equal(schedule.overAllInterest, '23911.32');
         test.done();
     },
 
