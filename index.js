@@ -6,7 +6,12 @@ module.exports = LoanSchedule;
 
 function LoanSchedule(options) {
     this.decimal = options.decimalDigit || 2;
-    this.dateFormat = options.dateFormat || 'DD.MM.YYYY';
+    this.dateFormat = options.dateFormat || "DD.MM.YYYY";
+
+    if (options) {
+        this.decimal = options.decimalDigit || this.decimal;
+        this.dateFormat = options.dateFormat || this.dateFormat;
+    }
 }
 
 LoanSchedule.prototype.calculateSchedule = function (p) {
