@@ -5,8 +5,8 @@ let Moment = require("moment");
 module.exports = LoanSchedule;
 
 function LoanSchedule(options) {
-    this.decimal = options.decimalDigit || 2;
-    this.dateFormat = options.dateFormat || "DD.MM.YYYY";
+    this.decimal = 2;
+    this.dateFormat = "DD.MM.YYYY";
 
     if (options) {
         this.decimal = options.decimalDigit || this.decimal;
