@@ -1,6 +1,6 @@
 "use strict";
-let Decimal = require("decimal.js");
-let Moment = require("moment");
+const Decimal = require("decimal.js");
+const Moment = require("moment");
 
 module.exports = LoanSchedule;
 
@@ -54,7 +54,7 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
     let amount = new Decimal(p.amount);
     let rate = new Decimal(p.rate);
     let interestAccruedAmount = new Decimal(0);
-    let isFixedPayment = p.paymentAmount ? true : false;
+    let isFixedPayment = !!p.paymentAmount;
     let paymentAmount = new Decimal(p.paymentAmount || this.calculateAnnuityPaymentAmount({amount: p.amount, term: p.term, rate: p.rate}));
 
     let payments = [this.getInitialPayment(amount, date, rate)];
@@ -64,7 +64,15 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
 
         date = date.add(1, 'months').date(p.paymentOnDay);
         pay.paymentDate = date.format(this.dateFormat);
-        pay.earlyRepayment = (p.earlyRepayment != null && p.earlyRepayment[pay.paymentDate] != null) ? p.earlyRepayment[pay.paymentDate] : null;
+/*        if (p.earlyRepayment !== undefined && p.earlyRepayment[pay.paymentDate] !== undefined) {
+            Object.keys(p.earlyRepayment).map(d => Moment(d, this.dateFormat)).filter(d => !(
+                    d.isAfter(date) || d.isBefore(Moment(payments[payments.length - 1].paymentDate, this.dateFormat))
+                )
+            ).forEach(date => {
+                console.log(date);
+            });
+        }*/
+        pay.earlyRepayment = (p.earlyRepayment !== undefined && p.earlyRepayment[pay.paymentDate] !== undefined) ? p.earlyRepayment[pay.paymentDate] : null;
         pay.initialBalance = payments[i - 1].finalBalance;
         pay.interestRate = rate.toFixed(this.decimal);
         pay.annuityPaymentAmount = this.calculateAnnuityPaymentAmount({amount: pay.initialBalance, term: term.toNumber() - i + 1, rate: pay.interestRate});
