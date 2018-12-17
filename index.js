@@ -65,7 +65,7 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
             regularPaymentAmount
         )
     ).concat(Object.keys(p.earlyRepayment || new Object({}))
-        .map(d => getSchedulePoint(Moment(d, this.dateFormat), p.earlyRepayment[d].erType, p.earlyRepayment[d].erAmount)))
+        .map(d => getSchedulePoint(Moment(d, this.dateFormat), p.earlyRepayment[d].erType, new Decimal(p.earlyRepayment[d].erAmount))))
         .sort((a, b) =>
             a.paymentDate.isSame(b, "day") ? 0 : (a.paymentDate.isAfter(b.paymentDate) ? 1 : -1)
         );
