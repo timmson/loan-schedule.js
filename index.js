@@ -58,20 +58,29 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
     let paymentAmount = new Decimal(p.paymentAmount || this.calculateAnnuityPaymentAmount({amount: p.amount, term: p.term, rate: p.rate}));
 
     let payments = [this.getInitialPayment(amount, date, rate)];
+
+    let schedhulePoints = [term.toNumber()].map((value, i) =>
+        getSchedulePoint(
+            (i === 0) ? {date} : date.add(i, 'months').date(p.paymentOnDay),
+            false
+        )
+    ).concat(Object.keys(p.earlyRepayment !== undefined ? new Object({}) : p.earlyRepayment).map(d => getSchedulePoint(Moment(d, this.dateFormat), true, p.earlyRepayment[d])))
+        .sort((a, b) => a.isSame(b) ? 0 : (a.isAfter(b) ? 1 : -1)).forEach(i => console.log(JSON.stringify(i)));
+
     let i = 1;
     while (i <= term.toNumber() && new Decimal(payments[i - 1].finalBalance).gt(0)) {
         let pay = {};
 
         date = date.add(1, 'months').date(p.paymentOnDay);
         pay.paymentDate = date.format(this.dateFormat);
-/*        if (p.earlyRepayment !== undefined && p.earlyRepayment[pay.paymentDate] !== undefined) {
-            Object.keys(p.earlyRepayment).map(d => Moment(d, this.dateFormat)).filter(d => !(
-                    d.isAfter(date) || d.isBefore(Moment(payments[payments.length - 1].paymentDate, this.dateFormat))
-                )
-            ).forEach(date => {
-                console.log(date);
-            });
-        }*/
+        /*        if (p.earlyRepayment !== undefined && p.earlyRepayment[pay.paymentDate] !== undefined) {
+                    Object.keys(p.earlyRepayment).map(d => Moment(d, this.dateFormat)).filter(d => !(
+                            d.isAfter(date) || d.isBefore(Moment(payments[payments.length - 1].paymentDate, this.dateFormat))
+                        )
+                    ).forEach(date => {
+                        console.log(date);
+                    });
+                }*/
         pay.earlyRepayment = (p.earlyRepayment !== undefined && p.earlyRepayment[pay.paymentDate] !== undefined) ? p.earlyRepayment[pay.paymentDate] : null;
         pay.initialBalance = payments[i - 1].finalBalance;
         pay.interestRate = rate.toFixed(this.decimal);
@@ -230,5 +239,13 @@ LoanSchedule.prototype.ER_TYPE_ANNUITY = 'ER_ANNUITY';
 
 function getInterestByPeriod(p) {
     return new Decimal(p.rate).div(100).div(p.to.year() % 4 === 0 ? 366 : 365).mul(Moment.duration(p.to.diff(p.from)).asDays()).mul(p.amount);
+}
+
+function getSchedulePoint(paymentDate, isPaymentPercent, paymentAmount) {
+    return new Object({
+        "paymentDate": paymentDate,
+        "isPaymentPercent": isPaymentPercent,
+        "paymentAmount": paymentAmount,
+    });
 }
 
