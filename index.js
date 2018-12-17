@@ -54,67 +54,71 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
     let amount = new Decimal(p.amount);
     let rate = new Decimal(p.rate);
     let interestAccruedAmount = new Decimal(0);
-    let isFixedPayment = !!p.paymentAmount;
-    let paymentAmount = new Decimal(p.paymentAmount || this.calculateAnnuityPaymentAmount({amount: p.amount, term: p.term, rate: p.rate}));
+    let regularPaymentAmount = new Decimal(p.paymentAmount || this.calculateAnnuityPaymentAmount({amount: p.amount, term: p.term, rate: p.rate}));
 
     let payments = [this.getInitialPayment(amount, date, rate)];
 
-    let schedhulePoints = [term.toNumber()].map((value, i) =>
+    let schedulePoints = Array(term.toNumber() + 1).fill(undefined).map((value, i) =>
         getSchedulePoint(
-            (i === 0) ? {date} : date.add(i, 'months').date(p.paymentOnDay),
-            false
+            (i === 0) ? date.clone() : date.clone().add(i, "months").date(p.paymentOnDay),
+            this.ER_TYPE_REGULAR,
+            regularPaymentAmount
         )
-    ).concat(Object.keys(p.earlyRepayment !== undefined ? new Object({}) : p.earlyRepayment).map(d => getSchedulePoint(Moment(d, this.dateFormat), true, p.earlyRepayment[d])))
-        .sort((a, b) => a.isSame(b) ? 0 : (a.isAfter(b) ? 1 : -1)).forEach(i => console.log(JSON.stringify(i)));
+    ).concat(Object.keys(p.earlyRepayment || new Object({}))
+        .map(d => getSchedulePoint(Moment(d, this.dateFormat), p.earlyRepayment[d].erType, p.earlyRepayment[d].erAmount)))
+        .sort((a, b) =>
+            a.paymentDate.isSame(b, "day") ? 0 : (a.paymentDate.isAfter(b.paymentDate) ? 1 : -1)
+        );
+
 
     let i = 1;
-    while (i <= term.toNumber() && new Decimal(payments[i - 1].finalBalance).gt(0)) {
+    while (i < schedulePoints.length && new Decimal(payments[i - 1].finalBalance).gt(0)) {
         let pay = {};
 
-        date = date.add(1, 'months').date(p.paymentOnDay);
-        pay.paymentDate = date.format(this.dateFormat);
-        /*        if (p.earlyRepayment !== undefined && p.earlyRepayment[pay.paymentDate] !== undefined) {
-                    Object.keys(p.earlyRepayment).map(d => Moment(d, this.dateFormat)).filter(d => !(
-                            d.isAfter(date) || d.isBefore(Moment(payments[payments.length - 1].paymentDate, this.dateFormat))
-                        )
-                    ).forEach(date => {
-                        console.log(date);
-                    });
-                }*/
-        pay.earlyRepayment = (p.earlyRepayment !== undefined && p.earlyRepayment[pay.paymentDate] !== undefined) ? p.earlyRepayment[pay.paymentDate] : null;
+        pay.paymentDate = schedulePoints[i].paymentDate.format(this.dateFormat);
         pay.initialBalance = payments[i - 1].finalBalance;
         pay.interestRate = rate.toFixed(this.decimal);
         pay.annuityPaymentAmount = this.calculateAnnuityPaymentAmount({amount: pay.initialBalance, term: term.toNumber() - i + 1, rate: pay.interestRate});
-        paymentAmount = !isFixedPayment && payments[i - 1].earlyRepayment ? new Decimal(pay.annuityPaymentAmount) : paymentAmount;
+        let paymentAmount = schedulePoints[i].paymentAmount;
+
         interestAccruedAmount = interestAccruedAmount.plus(
-            this.calculateInterestByPeriod({from: payments[i - 1].paymentDate, to: pay.paymentDate, amount: pay.initialBalance, rate: pay.interestRate})
+            this.calculateInterestByPeriod({
+                from: payments[i - 1].paymentDate,
+                to: pay.paymentDate,
+                amount: pay.initialBalance,
+                rate: pay.interestRate
+            })
         );
-        if (i !== term.toNumber() && paymentAmount.lt(pay.initialBalance)) {
-            if (interestAccruedAmount.gt(paymentAmount)) {
-                pay.interestAmount = paymentAmount.toFixed(this.decimal);
-                interestAccruedAmount = interestAccruedAmount.minus(paymentAmount);
+
+        if (schedulePoints[i].paymentType === this.ER_TYPE_REGULAR) {
+            if ((i !== schedulePoints.length - 1) && paymentAmount.lt(pay.initialBalance)) {
+                if (interestAccruedAmount.gt(paymentAmount)) {
+                    pay.interestAmount = paymentAmount.toFixed(this.decimal);
+                    interestAccruedAmount = interestAccruedAmount.minus(paymentAmount);
+                } else {
+                    pay.interestAmount = interestAccruedAmount.toFixed(this.decimal);
+                    interestAccruedAmount = Decimal(0);
+                }
+                pay.principalAmount = paymentAmount.minus(new Decimal(pay.interestAmount)).toFixed(this.decimal);
+                pay.paymentAmount = paymentAmount.toFixed(this.decimal);
             } else {
                 pay.interestAmount = interestAccruedAmount.toFixed(this.decimal);
-                interestAccruedAmount = Decimal(0);
+                pay.principalAmount = pay.initialBalance;
+                pay.paymentAmount = new Decimal(pay.principalAmount).plus(new Decimal(pay.interestAmount)).toFixed(this.decimal);
             }
-            pay.principalAmount = paymentAmount.minus(new Decimal(pay.interestAmount)).toFixed(this.decimal);
-            pay.paymentAmount = paymentAmount.toFixed(this.decimal);
         } else {
-            pay.interestAmount = interestAccruedAmount.toFixed(this.decimal);
-            pay.principalAmount = pay.initialBalance;
-            pay.paymentAmount = new Decimal(pay.principalAmount).plus(new Decimal(pay.interestAmount)).toFixed(this.decimal);
+            pay.principalAmount = paymentAmount.toFixed(this.decimal);
+            pay.paymentAmount = paymentAmount.toFixed(this.decimal);
+            pay.interestAmount = new Decimal(0).toFixed(this.decimal);
         }
 
-        if (pay.earlyRepayment) {
-            pay.principalAmount = new Decimal(pay.principalAmount).plus(new Decimal(pay.earlyRepayment.erAmount)).toFixed(this.decimal);
-            pay.paymentAmount = new Decimal(pay.paymentAmount).plus(new Decimal(pay.earlyRepayment.erAmount)).toFixed(this.decimal);
-        }
-
-        pay.finalBalance = new Decimal(pay.initialBalance).minus(new Decimal(pay.principalAmount)).toFixed(this.decimal);
+        pay.finalBalance = new Decimal(pay.initialBalance).minus(new Decimal(pay.principalAmount));
 
         payments.push(pay);
         i++;
     }
+
+
     return payments;
 
 };
@@ -131,7 +135,7 @@ LoanSchedule.prototype.calculateDifferentiatedSchedule = function (p) {
     while (i <= term.toNumber()) {
         let pay = {};
 
-        date = date.add(1, 'months').date(p.paymentOnDay);
+        date = date.add(1, "months").date(p.paymentOnDay);
         pay.paymentDate = date.format(this.dateFormat);
         pay.initialBalance = payments[i - 1].finalBalance;
         pay.interestRate = rate.toFixed(this.decimal);
@@ -165,7 +169,7 @@ LoanSchedule.prototype.calculateBubbleSchedule = function (p) {
     while (i <= term.toNumber()) {
         let pay = {};
 
-        date = date.add(1, 'months').date(p.paymentOnDay);
+        date = date.add(1, "months").date(p.paymentOnDay);
         pay.paymentDate = date.format(this.dateFormat);
         pay.initialBalance = payments[i - 1].finalBalance;
         pay.interestRate = rate.toFixed(this.decimal);
@@ -207,7 +211,7 @@ LoanSchedule.prototype.calculateInterestByPeriod = function (p) {
     let curIntr = new Decimal(0);
     let dateFrom = Moment(p.from, this.dateFormat);
     let dateTo = Moment(p.to, this.dateFormat);
-    if (dateFrom.isSame(dateTo, 'year')) {
+    if (dateFrom.isSame(dateTo, "year")) {
         curIntr = curIntr.plus(getInterestByPeriod({from: dateFrom, to: dateTo, amount: p.amount, rate: p.rate}));
     } else {
         let endOfYear = Moment({years: dateFrom.year(), months: 11, days: 31});
@@ -226,25 +230,25 @@ LoanSchedule.prototype.getInitialPayment = function (amount, date, rate) {
         interestAmount: new Decimal(0).toFixed(this.decimal),
         principalAmount: new Decimal(0).toFixed(this.decimal),
         finalBalance: new Decimal(amount).toFixed(this.decimal),
-        interestRate: rate.toFixed(this.decimal),
-        earlyRepayment: null,
+        interestRate: rate.toFixed(this.decimal)
     };
 };
 
-LoanSchedule.prototype.ANNUITY_SCHEDULE = 'ANNUITY';
-LoanSchedule.prototype.DIFFERENTIATED_SCHEDULE = 'DIFFERENTIATED';
-LoanSchedule.prototype.BUBBLE_SCHEDULE = 'BUBBLE';
-LoanSchedule.prototype.ER_TYPE_MATURITY = 'ER_MATURITY';
-LoanSchedule.prototype.ER_TYPE_ANNUITY = 'ER_ANNUITY';
+LoanSchedule.prototype.ANNUITY_SCHEDULE = "ANNUITY";
+LoanSchedule.prototype.DIFFERENTIATED_SCHEDULE = "DIFFERENTIATED";
+LoanSchedule.prototype.BUBBLE_SCHEDULE = "BUBBLE";
+LoanSchedule.prototype.ER_TYPE_MATURITY = "ER_MATURITY";
+LoanSchedule.prototype.ER_TYPE_ANNUITY = "ER_ANNUITY";
+LoanSchedule.prototype.ER_TYPE_REGULAR = "REGULAR";
 
 function getInterestByPeriod(p) {
     return new Decimal(p.rate).div(100).div(p.to.year() % 4 === 0 ? 366 : 365).mul(Moment.duration(p.to.diff(p.from)).asDays()).mul(p.amount);
 }
 
-function getSchedulePoint(paymentDate, isPaymentPercent, paymentAmount) {
+function getSchedulePoint(paymentDate, paymentType, paymentAmount) {
     return new Object({
         "paymentDate": paymentDate,
-        "isPaymentPercent": isPaymentPercent,
+        "paymentType": paymentType,
         "paymentAmount": paymentAmount,
     });
 }
