@@ -1,16 +1,22 @@
 "use strict";
 const Decimal = require("decimal.js");
 const Moment = require("moment");
+const ProdCal = require("prod-cal");
 
 module.exports = LoanSchedule;
 
+let that = undefined;
+
 function LoanSchedule(options) {
+    that = this;
     this.decimal = 2;
     this.dateFormat = "DD.MM.YYYY";
+    this.prodCalendar = undefined;
 
     if (options) {
         this.decimal = options.decimalDigit || this.decimal;
         this.dateFormat = options.dateFormat || this.dateFormat;
+        this.prodCalendar = new ProdCal(options.prodCalendar) || this.prodCalendar;
     }
 }
 
@@ -59,13 +65,13 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
     let payments = [this.getInitialPayment(amount, date, rate)];
 
     let schedulePoints = Array(term.toNumber() + 1).fill(undefined).map((value, i) =>
-        getSchedulePoint(
+        that.getSchedulePoint(
             (i === 0) ? date.clone() : date.clone().add(i, "months").date(p.paymentOnDay),
             this.ER_TYPE_REGULAR,
             regularPaymentAmount
         )
     ).concat(Object.keys(p.earlyRepayment || new Object({}))
-        .map(d => getSchedulePoint(Moment(d, this.dateFormat), p.earlyRepayment[d].erType, new Decimal(p.earlyRepayment[d].erAmount))))
+        .map(d => that.getSchedulePoint(Moment(d, this.dateFormat), p.earlyRepayment[d].erType, new Decimal(p.earlyRepayment[d].erAmount))))
         .sort((a, b) =>
             a.paymentDate.isSame(b, "day") ? 0 : (a.paymentDate.isAfter(b.paymentDate) ? 1 : -1)
         );
@@ -245,11 +251,17 @@ function getInterestByPeriod(p) {
     return new Decimal(p.rate).div(100).div(p.to.year() % 4 === 0 ? 366 : 365).mul(Moment.duration(p.to.diff(p.from)).asDays()).mul(p.amount);
 }
 
-function getSchedulePoint(paymentDate, paymentType, paymentAmount) {
+LoanSchedule.prototype.isHoliday = function (date) {
+    return that.prodCalendar !== undefined && that.prodCalendar.getDay(parseInt(date.format("YYYY")), parseInt(date.format("MM")), parseInt(date.format("DD"))) === ProdCal.prototype.DAY_HOLIDAY;
+};
+
+LoanSchedule.prototype.getSchedulePoint = function (paymentDate, paymentType, paymentAmount) {
+    let calcPaymentDate = paymentDate.clone();
+    while (that.isHoliday(calcPaymentDate)) calcPaymentDate.add(1, "days");
     return new Object({
-        "paymentDate": paymentDate,
+        "paymentDate": calcPaymentDate,
         "paymentType": paymentType,
         "paymentAmount": paymentAmount,
     });
-}
+};
 

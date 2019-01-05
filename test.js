@@ -3,10 +3,7 @@ var LoanSchedule = require("./index.js");
 
 module.exports = {
     setUp: function (callback) {
-        this.loanSchedule = new LoanSchedule({
-            decimalDigit: 2,
-            //dateFormat: "DD.MM.YYYY"
-        });
+        this.loanSchedule = new LoanSchedule();
         callback();
     },
 
@@ -48,16 +45,33 @@ module.exports = {
         test.done();
     },
 
-    testCalculateAnnuitySchedule1: function (test) {
+    testCalculateAnnuitySchedule: function (test) {
         let schedule = this.loanSchedule.calculateSchedule({
             amount: 500000,
             rate: 11.5,
             term: 12,
             paymentOnDay: 25,
-            issueDate: "25.10.2016",
+            issueDate: "25.10.2018",
             scheduleType: this.loanSchedule.ANNUITY_SCHEDULE,
         });
-        test.equal(schedule.overAllInterest, "31653.95");
+        test.equal(schedule.overAllInterest, "31684.22");
+        test.done();
+    },
+
+    testCalculateAnnuityScheduleWithProdCal: function (test) {
+        this.loanSchedule = new LoanSchedule({
+            prodCalendar: "ru"
+        });
+        let schedule = this.loanSchedule.calculateSchedule({
+            amount: 500000,
+            rate: 11.5,
+            term: 12,
+            paymentOnDay: 25,
+            issueDate: "25.10.2018",
+            scheduleType: this.loanSchedule.ANNUITY_SCHEDULE,
+        });
+        //console.log(JSON.stringify(schedule, null, 2));
+        test.equal(schedule.overAllInterest, "31727.26");
         test.done();
     },
 
