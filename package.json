@@ -4,8 +4,8 @@
   "description": "Library for loan amortization schedule manipulation",
   "main": "index.js",
   "scripts": {
-    "test": "nodeunit test.js",
-    "coverage": "istanbul cover test.js"
+    "test": "mocha",
+    "coverage": "nyc mocha && nyc report --reporter=text-lcov > coverage.lcov"
   },
   "repository": {
     "type": "git",

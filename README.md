@@ -10,15 +10,9 @@ Library for loan amortization schedule manipulation
 
 [..::Live demo::..](https://timmson.github.io/loan-schedule/)
 
-
 ## Install
 ```sh
 npm i loan-schedule.js
-```
-
-## Test (depends on [nodeunit](https://www.npmjs.com/package/nodeunit))
-```sh
-npm test
 ```
 
 ## Init
@@ -34,8 +28,8 @@ let LoanSchedule = require('loan-schedule.js');
 
 let loanSchedule = new LoanSchedule({
     decimalDigit : 2,
-    dateFormat: 'DD.MM.YYYY'
-
+    dateFormat: 'DD.MM.YYYY',
+    prodCalendar: "ru"
 });
 ```
 
