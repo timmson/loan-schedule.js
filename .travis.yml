@@ -6,4 +6,4 @@ install:
   - npm i
 script:
   - npm run coverage
-  - codacy-coverage
+  - cat ./coverage/lcov.info | codacy-coverage -t 3d8e66e1478d472e9bd25a3b178afe88
