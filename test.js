@@ -2,12 +2,12 @@
 var LoanSchedule = require("./index.js");
 
 module.exports = {
-    setUp: function (callback) {
+    setUp(callback) {
         this.loanSchedule = new LoanSchedule();
         callback();
     },
 
-    testCalculateAnnuityPaymentAmount: function (test) {
+    testCalculateAnnuityPaymentAmount (test) {
         test.equal(this.loanSchedule.calculateAnnuityPaymentAmount({
             amount: 110000,
             term: 60,
@@ -16,7 +16,7 @@ module.exports = {
         test.done();
     },
 
-    testCalculateMaxLoanAmount: function (test) {
+    testCalculateMaxLoanAmount(test) {
         test.equal(this.loanSchedule.calculateMaxLoanAmount({
             paymentAmount: 2497.21,
             term: 60,
@@ -25,7 +25,7 @@ module.exports = {
         test.done();
     },
 
-    testCalculateInterestByPeriod1: function (test) {
+    testCalculateInterestByPeriod1(test) {
         test.equal(this.loanSchedule.calculateInterestByPeriod({
             from: "10.12.2015",
             to: "10.01.2016",
@@ -35,7 +35,7 @@ module.exports = {
         test.done();
     },
 
-    testCalculateInterestByPeriod2: function (test) {
+    testCalculateInterestByPeriod2(test) {
         test.equal(this.loanSchedule.calculateInterestByPeriod({
             from: "10.11.2015",
             to: "10.12.2015",
@@ -45,7 +45,7 @@ module.exports = {
         test.done();
     },
 
-    testCalculateAnnuitySchedule: function (test) {
+    testCalculateAnnuitySchedule(test) {
         let schedule = this.loanSchedule.calculateSchedule({
             amount: 500000,
             rate: 11.5,
@@ -58,7 +58,7 @@ module.exports = {
         test.done();
     },
 
-    testCalculateAnnuityScheduleWithProdCal: function (test) {
+    testCalculateAnnuityScheduleWithProdCal(test) {
         this.loanSchedule = new LoanSchedule({
             prodCalendar: "ru"
         });
@@ -75,7 +75,7 @@ module.exports = {
         test.done();
     },
 
-    testCalculateAnnuityScheduleWithEr: function (test) {
+    testCalculateAnnuityScheduleWithEr(test) {
         let schedule = this.loanSchedule.calculateSchedule({
             amount: 500000,
             rate: 11.5,
@@ -95,7 +95,7 @@ module.exports = {
         test.done();
     },
 
-    testCalculateAnnuityScheduleWithErNotInDate: function (test) {
+    testCalculateAnnuityScheduleWithErNotInDate (test) {
         let schedule = this.loanSchedule.calculateSchedule({
             amount: 500000,
             rate: 11.5,
@@ -116,7 +116,7 @@ module.exports = {
     },
 
 
-    testCalculateAnnuitySchedule2: function (test) {
+    testCalculateAnnuitySchedule2 (test) {
         let schedule = this.loanSchedule.calculateSchedule({
             amount: 500000,
             rate: 11.5,
@@ -134,7 +134,7 @@ module.exports = {
         test.done();
     },
 
-    testCalculateDifferentiatedSchedule: function (test) {
+    testCalculateDifferentiatedSchedule (test) {
         test.equal(this.loanSchedule.calculateSchedule({
             amount: 50000,
             rate: 11.5,
@@ -146,7 +146,7 @@ module.exports = {
         test.done();
     },
 
-    testCalculateBubbleSchedule: function (test) {
+    testCalculateBubbleSchedule (test) {
 
         test.equal(this.loanSchedule.calculateSchedule({
             amount: 50000,

@@ -1,6 +1,6 @@
 "use strict";
 const Decimal = require("decimal.js");
-const Moment = require("moment");
+const moment = require("moment");
 const ProdCal = require("prod-cal");
 
 module.exports = LoanSchedule;
@@ -38,9 +38,9 @@ LoanSchedule.prototype.calculateSchedule = function (p) {
     schedule.minPaymentAmount = Decimal.min(firstPayment, lastPayment).toFixed(this.decimal);
     schedule.maxPaymentAmount = Decimal.max(firstPayment, lastPayment).toFixed(this.decimal);
 
-    let dateStart = Moment(schedule.payments[0].paymentDate, this.dateFormat).date(1);
-    let dateEnd = Moment(schedule.payments[paymentLastIndex].paymentDate, this.dateFormat).date(1);
-    schedule.term = Math.round(Moment.duration(dateEnd.diff(dateStart)).asMonths());
+    let dateStart = moment(schedule.payments[0].paymentDate, this.dateFormat).date(1);
+    let dateEnd = moment(schedule.payments[paymentLastIndex].paymentDate, this.dateFormat).date(1);
+    schedule.term = Math.round(moment.duration(dateEnd.diff(dateStart)).asMonths());
 
     schedule.amount = new Decimal(p.amount).toFixed(this.decimal);
     schedule.overAllInterest = new Decimal(0);
@@ -55,7 +55,7 @@ LoanSchedule.prototype.calculateSchedule = function (p) {
 };
 
 LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
-    let date = Moment(p.issueDate, this.dateFormat);
+    let date = moment(p.issueDate, this.dateFormat);
     let term = new Decimal(p.term);
     let amount = new Decimal(p.amount);
     let rate = new Decimal(p.rate);
@@ -64,14 +64,14 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
 
     let payments = [this.getInitialPayment(amount, date, rate)];
 
-    let schedulePoints = Array(term.toNumber() + 1).fill(undefined).map((value, i) =>
+    let schedulePoints = Array.apply(null, {length: term.toNumber() + 1}).map(Number.call, Number).map(i =>
         that.getSchedulePoint(
             (i === 0) ? date.clone() : date.clone().add(i, "months").date(p.paymentOnDay),
             this.ER_TYPE_REGULAR,
             regularPaymentAmount
         )
     ).concat(Object.keys(p.earlyRepayment || new Object({}))
-        .map(d => that.getSchedulePoint(Moment(d, this.dateFormat), p.earlyRepayment[d].erType, new Decimal(p.earlyRepayment[d].erAmount))))
+        .map(d => that.getSchedulePoint(moment(d, this.dateFormat), p.earlyRepayment[d].erType, new Decimal(p.earlyRepayment[d].erAmount))))
         .sort((a, b) =>
             a.paymentDate.isSame(b, "day") ? 0 : (a.paymentDate.isAfter(b.paymentDate) ? 1 : -1)
         );
@@ -130,7 +130,7 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
 };
 
 LoanSchedule.prototype.calculateDifferentiatedSchedule = function (p) {
-    let date = Moment(p.issueDate, this.dateFormat);
+    let date = moment(p.issueDate, this.dateFormat);
     let term = new Decimal(p.term);
     let amount = new Decimal(p.amount);
     let rate = new Decimal(p.rate);
@@ -165,7 +165,7 @@ LoanSchedule.prototype.calculateDifferentiatedSchedule = function (p) {
 };
 
 LoanSchedule.prototype.calculateBubbleSchedule = function (p) {
-    let date = Moment(p.issueDate, this.dateFormat);
+    let date = moment(p.issueDate, this.dateFormat);
     let term = new Decimal(p.term);
     let amount = new Decimal(p.amount);
     let rate = new Decimal(p.rate);
@@ -215,12 +215,12 @@ LoanSchedule.prototype.calculateAnnuityPaymentAmount = function (p) {
 
 LoanSchedule.prototype.calculateInterestByPeriod = function (p) {
     let curIntr = new Decimal(0);
-    let dateFrom = Moment(p.from, this.dateFormat);
-    let dateTo = Moment(p.to, this.dateFormat);
+    let dateFrom = moment(p.from, this.dateFormat);
+    let dateTo = moment(p.to, this.dateFormat);
     if (dateFrom.isSame(dateTo, "year")) {
         curIntr = curIntr.plus(getInterestByPeriod({from: dateFrom, to: dateTo, amount: p.amount, rate: p.rate}));
     } else {
-        let endOfYear = Moment({years: dateFrom.year(), months: 11, days: 31});
+        let endOfYear = moment({years: dateFrom.year(), months: 11, days: 31});
         curIntr = curIntr.plus(getInterestByPeriod({from: dateFrom, to: endOfYear, amount: p.amount, rate: p.rate}));
         curIntr = curIntr.plus(getInterestByPeriod({from: endOfYear, to: dateTo, amount: p.amount, rate: p.rate}));
     }
@@ -248,7 +248,7 @@ LoanSchedule.prototype.ER_TYPE_ANNUITY = "ER_ANNUITY";
 LoanSchedule.prototype.ER_TYPE_REGULAR = "REGULAR";
 
 function getInterestByPeriod(p) {
-    return new Decimal(p.rate).div(100).div(p.to.year() % 4 === 0 ? 366 : 365).mul(Moment.duration(p.to.diff(p.from)).asDays()).mul(p.amount);
+    return new Decimal(p.rate).div(100).div(p.to.year() % 4 === 0 ? 366 : 365).mul(moment.duration(p.to.diff(p.from)).asDays()).mul(p.amount);
 }
 
 LoanSchedule.prototype.isHoliday = function (date) {
