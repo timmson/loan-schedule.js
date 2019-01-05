@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for loan-schedule.js/index.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">loan-schedule.js/</a> index.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">14.65% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>23/157</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/44</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">14.74% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>23/156</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
+const Decimal = require("decimal.js");
+const Moment = require("moment");
+const ProdCal = require("prod-cal");
+&nbsp;
+module.exports = LoanSchedule;
+&nbsp;
+let that = undefined;
+&nbsp;
+<span class="fstat-no" title="function not covered" >function LoanSchedule(options) {</span>
+<span class="cstat-no" title="statement not covered" >    that = this;</span>
+<span class="cstat-no" title="statement not covered" >    this.decimal = 2;</span>
+<span class="cstat-no" title="statement not covered" >    this.dateFormat = "DD.MM.YYYY";</span>
+<span class="cstat-no" title="statement not covered" >    this.prodCalendar = undefined;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (options) {</span>
+<span class="cstat-no" title="statement not covered" >        this.decimal = options.decimalDigit || this.decimal;</span>
+<span class="cstat-no" title="statement not covered" >        this.dateFormat = options.dateFormat || this.dateFormat;</span>
+<span class="cstat-no" title="statement not covered" >        this.prodCalendar = new ProdCal(options.prodCalendar) || this.prodCalendar;</span>
+    }
+}
+&nbsp;
+LoanSchedule.prototype.calculateSchedule = <span class="fstat-no" title="function not covered" >function (p) {</span>
+<span class="cstat-no" title="statement not covered" >    let schedule = {};</span>
+<span class="cstat-no" title="statement not covered" >    if (p.scheduleType === this.ANNUITY_SCHEDULE) {</span>
+<span class="cstat-no" title="statement not covered" >        schedule.payments = this.calculateAnnuitySchedule(p);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    if (p.scheduleType === this.DIFFERENTIATED_SCHEDULE) {</span>
+<span class="cstat-no" title="statement not covered" >        schedule.payments = this.calculateDifferentiatedSchedule(p);</span>
+    }
+<span class="cstat-no" title="statement not covered" >    if (p.scheduleType === this.BUBBLE_SCHEDULE) {</span>
+<span class="cstat-no" title="statement not covered" >        schedule.payments = this.calculateBubbleSchedule(p);</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    let paymentLastIndex = schedule.payments.length - 1;</span>
+<span class="cstat-no" title="statement not covered" >    let firstPayment = schedule.payments[1].paymentAmount;</span>
+<span class="cstat-no" title="statement not covered" >    let lastPayment = schedule.payments[paymentLastIndex].paymentAmount;</span>
+<span class="cstat-no" title="statement not covered" >    schedule.minPaymentAmount = Decimal.min(firstPayment, lastPayment).toFixed(this.decimal);</span>
+<span class="cstat-no" title="statement not covered" >    schedule.maxPaymentAmount = Decimal.max(firstPayment, lastPayment).toFixed(this.decimal);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    let dateStart = Moment(schedule.payments[0].paymentDate, this.dateFormat).date(1);</span>
+<span class="cstat-no" title="statement not covered" >    let dateEnd = Moment(schedule.payments[paymentLastIndex].paymentDate, this.dateFormat).date(1);</span>
+<span class="cstat-no" title="statement not covered" >    schedule.term = Math.round(Moment.duration(dateEnd.diff(dateStart)).asMonths());</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    schedule.amount = new Decimal(p.amount).toFixed(this.decimal);</span>
+<span class="cstat-no" title="statement not covered" >    schedule.overAllInterest = new Decimal(0);</span>
+<span class="cstat-no" title="statement not covered" >    schedule.payments.map(pay =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        let overAllInterest = new Decimal(schedule.overAllInterest).plus(pay.interestAmount);</span>
+<span class="cstat-no" title="statement not covered" >        schedule.overAllInterest = overAllInterest.toFixed(this.decimal);</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    schedule.efficientRate = new Decimal(schedule.overAllInterest).div(schedule.amount).mul(100).toFixed(this.decimal);</span>
+<span class="cstat-no" title="statement not covered" >    schedule.fullAmount = new Decimal(schedule.overAllInterest).add(schedule.amount).toFixed(this.decimal);</span>
+<span class="cstat-no" title="statement not covered" >    return schedule;</span>
+};
+&nbsp;
+LoanSchedule.prototype.calculateAnnuitySchedule = <span class="fstat-no" title="function not covered" >function (p) {</span>
+<span class="cstat-no" title="statement not covered" >    let date = Moment(p.issueDate, this.dateFormat);</span>
+<span class="cstat-no" title="statement not covered" >    let term = new Decimal(p.term);</span>
+<span class="cstat-no" title="statement not covered" >    let amount = new Decimal(p.amount);</span>
+<span class="cstat-no" title="statement not covered" >    let rate = new Decimal(p.rate);</span>
+<span class="cstat-no" title="statement not covered" >    let interestAccruedAmount = new Decimal(0);</span>
+<span class="cstat-no" title="statement not covered" >    let regularPaymentAmount = new Decimal(p.paymentAmount || this.calculateAnnuityPaymentAmount({amount: p.amount, term: p.term, rate: p.rate}));</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    let payments = [this.getInitialPayment(amount, date, rate)];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    let schedulePoints = Array(term.toNumber() + 1).fill(undefined).map((value, i) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >        that.getSchedulePoint(</span>
+            (i === 0) ? date.clone() : date.clone().add(i, "months").date(p.paymentOnDay),
+            this.ER_TYPE_REGULAR,
+            regularPaymentAmount
+        )
+    ).concat(Object.keys(p.earlyRepayment || new Object({}))
+        .map(d =&gt; <span class="cstat-no" title="statement not covered" >that.getSchedulePoint(Moment(d, this.dateFormat), p.earlyRepayment[d].erType, new Decimal(p.earlyRepayment[d].erAmount)))</span>)
+        .sort((a, b) =&gt;
+<span class="cstat-no" title="statement not covered" >            a.paymentDate.isSame(b, "day") ? 0 : (a.paymentDate.isAfter(b.paymentDate) ? 1 : -1)</span>
+        );
+&nbsp;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    let i = 1;</span>
+<span class="cstat-no" title="statement not covered" >    while (i &lt; schedulePoints.length &amp;&amp; new Decimal(payments[i - 1].finalBalance).gt(0)) {</span>
+<span class="cstat-no" title="statement not covered" >        let pay = {};</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        pay.paymentDate = schedulePoints[i].paymentDate.format(this.dateFormat);</span>
+<span class="cstat-no" title="statement not covered" >        pay.initialBalance = payments[i - 1].finalBalance;</span>
+<span class="cstat-no" title="statement not covered" >        pay.interestRate = rate.toFixed(this.decimal);</span>
+<span class="cstat-no" title="statement not covered" >        pay.annuityPaymentAmount = this.calculateAnnuityPaymentAmount({amount: pay.initialBalance, term: term.toNumber() - i + 1, rate: pay.interestRate});</span>
+<span class="cstat-no" title="statement not covered" >        let paymentAmount = schedulePoints[i].paymentAmount;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        interestAccruedAmount = interestAccruedAmount.plus(</span>
+            this.calculateInterestByPeriod({
+                from: payments[i - 1].paymentDate,
+                to: pay.paymentDate,
+                amount: pay.initialBalance,
+                rate: pay.interestRate
+            })
+        );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (schedulePoints[i].paymentType === this.ER_TYPE_REGULAR) {</span>
+<span class="cstat-no" title="statement not covered" >            if ((i !== schedulePoints.length - 1) &amp;&amp; paymentAmount.lt(pay.initialBalance)) {</span>
+<span class="cstat-no" title="statement not covered" >                if (interestAccruedAmount.gt(paymentAmount)) {</span>
+<span class="cstat-no" title="statement not covered" >                    pay.interestAmount = paymentAmount.toFixed(this.decimal);</span>
+<span class="cstat-no" title="statement not covered" >                    interestAccruedAmount = interestAccruedAmount.minus(paymentAmount);</span>
+                } else {
+<span class="cstat-no" title="statement not covered" >                    pay.interestAmount = interestAccruedAmount.toFixed(this.decimal);</span>
+<span class="cstat-no" title="statement not covered" >                    interestAccruedAmount = Decimal(0);</span>
+                }
+<span class="cstat-no" title="statement not covered" >                pay.principalAmount = paymentAmount.minus(new Decimal(pay.interestAmount)).toFixed(this.decimal);</span>
+<span class="cstat-no" title="statement not covered" >                pay.paymentAmount = paymentAmount.toFixed(this.decimal);</span>
+            } else {
+<span class="cstat-no" title="statement not covered" >                pay.interestAmount = interestAccruedAmount.toFixed(this.decimal);</span>
+<span class="cstat-no" title="statement not covered" >                pay.principalAmount = pay.initialBalance;</span>
+<span class="cstat-no" title="statement not covered" >                pay.paymentAmount = new Decimal(pay.principalAmount).plus(new Decimal(pay.interestAmount)).toFixed(this.decimal);</span>
+            }
+        } else {
+<span class="cstat-no" title="statement not covered" >            pay.principalAmount = paymentAmount.toFixed(this.decimal);</span>
+<span class="cstat-no" title="statement not covered" >            pay.paymentAmount = paymentAmount.toFixed(this.decimal);</span>
+<span class="cstat-no" title="statement not covered" >            pay.interestAmount = new Decimal(0).toFixed(this.decimal);</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        pay.finalBalance = new Decimal(pay.initialBalance).minus(new Decimal(pay.principalAmount));</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        payments.push(pay);</span>
+<span class="cstat-no" title="statement not covered" >        i++;</span>
+    }
+&nbsp;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return payments;</span>
+&nbsp;
+};
+&nbsp;
+LoanSchedule.prototype.calculateDifferentiatedSchedule = <span class="fstat-no" title="function not covered" >function (p) {</span>
+<span class="cstat-no" title="statement not covered" >    let date = Moment(p.issueDate, this.dateFormat);</span>
+<span class="cstat-no" title="statement not covered" >    let term = new Decimal(p.term);</span>
+<span class="cstat-no" title="statement not covered" >    let amount = new Decimal(p.amount);</span>
+<span class="cstat-no" title="statement not covered" >    let rate = new Decimal(p.rate);</span>
+<span class="cstat-no" title="statement not covered" >    let principalAmount = amount.div(term);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    let payments = [this.getInitialPayment(amount, date, rate)];</span>
+<span class="cstat-no" title="statement not covered" >    let i = 1;</span>
+<span class="cstat-no" title="statement not covered" >    while (i &lt;= term.toNumber()) {</span>
+<span class="cstat-no" title="statement not covered" >        let pay = {};</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        date = date.add(1, "months").date(p.paymentOnDay);</span>
+<span class="cstat-no" title="statement not covered" >        pay.paymentDate = date.format(this.dateFormat);</span>
+<span class="cstat-no" title="statement not covered" >        pay.initialBalance = payments[i - 1].finalBalance;</span>
+<span class="cstat-no" title="statement not covered" >        pay.interestRate = rate.toFixed(this.decimal);</span>
+<span class="cstat-no" title="statement not covered" >        pay.principalAmount = i === term.toNumber() ? pay.initialBalance : principalAmount.toFixed(this.decimal);</span>
+<span class="cstat-no" title="statement not covered" >        pay.interestAmount = new Decimal(</span>
+            this.calculateInterestByPeriod({
+                from: payments[i - 1].paymentDate,
+                to: pay.paymentDate,
+                amount: pay.initialBalance,
+                rate: pay.interestRate
+            })
+        ).toFixed(this.decimal);
+<span class="cstat-no" title="statement not covered" >        pay.paymentAmount = new Decimal(pay.principalAmount).plus(new Decimal(pay.interestAmount)).toFixed(this.decimal);</span>
+<span class="cstat-no" title="statement not covered" >        pay.finalBalance = new Decimal(pay.initialBalance).minus(new Decimal(pay.principalAmount)).toFixed(this.decimal);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        payments.push(pay);</span>
+<span class="cstat-no" title="statement not covered" >        i++;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return payments;</span>
+&nbsp;
+};
+&nbsp;
+LoanSchedule.prototype.calculateBubbleSchedule = <span class="fstat-no" title="function not covered" >function (p) {</span>
+<span class="cstat-no" title="statement not covered" >    let date = Moment(p.issueDate, this.dateFormat);</span>
+<span class="cstat-no" title="statement not covered" >    let term = new Decimal(p.term);</span>
+<span class="cstat-no" title="statement not covered" >    let amount = new Decimal(p.amount);</span>
+<span class="cstat-no" title="statement not covered" >    let rate = new Decimal(p.rate);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    let payments = [this.getInitialPayment(amount, date, rate)];</span>
+<span class="cstat-no" title="statement not covered" >    let i = 1;</span>
+<span class="cstat-no" title="statement not covered" >    while (i &lt;= term.toNumber()) {</span>
+<span class="cstat-no" title="statement not covered" >        let pay = {};</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        date = date.add(1, "months").date(p.paymentOnDay);</span>
+<span class="cstat-no" title="statement not covered" >        pay.paymentDate = date.format(this.dateFormat);</span>
+<span class="cstat-no" title="statement not covered" >        pay.initialBalance = payments[i - 1].finalBalance;</span>
+<span class="cstat-no" title="statement not covered" >        pay.interestRate = rate.toFixed(this.decimal);</span>
+<span class="cstat-no" title="statement not covered" >        pay.principalAmount = i === term.toNumber() ? pay.initialBalance : new Decimal(0).toFixed(this.decimal);</span>
+<span class="cstat-no" title="statement not covered" >        pay.interestAmount = new Decimal(</span>
+            this.calculateInterestByPeriod({
+                from: payments[i - 1].paymentDate,
+                to: pay.paymentDate,
+                amount: pay.initialBalance,
+                rate: pay.interestRate
+            })
+        ).toFixed(this.decimal);
+<span class="cstat-no" title="statement not covered" >        pay.paymentAmount = new Decimal(pay.principalAmount).plus(new Decimal(pay.interestAmount)).toFixed(this.decimal);</span>
+<span class="cstat-no" title="statement not covered" >        pay.finalBalance = new Decimal(pay.initialBalance).minus(new Decimal(pay.principalAmount)).toFixed(this.decimal);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        payments.push(pay);</span>
+<span class="cstat-no" title="statement not covered" >        i++;</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return payments;</span>
+&nbsp;
+};
+&nbsp;
+LoanSchedule.prototype.calculateMaxLoanAmount = <span class="fstat-no" title="function not covered" >function (p) {</span>
+<span class="cstat-no" title="statement not covered" >    let term = new Decimal(p.term);</span>
+<span class="cstat-no" title="statement not covered" >    let interestRate = new Decimal(p.rate).div(100).div(12);</span>
+<span class="cstat-no" title="statement not covered" >    let paymentAmount = new Decimal(p.paymentAmount);</span>
+<span class="cstat-no" title="statement not covered" >    let amount = paymentAmount.div(interestRate.div(interestRate.plus(1).pow(term.neg()).neg().plus(1)));</span>
+<span class="cstat-no" title="statement not covered" >    return amount.toFixed(this.decimal);</span>
+};
+&nbsp;
+LoanSchedule.prototype.calculateAnnuityPaymentAmount = <span class="fstat-no" title="function not covered" >function (p) {</span>
+<span class="cstat-no" title="statement not covered" >    let term = new Decimal(p.term);</span>
+<span class="cstat-no" title="statement not covered" >    let interestRate = new Decimal(p.rate).div(100).div(12);</span>
+<span class="cstat-no" title="statement not covered" >    let paymentAmount = new Decimal(p.amount).mul(interestRate.div(interestRate.plus(1).pow(term.neg()).neg().plus(1)));</span>
+<span class="cstat-no" title="statement not covered" >    return paymentAmount.toFixed(this.decimal);</span>
+};
+&nbsp;
+LoanSchedule.prototype.calculateInterestByPeriod = <span class="fstat-no" title="function not covered" >function (p) {</span>
+<span class="cstat-no" title="statement not covered" >    let curIntr = new Decimal(0);</span>
+<span class="cstat-no" title="statement not covered" >    let dateFrom = Moment(p.from, this.dateFormat);</span>
+<span class="cstat-no" title="statement not covered" >    let dateTo = Moment(p.to, this.dateFormat);</span>
+<span class="cstat-no" title="statement not covered" >    if (dateFrom.isSame(dateTo, "year")) {</span>
+<span class="cstat-no" title="statement not covered" >        curIntr = curIntr.plus(getInterestByPeriod({from: dateFrom, to: dateTo, amount: p.amount, rate: p.rate}));</span>
+    } else {
+<span class="cstat-no" title="statement not covered" >        let endOfYear = Moment({years: dateFrom.year(), months: 11, days: 31});</span>
+<span class="cstat-no" title="statement not covered" >        curIntr = curIntr.plus(getInterestByPeriod({from: dateFrom, to: endOfYear, amount: p.amount, rate: p.rate}));</span>
+<span class="cstat-no" title="statement not covered" >        curIntr = curIntr.plus(getInterestByPeriod({from: endOfYear, to: dateTo, amount: p.amount, rate: p.rate}));</span>
+    }
+<span class="cstat-no" title="statement not covered" >    return curIntr.toFixed(this.decimal);</span>
+};
+&nbsp;
+LoanSchedule.prototype.getInitialPayment = <span class="fstat-no" title="function not covered" >function (amount, date, rate) {</span>
+<span class="cstat-no" title="statement not covered" >    return {</span>
+        paymentDate: date.format(this.dateFormat),
+        initialBalance: new Decimal(0).toFixed(this.decimal),
+        paymentAmount: new Decimal(0).toFixed(this.decimal),
+        annuityPaymentAmount: new Decimal(0).toFixed(this.decimal),
+        interestAmount: new Decimal(0).toFixed(this.decimal),
+        principalAmount: new Decimal(0).toFixed(this.decimal),
+        finalBalance: new Decimal(amount).toFixed(this.decimal),
+        interestRate: rate.toFixed(this.decimal)
+    };
+};
+&nbsp;
+LoanSchedule.prototype.ANNUITY_SCHEDULE = "ANNUITY";
+LoanSchedule.prototype.DIFFERENTIATED_SCHEDULE = "DIFFERENTIATED";
+LoanSchedule.prototype.BUBBLE_SCHEDULE = "BUBBLE";
+LoanSchedule.prototype.ER_TYPE_MATURITY = "ER_MATURITY";
+LoanSchedule.prototype.ER_TYPE_ANNUITY = "ER_ANNUITY";
+LoanSchedule.prototype.ER_TYPE_REGULAR = "REGULAR";
+&nbsp;
+<span class="fstat-no" title="function not covered" >function getInterestByPeriod(p) {</span>
+<span class="cstat-no" title="statement not covered" >    return new Decimal(p.rate).div(100).div(p.to.year() % 4 === 0 ? 366 : 365).mul(Moment.duration(p.to.diff(p.from)).asDays()).mul(p.amount);</span>
+}
+&nbsp;
+LoanSchedule.prototype.isHoliday = <span class="fstat-no" title="function not covered" >function (date) {</span>
+<span class="cstat-no" title="statement not covered" >    return that.prodCalendar !== undefined &amp;&amp; that.prodCalendar.getDay(parseInt(date.format("YYYY")), parseInt(date.format("MM")), parseInt(date.format("DD"))) === ProdCal.prototype.DAY_HOLIDAY;</span>
+};
+&nbsp;
+LoanSchedule.prototype.getSchedulePoint = <span class="fstat-no" title="function not covered" >function (paymentDate, paymentType, paymentAmount) {</span>
+<span class="cstat-no" title="statement not covered" >    let calcPaymentDate = paymentDate.clone();</span>
+<span class="cstat-no" title="statement not covered" >    while (that.isHoliday(calcPaymentDate)) <span class="cstat-no" title="statement not covered" >calcPaymentDate.add(1, "days");</span></span>
+<span class="cstat-no" title="statement not covered" >    return new Object({</span>
+        "paymentDate": calcPaymentDate,
+        "paymentType": paymentType,
+        "paymentAmount": paymentAmount,
+    });
+};
+&nbsp;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Jan 05 2019 18:43:41 GMT+0300 (GMT+03:00)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
