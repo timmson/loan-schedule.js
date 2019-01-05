@@ -1,30 +1,38 @@
-Library for loan amortization schedule manipulation [beta]
+Library for loan amortization schedule manipulation
 ==========================================================
 
-If you have any questions, send their via email: [timmson666@mail.ru](mailto:timmson666@mail.ru?subjet=node-lgtv-api)
+[travis build](#)
+[code coverage](#)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a67746d04fb245e58817f2e3959d9501)](https://www.codacy.com/app/timmson666/loan-schedule.js)
+[![version](https://img.shields.io/npm/v/loan-schedule.js.svg)](https://www.npmjs.com/package/loan-schedule.js)
+[![license](https://img.shields.io/npm/l/loan-schedule.js.svg)](https://www.npmjs.com/package/loan-schedule.js)
+
+
+[..::Live demo::..](https://timmson.github.io/loan-schedule/)
+
 
 ## Install
 ```sh
-npm install loan-schedule.js
+npm i loan-schedule.js
 ```
 
-## Test (depends on [nodeunit](https://github.com/caolan/nodeunit))
+## Test (depends on [nodeunit](https://www.npmjs.com/package/nodeunit))
 ```sh
 npm test
 ```
 
 ## Init
 ```js
-var LoanSchedule = require('loan-schedule.js');
+let LoanSchedule = require('loan-schedule.js');
 
-var loanSchedule = new LoanSchedule({});
+let loanSchedule = new LoanSchedule({});
 ```
 
 ## Init with options
 ```js
-var LoanSchedule = require('loan-schedule.js');
+let LoanSchedule = require('loan-schedule.js');
 
-var loanSchedule = new LoanSchedule({
+let loanSchedule = new LoanSchedule({
     decimalDigit : 2,
     dateFormat: 'DD.MM.YYYY'
 
@@ -33,7 +41,7 @@ var loanSchedule = new LoanSchedule({
 
 ## Interest by period
 ```js
-var interest = loanSchedule.calculateInterestByPeriod({
+let interest = loanSchedule.calculateInterestByPeriod({
                    from: '10.12.2015', 
                    to: '10.01.2016', 
                    amount: 1000, 
@@ -44,7 +52,7 @@ console.log(interest);
 
 ## Payment
 ```js
-var payment = loanSchedule.calculateAnnuityPaymentAmount({
+let payment = loanSchedule.calculateAnnuityPaymentAmount({
                   amount: 110000, 
                   term: 60, 
                   rate: 12.9
@@ -54,7 +62,7 @@ console.log(payment);
 
 ## Max Loan Amount
 ```js
-var loanAmount = loanSchedule.calculateMaxLoanAmount({
+let loanAmount = loanSchedule.calculateMaxLoanAmount({
                   paymentAmount: 2497.21,
                   term: 60,
                   rate: 12.9
@@ -64,7 +72,7 @@ console.log(loanAmount);
 
 ## Annuity loan schedule (payment amount will be calculated)
 ```js
-var schedule = loanSchedule.calculateSchedule({
+let schedule = loanSchedule.calculateSchedule({
                    amount: 50000,
                    rate: 11.5,
                    term: 12,
@@ -84,7 +92,7 @@ var schedule = loanSchedule.calculateSchedule({
 
 ## Annuity loan schedule (payment amount is set)
 ```js
-var schedule = loanSchedule.calculateSchedule({
+let schedule = loanSchedule.calculateSchedule({
                    amount: 50000,
                    rate: 11.5,
                    term: 12,
@@ -105,7 +113,7 @@ var schedule = loanSchedule.calculateSchedule({
 
 ## Differentiated loan schedule
 ```js
-var schedule = loanSchedule.calculateSchedule({
+let schedule = loanSchedule.calculateSchedule({
                    amount: 50000,
                    rate: 11.5,
                    term: 12,
@@ -125,7 +133,7 @@ var schedule = loanSchedule.calculateSchedule({
 
 ## Bubble loan schedule
 ```js
-var schedule = loanSchedule.calculateSchedule({
+let schedule = loanSchedule.calculateSchedule({
                    amount: 50000,
                    rate: 11.5,
                    term: 12,
@@ -143,4 +151,4 @@ var schedule = loanSchedule.calculateSchedule({
 });
 ```
 
-More demos on http://timmson.github.io
+If you have any questions, you could send their via email: [timmson666@mail.ru](mailto:timmson666@mail.ru?subjet=loan-schedule.js)
