@@ -26,6 +26,6 @@
   "dependencies": {
     "decimal.js": "~6.0.0",
     "moment": "~2.22.2",
-    "prod-cal": "1.0.0"
+    "prod-cal": "1.0.1"
   }
 }

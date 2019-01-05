@@ -1,7 +1,7 @@
-Library for loan amortization schedule manipulation
-==========================================================
+# Library for loan amortization schedule manipulation
 
-[![status](https://travis-ci.org/angular/angular.svg?branch=master)](https://travis-ci.org/angular/angular)
+
+[![status](https://api.travis-ci.org/timmson/loan-schedule.js.svg?branch=master)](https://travis-ci.org/timmson/loan-schedule.js)
 [![codecov](https://codecov.io/gh/timmson/loan-schedule.js/branch/master/graph/badge.svg)](https://codecov.io/gh/timmson/loan-schedule.js)
 [![codacy](https://api.codacy.com/project/badge/Grade/a67746d04fb245e58817f2e3959d9501)](https://www.codacy.com/app/timmson666/loan-schedule.js)
 [![version](https://img.shields.io/npm/v/loan-schedule.js.svg)](https://www.npmjs.com/package/loan-schedule.js)
