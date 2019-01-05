@@ -3,5 +3,5 @@ language:
 install:
   - npm install -g codecov
 script:
-  - istanbul cover test-js
+  - npm run coverage
   - codecov
