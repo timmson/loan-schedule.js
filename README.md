@@ -3,7 +3,7 @@
 
 [![status](https://api.travis-ci.org/timmson/loan-schedule.js.svg?branch=master)](https://travis-ci.org/timmson/loan-schedule.js)
 [![codecov](https://codecov.io/gh/timmson/loan-schedule.js/branch/master/graph/badge.svg)](https://codecov.io/gh/timmson/loan-schedule.js)
-[![codacy](https://api.codacy.com/project/badge/Grade/a67746d04fb245e58817f2e3959d9501)](https://www.codacy.com/app/timmson666/loan-schedule.js)
+[![codacy](https://api.codacy.com/project/badge/Grade/0316cf5405fd4dbcb67455c33f5a63d5)](https://www.codacy.com/app/timmson666/loan-schedule.js)
 [![version](https://img.shields.io/npm/v/loan-schedule.js.svg)](https://www.npmjs.com/package/loan-schedule.js)
 [![license](https://img.shields.io/npm/l/loan-schedule.js.svg)](https://www.npmjs.com/package/loan-schedule.js)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftimmson%2Floan-schedule.js.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftimmson%2Floan-schedule.js?ref=badge_shield)
