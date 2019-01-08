@@ -1,0 +1,17 @@
+# Idea
+.idea/
+
+#Node modules
+node_modules/
+
+#Test & Coverage
+.nyc_output
+coverage.lcov
+test
+
+#Git
+.git
+.gitignore
+
+#Other
+.travis.yml
