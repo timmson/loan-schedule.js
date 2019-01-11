@@ -9,7 +9,7 @@ function LoanSchedule(options) {
     that = this;
     that.decimal = 2;
     that.dateFormat = "DD.MM.YYYY";
-    that.prodCalendar = undefined;
+    that.prodCalendar = null;
 
     if (options) {
         that.decimal = options.decimalDigit || that.decimal;
@@ -245,7 +245,7 @@ LoanSchedule.prototype.ER_TYPE_MATURITY = "ER_MATURITY";
 LoanSchedule.prototype.ER_TYPE_ANNUITY = "ER_ANNUITY";
 LoanSchedule.prototype.ER_TYPE_REGULAR = "REGULAR";
 
-LoanSchedule.prototype.getInterestByPeriod = function(p) {
+LoanSchedule.prototype.getInterestByPeriod = function (p) {
     return new Decimal(p.rate).div(100).div(p.to.year() % 4 === 0 ? 366 : 365).mul(moment.duration(p.to.diff(p.from)).asDays()).mul(p.amount);
 };
 
@@ -255,11 +255,13 @@ LoanSchedule.prototype.isHoliday = function (date) {
 
 LoanSchedule.prototype.getSchedulePoint = function (paymentDate, paymentType, paymentAmount) {
     let calcPaymentDate = paymentDate.clone();
-    while (that.isHoliday(calcPaymentDate)) calcPaymentDate.add(1, "days");
+    while (that.isHoliday(calcPaymentDate)) {
+        calcPaymentDate.add(1, "days");
+    }
     return new Object({
         "paymentDate": calcPaymentDate,
-        "paymentType": paymentType,
-        "paymentAmount": paymentAmount,
+        paymentType,
+        paymentAmount
     });
 };
 

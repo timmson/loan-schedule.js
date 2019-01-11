@@ -1,12 +1,14 @@
 "use strict";
 const LoanSchedule = require("../index.js");
 const expect = require("chai").expect;
+const log = require("log4js").getLogger("test");
+log.level = "info";
 
 function printSchedule(schedule) {
-    console.log("Payment = {" + schedule.minPaymentAmount + ", " + schedule.maxPaymentAmount + "}, Term = " + schedule.term);
-    console.log("OverallInterest = " + schedule.overAllInterest + " , EfficientRate = " + schedule.efficientRate);
+    log.info("Payment = {" + schedule.minPaymentAmount + ", " + schedule.maxPaymentAmount + "}, Term = " + schedule.term);
+    log.info("OverallInterest = " + schedule.overAllInterest + " , EfficientRate = " + schedule.efficientRate);
     schedule.payments.map(pay =>
-        console.log(pay.paymentDate + "\t|\t"
+        log.info(pay.paymentDate + "\t|\t"
             + pay.initialBalance + "\t|\t"
             + pay.paymentAmount + "\t|\t\t"
             + pay.annuityPaymentAmount + "\t|\t"
