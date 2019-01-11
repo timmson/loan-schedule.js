@@ -250,7 +250,7 @@ LoanSchedule.prototype.getInterestByPeriod = function (p) {
 };
 
 LoanSchedule.prototype.isHoliday = function (date) {
-    return that.prodCalendar !== undefined && that.prodCalendar.getDay(parseInt(date.format("YYYY"), 10), parseInt(date.format("MM"), 10), parseInt(date.format("DD"), 10)) === ProdCal.prototype.DAY_HOLIDAY;
+    return that.prodCalendar && that.prodCalendar.getDay(parseInt(date.format("YYYY"), 10), parseInt(date.format("MM"), 10), parseInt(date.format("DD"), 10)) === ProdCal.prototype.DAY_HOLIDAY;
 };
 
 LoanSchedule.prototype.getSchedulePoint = function (paymentDate, paymentType, paymentAmount) {
