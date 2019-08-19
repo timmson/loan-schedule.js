@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html/>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <link href="cssndex.css" rel="stylesheet" type="text/css" />
+    <link href="cssonts.css" rel="stylesheet" type="text/css" />
+    <link href="cssheme/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <title>Interest Payment Scherdule v.1</title>
+    <script src="jsquery.min.js" type="text/javascript"></script>
+    <script src="jsquery-ui.min.js" type="text/javascript"></script>
+    <script src="jschedule.js" type="text/javascript"></script>
+    <style>
+		#feedback { font-size: 1.4em; }
+		#paydayselect .ui-selecting { background: #FECA40; }
+		#paydayselect .ui-selected { background: #F39814; color: white; }
+		#paydayselect { list-style-type: none; margin: 0px; padding: 0px; width: 325px; }
+		#paydayselect li { margin: 3px; padding: 1px; float: left; width: 25px; height: 25px; font-size: 12pt; text-align: center; cursor:pointer; }
+	</style>
+</head>
+<body>
+    <table width="100%" cellspacing="0" cellpadding="5">
+       <tr>
+		   <td style="text-align:center; vertical-align:middle; width:150px;">
+			   &nbsp;
+		   </td>
+		   <td style="text-align:center;">
+			   <h2>Interest Payment Scherdule v.1</h2>
+		   </td>
+       </tr>
+       <tr>
+            <td align="left" colspan="2">
+			<form id="credit">
+				<h4>Параметры графика</h4>
+				<table class="plain">
+					<tr>
+					   <td style="width:300px;">Сумма:</td>
+					   <td style="width:450px;">
+						 <input type="text" class="corp_text" name="amount" id="amount"/>
+					   </td>
+					   <td  style="width:500px; padding-left:240px;" rowspan="5">
+							День платежа:
+							<ol id="paydayselect">
+							</ol>
+						</td>
+					</tr>
+					<tr>
+					   <td>Срок, месяцев:</td>
+					   <td>
+						 <input type="text" class="corp_text" name="term" id="term"/>
+					   </td>
+					</tr>
+					<tr>
+					   <td>Ставка, % годовых:</td>
+					   <td >
+						 <input type="text" class="corp_text" name="prc" id="prc"/>
+					   </td>
+					</tr>
+					<tr>
+					   <td>Дата выдачи:</td>
+					   <td>
+						 <input type="text" class="corp_text" name="issuedate" id="issuedate"/>
+					   </td>
+					</tr>
+					<tr>
+					   <td><!--День платежа:-->&nbsp;</td>
+					   <td>
+						 &nbsp;<input type="hidden" class="corp" name="payday" id="payday"/>
+					   </td>
+					</tr>
+					<tr>
+					   <td>Превышение последнего платежа над аннуитетом, в %</td>
+					   <td>
+						   <input type="text" class="corp_text" name="accuracy" id="accuracy"/>
+					   </td>
+					</tr>
+				</table>
+				</form>
+		  	 </td>
+		</tr>
+        <tr>
+			<td colspan="2">
+				<table>
+					<tr>
+						<td colspan = "2">
+							<h4>Сравнение</h4>
+						</td>
+					</tr>
+					<tr>
+						<td style="border-right: 1px solid #ccc; padding-right: 10px;">
+							<h4>График платежей (классика)</h4>
+							<div id="summary"></div>
+							<table class="container" id="pays">
+								  <tr id="paysHead">
+									 <th>Дата платежа/<br/>Payment Date</th>
+									 <th>Начальный баланс/<br/>Initial Balance</th>
+									 <th>Заключительный баланс/<br/>Final Balance</th>
+									 <th>Сумма платежа/<br/>Payment Amount</th>
+									 <th>В т.ч. основной долг/<br/>Principal</th>
+									<th>В т.ч.Оплата процентов/<br/>Interest</th>
+								 </tr>
+							</table>
+						</td>
+						<td style="padding-left: 10px;">
+							<h4>График платежей (первый %)</h4>
+							<div id="summaryInterest"></div>
+							<table class="container" id="paysInterest">
+								  <tr id="paysHeadInterest">
+									 <th>Дата платежа/<br/>Payment Date</th>
+									 <th>Начальный баланс/<br/>Initial Balance</th>
+									 <th>Заключительный баланс/<br/>Final Balance</th>
+									 <th>Сумма платежа/<br/>Payment Amount</th>
+									 <th>В т.ч. основной долг/<br/>Principal</th>
+									<th>В т.ч.Оплата процентов/<br/>Interest</th>
+								 </tr>
+							</table>
+						<td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+    </table>
+    <script type="text/javascript">
+			 $(function() {
+					$("#prc").val("40.00");
+					$("#amount").val("1500000");
+					$("#term").val("60");
+					$("#accuracy").val("5");
+					
+					initPayDay("#paydayselect", "#payday", 2);
+
+					$("#issuedate").val(formatDDMMYYYY(new Date().getTime() / 1000));
+					$("#issuedate").datepicker({dateFormat:'dd.mm.yy'});
+					
+					reloadSchedule("");
+				});
+				
+				$("form#credit input").change(function() {
+					reloadSchedule("");
+				});
+				
+				$("form#credit select#payday").change(function() {
+					reloadSchedule("");
+				});
+				
+				$("form.scheduleForm input").change(function() {
+					$(this).val($(this).val().replace(/\s/g, ''));
+					if	($(this).prop("name")=="calctype") {
+							var fromId = $(this).closest('form').prop('id');
+							$("#" + fromId + " .calctype").css("display", "none");
+							$("#" + fromId + " .calctype" + $(this).val()).css("display", "block");
+					}
+					reloadSchedule($(this).prop("name"));
+				});
+
+				
+				function reloadSchedule(fieldName) {
+					var formParams = {};
+					
+					$.each($("form#credit").serializeArray(), function(){
+						formParams[this.name] = this.value;
+					});
+					
+					formParams.isInterest = false;
+					var schedule = new Schedule(formParams);
+					var paymentArray = schedule.calculate();
+					$(".pays" ).remove();
+					$("#paysHead" ).after(constructSchedule(paymentArray, formParams, "#summary"));
+					
+					formParams.isInterest = true;
+					
+					formParams.paymentamount = 0;
+					var scheduleInterest = new Schedule(formParams);
+					var paymentArrayInterest = schedule.calculate();
+					var lastPayment = paymentArrayInterest[paymentArrayInterest.length-1].paymentAmount;
+					var regularPayment = paymentArrayInterest[paymentArrayInterest.length-2].paymentAmount;  
+					var rateLastVsRegular = lastPayment / regularPayment; 
+					
+					formParams.paymentamount = regularPayment;						
+					var delta = 1;
+					
+					if ((rateLastVsRegular - 1) * 100 > formParams.accuracy) {
+						
+						while((rateLastVsRegular - 1) * 100 > formParams.accuracy) {
+							formParams.paymentamount = parseFloat(formParams.paymentamount) + delta;
+							scheduleInterest = new Schedule(formParams);
+							paymentArrayInterest = schedule.calculate();
+							lastPayment = paymentArrayInterest[paymentArrayInterest.length-1].paymentAmount;
+							regularPayment = paymentArrayInterest[paymentArrayInterest.length-2].paymentAmount;  
+							rateLastVsRegular = lastPayment / regularPayment;								
+						}	
+						
+					} else {
+						
+						
+						while ((rateLastVsRegular - 1) * 100 <= formParams.accuracy) {
+							formParams.paymentamount = parseFloat(formParams.paymentamount) - delta;
+							scheduleInterest = new Schedule(formParams);
+							paymentArrayInterest = schedule.calculate();
+							lastPayment = paymentArrayInterest[paymentArrayInterest.length-1].paymentAmount;
+							regularPayment = paymentArrayInterest[paymentArrayInterest.length-2].paymentAmount;  
+							rateLastVsRegular = lastPayment / regularPayment;	
+						}
+					
+					}
+					
+					$(".paysInterest" ).remove();
+					$("#paysHeadInterest" ).after(constructSchedule(paymentArrayInterest, formParams, "#summaryInterest"));
+
+					
+				}
+				
+				function constructSchedule(paymentArray, formParams, summaryId){
+					var table = "";
+					var fullInterest = 0;
+					var fullPrincipal = 0;
+					for (var i = 0; i<paymentArray.length; i++) {
+						var colors = (i % 2 == 0) ? "#FFFCBE;" : "inherit;";
+						var row = '<tr style="background:' + colors + '">';
+						row += contructCell(paymentArray[i].paymentDate);
+						row += contructCell(paymentArray[i].initialBalance);
+						row += contructCell(paymentArray[i].finalBalance);
+						row += contructCell(paymentArray[i].paymentAmount);
+						row += contructCell(paymentArray[i].principalAmount);
+						row += contructCell(paymentArray[i].interestAmount);
+						row += "</tr>";
+						table += row;
+						fullInterest += parseFloat(paymentArray[i].interestAmount); 
+						fullPrincipal += parseFloat(paymentArray[i].principalAmount); 
+					}
+					
+					var row = '<tr><td class="pays" colspan="3" style="text-align:right">Итого:</td>'
+					row += contructCell(Number(parseFloat(fullInterest) + parseFloat(fullPrincipal)).toFixed(2));
+					row += contructCell(Number(fullPrincipal).toFixed(2));
+					row += contructCell(Number(fullInterest).toFixed(2));
+					row += "</tr>";
+					table += row;
+					
+					$(summaryId).html("Платеж = " + paymentArray[paymentArray.length-2].paymentAmount + "<br/> Сумма процентов за весь срок = " + Number(fullInterest).toFixed(2) + "<br/><br/>");
+					
+					return table;
+				}
+				
+				function contructCell(value) {
+					return '<td class="pays">' + value + '</td>'; 
+				}
+				
+				function initPayDay(paydayselect, paydayfield, defaultday) {
+					for (i = 2; i <= 28; i++) {
+						var el = "<li class=\"ui-state-default\">" + i +"</li>";
+						if (i == defaultday) {
+							el = "<li class=\"ui-state-default ui-selected\">" + i +"</li>"
+						}
+						$(paydayselect).html($(paydayselect).html()+el);
+					}
+					
+					$(paydayselect).selectable({
+						selecting: function( event, ui ) {
+								$(paydayfield).val($(ui.selecting).html());
+								$(paydayfield).change();
+							}
+					});
+					
+					$(paydayfield).val(defaultday);
+				}
+				
+	</script>
+</body>
+</html>

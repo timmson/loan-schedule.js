@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html/>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <link href="./css/index.css" rel="stylesheet" type="text/css" />
+    <link href="./css/fonts.css" rel="stylesheet" type="text/css" />
+    <link href="./css/theme/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" href="favicon.ico"/>
+    <title>PB Schedule v.3</title>
+    <script src="./js/jquery.min.js" type="text/javascript"></script>	
+    <script src="./js/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="./js/schedule.js" type="text/javascript"></script>
+    <style>
+		#feedback { font-size: 1.4em; }
+		#paydayselect .ui-selecting { background: #FECA40; }
+		#paydayselect .ui-selected { background: #F39814; color: white; }
+		#paydayselect { list-style-type: none; margin: 0px; padding: 0px; width: 325px; }
+		#paydayselect li { margin: 3px; padding: 1px; float: left; width: 25px; height: 25px; font-size: 12pt; text-align: center; cursor:pointer; }
+	</style>
+</head>
+<body>
+    <table width="100%" cellspacing="0" cellpadding="5" border="0">
+       <tr>
+		   <td style="text-align:center;">
+			   <h2>PB Schedule v.3</h2>
+		   </td>
+       </tr>
+       <tr>
+            <td align="left" colspan="2">
+			<form id="credit">
+				<h4>Параметры графика</h4>
+				<table class="plain">
+					<tr>
+					   <td style="width:300px;">Сумма:</td>
+					   <td style="width:450px;">
+						 <input type="text" class="corp_text" name="amount" id="amount"/>
+					   </td>
+					   <td  style="width:500px; padding-left:240px;" rowspan="5">
+							День платежа:
+							<ol id="paydayselect">
+							</ol>
+						</td>
+					</tr>
+					<tr>
+					   <td>Срок, месяцев:</td>
+					   <td>
+						 <input type="text" class="corp_text" name="term" id="term"/>
+					   </td>
+					</tr>
+					<tr>
+					   <td>Ставка, % годовых:</td>
+					   <td >
+						 <input type="text" class="corp_text" name="prc" id="prc"/>
+					   </td>
+					</tr>
+					<tr>
+					   <td>Дата выдачи:</td>
+					   <td>
+						 <input type="text" class="corp_text" name="issuedate" id="issuedate"/>
+					   </td>
+					</tr>
+					<tr>
+					   <td><!--День платежа:-->&nbsp;</td>
+					   <td>
+						 &nbsp;<input type="hidden" class="corp" name="payday" id="payday"/>
+					   </td>
+					</tr>
+					<tr style="display:none;">
+					   <td>Cумма аннуитетного платежа на весь срок кредита:</td>
+					   <td id="paymentamount"></td>
+					</tr>
+				</table>
+				</form>
+		  	 </td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<table class="plain">
+					<tr>
+					   <td style="width:40%"><h4>Шаблоны графиков</h4></td>
+					   <td style="width:60%"><h4>Параметры</h4></td>
+					</tr>
+					<tr>
+						<td rowspan="2" valign="top">
+							<a href="javascript:loadSchedule([{calctype:2,annperiod:1,annprincperiod:1,annterm:$('#term').val(),annamountprc:100}])">
+								1. Стандартный аннуитетный
+							</a><br/>
+							<a href="javascript:loadSchedule([{calctype:1,diffperiod:1,diffprincperiod:1,diffterm:1,diffamountprc:0},{calctype:2, annprincperiod:1}])">
+								&nbsp;&nbsp;1a. Аннуитетный c с первым %-м платежом
+							</a><br/>
+							<a href="javascript:loadSchedule([{calctype:1,diffperiod:1,diffprincperiod:1,diffterm:$('#term').val(),diffamountprc:100}])">
+								2. Стандартный дифференцированный
+							</a><br/>
+							<a href="javascript:loadSchedule([{calctype:1,diffperiod:1,diffprincperiod:3,diffterm:$('#term').val(),diffamountprc:100}])">
+								&nbsp;&nbsp;2a. Дифференцированный c ежеквартальной выплатой ОД
+							</a><br/>
+							<a href="javascript:loadSchedule([{calctype:1,diffperiod:1,diffprincperiod:12,diffterm:$('#term').val(),diffamountprc:100}])">
+								&nbsp;&nbsp;2b. Дифференцированный c ежегодной выплатой ОД
+							</a><br/>
+							<a href="javascript:loadSchedule([{calctype:1,diffperiod:1,diffprincperiod:$('#term').val(),diffterm:$('#term').val(),diffamountprc:100}])">
+								&nbsp;&nbsp;2c. Дифференцированный c выплатой ОД в конце срока
+							</a><br/>
+						</td>
+						<td>
+						  <a href="#" onclick="$('.slideSchedule').slideToggle();">Показать/Скрыть</a>
+						  <div class="slideSchedule" style="display:none;" >
+						  <form id="schedule1" class="scheduleForm">
+							   <table class="plain">
+									<tr>
+									   <td style="width:300px;"><h4>Тип I части графика</h4></td>
+									   <td style="width:450px;" colspan="2">
+										 <div class="radioselect">
+											<input type="radio" name="calctype" id="calctype11" value="1"><label for="calctype11">Дифференцированный</label>
+											<input type="radio" name="calctype" id="calctype12" value="2"><label for="calctype12">Аннуитетный</label>
+										 </div>
+									   </td>
+									</tr>
+									<tr>
+										<td colspan="3">
+											<div class="calctype1 calctype" style="display:block;">
+												<table width="100%" cellspacing="10" cellpadding="0" style="border: 1px solid #ccc;">
+													<tr>
+														<td style="width:50%;">
+															Периодичность %%-ых платежей, месяцев:
+														</td>
+														<td style="width:50%;">
+															<input type="text" class="corp_text" name="diffperiod"/>
+														</td>
+												    </tr>
+													<tr>
+														<td>
+															Кратность выплаты ОД, периодов:
+														</td>
+														<td>
+															<input type="text" class="corp_text" name="diffprincperiod"/>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															Срок, месяцев:
+														</td>
+														<td>
+															<input type="text" class="corp_text" name="diffterm"/>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															Доля основного долга, %:
+														</td>
+														<td>
+															<input type="text" class="corp_text" name="diffamountprc"/>
+														</td>
+													</tr>
+												</table>
+											</div>
+											<div class="calctype2 calctype" style="display:none;">
+												<table width="100%" cellspacing="10" cellpadding="0" style="border: 1px solid #ccc;">
+													<tr>
+														<td style="width:50%;">
+															Периодичность %%-ых платежей, месяцев:
+														</td>
+														<td style="width:50%;">
+															<input type="text" class="corp_text" name="annperiod"/>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															Кратность выплаты ОД, периодов:
+														</td>
+														<td>
+															<input type="text" class="corp_text" name="annprincperiod"/>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															Срок, месяцев:
+														</td>
+														<td>
+															<input type="text" class="corp_text" name="annterm"/>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															Доля основного долга, %:
+														</td>
+														<td>
+															<input type="text" class="corp_text" name="annamountprc"/>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															Cумма аннуитетного платежа:
+														</td>
+														<td>
+															<input type="text" class="corp_text" name="annpaymentamount"/>
+														</td>
+													</tr>
+											</table>
+										</div>
+										</td>
+									</tr>
+								</table>
+							</form>
+							<div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="slideSchedule" style="display:none;" class="scheduleForm">
+							<form id="schedule2">
+							  <table class="plain">
+									<tr>
+									   <td style="width:300px;"><h4>Тип II части графика</h4></td>
+									   <td style="width:450px;" colspan="2">
+										 <div class="radioselect">
+											<input type="radio" name="calctype" id="calctype21" value="1"><label for="calctype21">Дифференцированный</label>
+											<input type="radio" name="calctype" id="calctype22" value="2"><label for="calctype22">Аннуитетный</label>
+										 </div>
+									   </td>
+									</tr>
+								<tr>
+									<td colspan="3">
+										<div class="calctype1 calctype" style="display:block;">
+											<table width="100%" cellspacing="10" cellpadding="0" style="border: 1px solid #ccc;">
+												<tr>
+													<td style="width:25%;">
+														Периодичность %%-ых платежей, месяцев:
+													</td>
+													<td style="width:25%;">
+														<input type="text" class="corp_text" name="diffperiod" id="diffperiod"/>
+													</td>
+												</tr>
+												<tr>													
+													<td style="width:25%;">
+														Кратность выплаты ОД, периодов:
+													</td>
+													<td style="width:25%;">
+														<input type="text" class="corp_text" name="diffprincperiod" id="diffprincperiod"/>
+													</td>
+												</tr>
+											</table>
+										</div>
+										<div class="calctype2 calctype" style="display:none;">
+											<table width="100%" cellspacing="10" cellpadding="0" style="border: 1px solid #ccc;">
+												<tr>
+													<td style="width:25%;">
+														Периодичность %%-ых платежей, месяцев:
+													</td>
+													<td style="width:25%;">
+														<input type="text" class="corp_text" name="annperiod"/>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</td>
+								</tr>
+							</table>
+							</form>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+        <tr>
+			<td colspan="2">
+				<h4>График платежей</h4>
+				<table class="container" id="pays">
+					  <tr id="paysHead">
+						 <th>Дата платежа/<br/>Payment Date</th>
+						 <th>Начальный баланс/<br/>Initial Balance</th>
+						 <th>Заключительный баланс/<br/>Final Balance</th>
+						 <th>Сумма платежа/<br/>Payment Amount</th>
+						 <th>В т.ч. основной долг/<br/>Principal</th>
+						<th>В т.ч.Оплата процентов/<br/>Interest</th>
+					 </tr>
+				</table>
+			</td>
+		</tr>
+    </table>
+    <script type="text/javascript">
+			 $(function() {
+					$("#prc").val("14");
+					$("#amount").val("2000000");
+					$("#term").val("24");
+					
+					initPayDay("#paydayselect", "#payday", 2);
+
+					$("#issuedate").val(formatDDMMYYYY(new Date().getTime() / 1000));
+					$("#issuedate").datepicker({dateFormat:'dd.mm.yy'});
+					
+					$("#schedule1 #calctype11").prop("checked", "checked");
+					$("#schedule1 [name=diffperiod]").val("1");
+					$("#schedule1 [name=diffprincperiod]").val("1");
+					$("#schedule1 [name=diffterm]").val("24");
+					$("#schedule1 [name=diffamountprc]").val("100");
+					$("#schedule1 [name=annperiod]").val("1");
+					$("#schedule1 [name=annprincperiod]").val("1");
+					$("#schedule1 [name=annterm]").val("24");
+					$("#schedule1 [name=annamountprc]").val("100")
+					
+					$("#schedule2 #calctype21").prop("checked", "checked");
+					$("#schedule2 [name=diffperiod]").val("1");
+					$("#schedule2 [name=diffprincperiod]").val("1");
+					$("#schedule2 [name=annperiod]").val("1");
+
+					$(".radioselect").buttonset();
+					
+					reloadSchedule("");
+				});
+				
+				$("form#credit input").change(function() {
+					$(this).val($(this).val().replace(/\s/g, ''));
+					loadSchedule([{calctype:2,annperiod:1,annprincperiod:1,annterm:$('#term').val(),annamountprc:100}]);
+				});
+				
+				$("form#credit select#payday").change(function() {
+					reloadSchedule("");
+				});
+				
+				$("form.scheduleForm input").change(function() {
+					$(this).val($(this).val().replace(/\s/g, ''));
+					if	($(this).prop("name")=="calctype") {
+							var fromId = $(this).closest('form').prop('id');
+							$("#" + fromId + " .calctype").css("display", "none");
+							$("#" + fromId + " .calctype" + $(this).val()).css("display", "block");
+					}
+					reloadSchedule($(this).prop("name"));
+				});
+
+				
+				function loadSchedule(arr) {
+					for (var i=0; i< arr.length; i++) {
+						var obj = arr[i];
+						for (key in obj) {
+							var scheduleNum = parseInt(i+1);
+							var objPath = "#schedule" + scheduleNum + " [name="+key+"]";
+							if (key=="calctype") {
+								objPath = "#schedule" + scheduleNum + " #calctype" + scheduleNum + "" + obj[key]; 
+								$(objPath).prop("checked", "checked");
+							} else {
+								$(objPath).val(obj[key]);
+							}
+							$(objPath).change();
+						}
+					}
+				}
+				
+				function reloadSchedule(fieldName) {
+					var formParams = {};
+					
+					$.each($("form#credit").serializeArray(), function(){
+						formParams[this.name] = this.value;
+					});
+					
+					//Total annuity payment
+					{
+						var termInPeriod = formParams.term;
+						var ratePerPeriod = formParams.prc/1200;
+						var paymentAmount = formParams.amount * ratePerPeriod/(1-Math.pow(1+ratePerPeriod, -formParams.term));
+						$("#paymentamount").html(format2(paymentAmount));
+					}
+					
+					
+					//First part annuity payment
+					{
+						var termInPeriod = Math.ceil($("#schedule1 [name=annterm]").val()/$("#schedule1 [name=annperiod]").val());
+						var ratePerPeriod = $("#prc").val() * $("#schedule1 [name=annperiod]").val()/1200;
+						if (fieldName == "annpaymentamount") {
+							var paymentAmount = $("#schedule1 [name=annpaymentamount]").val();
+							var totalAmount = paymentAmount/(ratePerPeriod + ratePerPeriod/(Math.pow(1+ratePerPeriod, termInPeriod)-1));
+							var totalAmountPrc = 100 * totalAmount/$("#amount").val();
+							$("#schedule1 [name=annamountprc]").val(format6(totalAmountPrc));
+						} else {
+							var amount = $("#amount").val() * $("#schedule1 [name=annamountprc]").val()/100; 
+							var paymentAmount = amount * ratePerPeriod/(1-Math.pow(1+ratePerPeriod, -termInPeriod));
+							$("#schedule1 [name=annpaymentamount]").val(format2(paymentAmount));
+						}
+					}
+					
+					$.each($("form#schedule1").serializeArray(), function(){
+						formParams[this.name] = this.value;
+					});
+					
+					var schedule2term = formParams.term - (formParams.calctype == "1" ? formParams.diffterm : formParams.annterm);
+						
+					formParams.isending = (schedule2term == "0") ? "true" : "false";
+		
+					var schedule = new Schedule(formParams);
+			
+					var paymentArray = schedule.calculate();
+					
+					if (schedule2term != "0") {
+						$.each($("form#schedule2").serializeArray(), function(){
+							formParams[this.name] = this.value;
+						});
+
+						formParams.amount = paymentArray[paymentArray.length-1].finalBalance;
+						formParams.issuedate = paymentArray[paymentArray.length-1].paymentDate;
+						formParams.isending = "true";
+						formParams.diffterm = schedule2term;
+						formParams.annterm = schedule2term;
+						
+						var paymentArray2 = new Schedule(formParams).calculate();
+						paymentArray2 = paymentArray2.slice(1,paymentArray2.length);
+						var paymentArray = paymentArray.concat(paymentArray2);
+					} 	
+					
+					
+					$(".pays" ).remove();
+					$("#paysHead" ).after(constructSchedule(paymentArray, formParams));
+				}
+				
+				function constructSchedule(paymentArray, formParams){
+					var table = "";
+					var fullInterest = 0;
+					var fullPrincipal = 0;
+					for (var i = 0; i<paymentArray.length; i++) {
+						var colors = (i % 2 == 0) ? "#FFFCBE;" : "inherit;";
+						var row = '<tr style="background:' + colors + '">';
+						row += contructCell(paymentArray[i].paymentDate);
+						row += contructCell(paymentArray[i].initialBalance);
+						row += contructCell(paymentArray[i].finalBalance);
+						row += contructCell(paymentArray[i].paymentAmount);
+						row += contructCell(paymentArray[i].principalAmount);
+						row += contructCell(paymentArray[i].interestAmount);
+						row += "</tr>";
+						table += row;
+						fullInterest += parseFloat(paymentArray[i].interestAmount); 
+						fullPrincipal += parseFloat(paymentArray[i].principalAmount); 
+					}
+					
+					var row = '<tr><td class="pays" colspan="3" style="text-align:right">Итого:</td>'
+					row += contructCell(Number(parseFloat(fullInterest) + parseFloat(fullPrincipal)).toFixed(2));
+					row += contructCell(Number(fullPrincipal).toFixed(2));
+					row += contructCell(Number(fullInterest).toFixed(2));
+					row += "</tr>";
+					table += row;
+					
+					return table;
+				}
+				
+				function contructCell(value) {
+					return '<td class="pays">' + value + '</td>'; 
+				}
+				
+				function initPayDay(paydayselect, paydayfield, defaultday) {
+					for (i = 2; i <= 28; i++) {
+						var el = "<li class=\"ui-state-default\">" + i +"</li>";
+						if (i == defaultday) {
+							el = "<li class=\"ui-state-default ui-selected\">" + i +"</li>"
+						}
+						$(paydayselect).html($(paydayselect).html()+el);
+					}
+					
+					$(paydayselect).selectable({
+						selecting: function( event, ui ) {
+								$(paydayfield).val($(ui.selecting).html());
+								$(paydayfield).change();
+							}
+					});
+					
+					$(paydayfield).val(defaultday);
+				}
+				
+	</script>
+</body>
+</html>

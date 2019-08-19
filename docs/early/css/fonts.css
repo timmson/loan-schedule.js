@@ -1,0 +1,43 @@
+@charset "utf-8";
+/*
+colors
+#F9F300 - yellow
+#FFFCBE - body-yellow
+*/
+h1 {
+    font-size:22pt;
+}
+
+h2 {
+    font-size:18pt;
+}
+
+h3 {
+    font-size:16pt;
+}
+
+a {
+  font-size:10pt;
+  color:#000;
+  text-decoration:none;
+}
+
+a:hover {
+   text-decoration:underline;
+}
+
+a.av {
+  text-decoration:none;
+}
+
+
+a.unav {
+    color:#ccc;
+    cursor:help;
+    text-decoration:none;	    	
+}
+
+a.cur {    
+    font-weight:bold;
+    text-decoration:none;
+}
