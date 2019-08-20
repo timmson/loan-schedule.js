@@ -1,11 +1,11 @@
 {
   "name": "loan-schedule.js",
-  "version": "0.7.5",
+  "version": "0.7.6",
   "description": "Library for loan amortization schedule manipulation",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "coverage": "nyc mocha && nyc report --reporter=text-lcov > coverage.lcov"
+    "test": "npx mocha",
+    "coverage": "npx nyc mocha && npx nyc report --reporter=text-lcov > coverage.lcov"
   },
   "repository": {
     "type": "git",

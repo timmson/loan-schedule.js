@@ -76,6 +76,8 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
 
 
     let i = 1;
+
+    let paymentAmount = schedulePoints[i].paymentAmount;
     while (i < schedulePoints.length && new Decimal(payments[i - 1].finalBalance).gt(0)) {
         let pay = {};
 
@@ -83,7 +85,14 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
         pay.initialBalance = payments[i - 1].finalBalance;
         pay.interestRate = rate.toFixed(that.decimal);
         pay.annuityPaymentAmount = that.calculateAnnuityPaymentAmount({amount: pay.initialBalance, term: term.toNumber() - i + 1, rate: pay.interestRate});
-        let paymentAmount = schedulePoints[i].paymentAmount;
+
+        if (schedulePoints[i].paymentType !== that.ER_TYPE_REGULAR) {
+            paymentAmount = schedulePoints[i].paymentAmount;
+        } else if (schedulePoints[i - 1].paymentType !== that.ER_TYPE_REGULAR) {
+            paymentAmount = new Decimal(p.paymentAmount || pay.annuityPaymentAmount);
+        } else {
+
+        }
 
         interestAccruedAmount = interestAccruedAmount.plus(
             that.calculateInterestByPeriod({
