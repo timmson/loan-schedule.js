@@ -7,15 +7,15 @@ log.level = "info";
 function printSchedule(schedule) {
     log.info("Payment = {" + schedule.minPaymentAmount + ", " + schedule.maxPaymentAmount + "}, Term = " + schedule.term);
     log.info("OverallInterest = " + schedule.overAllInterest + " , EfficientRate = " + schedule.efficientRate);
-    schedule.payments.map(pay =>
+    schedule.payments.map(pay => {
         log.info(pay.paymentDate + "\t|\t"
             + pay.initialBalance + "\t|\t"
             + pay.paymentAmount + "\t|\t\t"
             + pay.annuityPaymentAmount + "\t|\t"
             + pay.principalAmount + "\t|\t"
             + pay.interestAmount + "\t|\t"
-            + pay.finalBalance
-        ));
+            + pay.finalBalance);
+    });
 }
 
 describe("Annuity loan schedule", () => {
