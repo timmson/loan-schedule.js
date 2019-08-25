@@ -5,15 +5,16 @@
 node_modules/
 
 # Test & Coverage
-.nyc_output
+.nyc_output/
 coverage.lcov
-test
+test/
 
 # Git
 .git
 .gitignore
 
 # Other
+.eslintrc.js
 .travis.yml
 
 # Webview

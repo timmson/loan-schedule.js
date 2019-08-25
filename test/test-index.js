@@ -5,7 +5,7 @@ require("mocha");
 const log = require("log4js").getLogger("test");
 log.level = "info";
 
-function printSchedule(schedule) {
+/*function printSchedule(schedule) {
     log.info("Payment = {" + schedule.minPaymentAmount + ", " + schedule.maxPaymentAmount + "}, Term = " + schedule.term);
     log.info("OverallInterest = " + schedule.overAllInterest + " , EfficientRate = " + schedule.efficientRate);
     schedule.payments.forEach(pay => {
@@ -17,7 +17,7 @@ function printSchedule(schedule) {
             + pay.interestAmount + "\t|\t"
             + pay.finalBalance);
     });
-}
+}*/
 
 describe("Annuity loan schedule", () => {
     let loanSchedule = null;

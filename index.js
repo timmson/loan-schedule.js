@@ -90,8 +90,6 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
             paymentAmount = schedulePoints[i].paymentAmount;
         } else if (schedulePoints[i - 1].paymentType !== that.ER_TYPE_REGULAR) {
             paymentAmount = new Decimal(p.paymentAmount || pay.annuityPaymentAmount);
-        } else {
-
         }
 
         interestAccruedAmount = interestAccruedAmount.plus(
