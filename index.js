@@ -1,7 +1,7 @@
 "use strict";
 const Decimal = require("decimal.js");
 const moment = require("moment");
-const ProdCal = require("prod-cal").default;
+const ProdCal = require("prod-cal");
 
 let that = null;
 
