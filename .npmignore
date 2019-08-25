@@ -13,8 +13,8 @@ test
 .git
 .gitignore
 
-# Webview
-docs/
-
 # Other
 .travis.yml
+
+# Webview
+docs/

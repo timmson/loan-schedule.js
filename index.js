@@ -1,7 +1,7 @@
 "use strict";
 const Decimal = require("decimal.js");
 const moment = require("moment");
-const ProdCal = require("prod-cal");
+const ProdCal = require("prod-cal").default;
 
 let that = null;
 
@@ -14,7 +14,7 @@ function LoanSchedule(options) {
     if (options) {
         that.decimal = options.decimalDigit || that.decimal;
         that.dateFormat = options.dateFormat || that.dateFormat;
-        that.prodCalendar = new ProdCal(options.prodCalendar) || that.prodCalendar;
+        that.prodCalendar = new ProdCal(options.prodCalendar);
     }
 }
 
@@ -71,7 +71,7 @@ LoanSchedule.prototype.calculateAnnuitySchedule = function (p) {
     ).concat(Object.keys(p.earlyRepayment || new Object({}))
         .map(d => that.getSchedulePoint(moment(d, that.dateFormat), p.earlyRepayment[d].erType, new Decimal(p.earlyRepayment[d].erAmount))))
         .sort((a, b) =>
-            a.paymentDate.isSame(b, "day") ? 0 : (a.paymentDate.isAfter(b.paymentDate) ? 1 : -1)
+            a.paymentDate.isSame(b.paymentDate, "day") ? 0 : (a.paymentDate.isAfter(b.paymentDate) ? 1 : -1)
         );
 
 
@@ -259,19 +259,18 @@ LoanSchedule.prototype.getInterestByPeriod = function (p) {
 };
 
 LoanSchedule.prototype.isHoliday = function (date) {
-    return that.prodCalendar && that.prodCalendar.getDay(parseInt(date.format("YYYY"), 10), parseInt(date.format("MM"), 10), parseInt(date.format("DD"), 10)) === ProdCal.prototype.DAY_HOLIDAY;
+    return that.prodCalendar && that.prodCalendar.getCalendar(parseInt(date.format("YYYY"), 10), parseInt(date.format("MM"), 10), parseInt(date.format("DD"), 10)) === ProdCal.DAY_HOLIDAY;
 };
 
 LoanSchedule.prototype.getSchedulePoint = function (paymentDate, paymentType, paymentAmount) {
-    let calcPaymentDate = paymentDate.clone();
-    while (that.isHoliday(calcPaymentDate)) {
-        calcPaymentDate.add(1, "days");
+    while (that.isHoliday(paymentDate)) {
+        paymentDate.add(1, "days");
     }
-    return new Object({
-        "paymentDate": calcPaymentDate,
+    return {
+        paymentDate,
         paymentType,
         paymentAmount
-    });
+    }
 };
 
 module.exports = LoanSchedule;

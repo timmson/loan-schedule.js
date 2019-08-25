@@ -7,7 +7,7 @@
 [![license](https://img.shields.io/npm/l/loan-schedule.js.svg)](https://www.npmjs.com/package/loan-schedule.js)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftimmson%2Floan-schedule.js.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftimmson%2Floan-schedule.js?ref=badge_shield)
 
-[..::Live demo::..](https://timmson.github.io/loan-schedule/)
+[..::Live demo::..](https://timmson.github.io/loan-schedule.js/)
 
 ## Install
 ```sh

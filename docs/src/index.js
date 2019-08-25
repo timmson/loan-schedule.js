@@ -5,7 +5,7 @@ import LoanSchedule from "../../index.js"
 import Accounting from "accounting"
 import Vue from "vue"
 
-let loanSchedule = new LoanSchedule({prodCalendar: "ru"});
+let loanSchedule = new LoanSchedule();
 
 let app = new Vue({
     el: '#app',
