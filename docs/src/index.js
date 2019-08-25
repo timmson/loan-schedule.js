@@ -18,7 +18,7 @@ let app = new Vue({
             paymentAmount: 69546.16,
             issueDate: "05.08.2019",
             paymentOnDay: 5,
-            scheduleType: loanSchedule.ANNUITY_SCHEDULE,
+            scheduleType: LoanSchedule.ANNUITY_SCHEDULE,
             earlyRepayment: {}
         },
         earlyRepayment: {
@@ -44,7 +44,7 @@ let app = new Vue({
         addEarlyRepayment: function (event) {
             this.request.earlyRepayment[this.earlyRepayment.date] = {
                 "erAmount": this.earlyRepayment.amount,
-                "erType": loanSchedule.ER_TYPE_MATURITY
+                "erType": LoanSchedule.ER_TYPE_MATURITY
             };
             this.updateSchedule(null);
         },

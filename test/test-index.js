@@ -55,7 +55,7 @@ describe("Annuity loan schedule", () => {
             term: 12,
             paymentOnDay: 25,
             issueDate: "25.10.2018",
-            scheduleType: loanSchedule.ANNUITY_SCHEDULE,
+            scheduleType: LoanSchedule.ANNUITY_SCHEDULE,
         });
 
         expect(schedule.overAllInterest).to.equal("31684.22");
@@ -72,7 +72,7 @@ describe("Annuity loan schedule", () => {
             term: 12,
             paymentOnDay: 25,
             issueDate: "25.10.2018",
-            scheduleType: loanSchedule.ANNUITY_SCHEDULE,
+            scheduleType: LoanSchedule.ANNUITY_SCHEDULE,
         });
 
         expect(schedule.overAllInterest).to.equal("31742.50");
@@ -98,7 +98,7 @@ describe("Annuity loan schedule", () => {
             paymentAmount: 30000,
             paymentOnDay: 28,
             issueDate: "01.10.2016",
-            scheduleType: loanSchedule.ANNUITY_SCHEDULE
+            scheduleType: LoanSchedule.ANNUITY_SCHEDULE
         });
 
         expect(schedule.overAllInterest).to.equal("52407.64");
@@ -117,14 +117,14 @@ describe("Annuity loan schedule", () => {
             term: 12,
             paymentOnDay: 25,
             issueDate: "25.10.2016",
-            scheduleType: loanSchedule.ANNUITY_SCHEDULE
+            scheduleType: LoanSchedule.ANNUITY_SCHEDULE
         };
 
         it("at 25.12.2016/$50000 and has total interest eq 23911.32", () => {
             p.paymentAmount = 50000;
             p.earlyRepayment = {
                 "25.12.2016": {
-                    erType: loanSchedule.ER_TYPE_MATURITY,
+                    erType: LoanSchedule.ER_TYPE_MATURITY,
                     erAmount: 50000
                 }
             };
@@ -138,7 +138,7 @@ describe("Annuity loan schedule", () => {
             p.paymentAmount = null;
             p.earlyRepayment = {
                 "25.12.2016": {
-                    erType: loanSchedule.ER_TYPE_MATURITY,
+                    erType: LoanSchedule.ER_TYPE_MATURITY,
                     erAmount: 50000
                 }
             };
@@ -152,7 +152,7 @@ describe("Annuity loan schedule", () => {
             p.paymentAmount = 50000;
             p.earlyRepayment = {
                 "12.12.2016": {
-                    erType: loanSchedule.ER_TYPE_MATURITY,
+                    erType: LoanSchedule.ER_TYPE_MATURITY,
                     erAmount: 50000
                 }
             };
@@ -166,7 +166,7 @@ describe("Annuity loan schedule", () => {
             p.paymentAmount = null;
             p.earlyRepayment = {
                 "12.12.2016": {
-                    erType: loanSchedule.ER_TYPE_ANNUITY,
+                    erType: LoanSchedule.ER_TYPE_ANNUITY,
                     erAmount: 440000
                 }
             };
@@ -189,7 +189,7 @@ describe("Differentiated Loan Schedule", () => {
             term: 12,
             paymentOnDay: 25,
             issueDate: "25.10.2016",
-            scheduleType: loanSchedule.DIFFERENTIATED_SCHEDULE
+            scheduleType: LoanSchedule.DIFFERENTIATED_SCHEDULE
         }).overAllInterest, "3111.18");
     });
 });
@@ -204,7 +204,7 @@ describe("Bubble Loan Schedule", () => {
             term: 12,
             paymentOnDay: 25,
             issueDate: "25.10.2016",
-            scheduleType: loanSchedule.BUBBLE_SCHEDULE
+            scheduleType: LoanSchedule.BUBBLE_SCHEDULE
         }).overAllInterest, "5747.13");
     });
 });
