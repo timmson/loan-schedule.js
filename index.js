@@ -266,11 +266,11 @@ class LoanSchedule {
 }
 
 LoanSchedule.ANNUITY_SCHEDULE = "ANNUITY";
-LoanSchedule. DIFFERENTIATED_SCHEDULE = "DIFFERENTIATED";
-LoanSchedule. BUBBLE_SCHEDULE = "BUBBLE";
-LoanSchedule. ER_TYPE_MATURITY = "ER_MATURITY";
-LoanSchedule. ER_TYPE_ANNUITY = "ER_ANNUITY";
-LoanSchedule. ER_TYPE_REGULAR = "REGULAR";
+LoanSchedule.DIFFERENTIATED_SCHEDULE = "DIFFERENTIATED";
+LoanSchedule.BUBBLE_SCHEDULE = "BUBBLE";
+LoanSchedule.ER_TYPE_MATURITY = "ER_MATURITY";
+LoanSchedule.ER_TYPE_ANNUITY = "ER_ANNUITY";
+LoanSchedule.ER_TYPE_REGULAR = "REGULAR";
 
 module.exports = LoanSchedule;
 
