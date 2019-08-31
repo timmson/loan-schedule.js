@@ -1,4 +1,4 @@
-const LoanSchedule = require("../index.js");
+const LoanSchedule = require("../lib/annuity-loan-schedule");
 const {expect} = require("chai");
 require("mocha");
 
@@ -176,58 +176,4 @@ describe("Annuity loan schedule", () => {
             expect(schedule.overAllInterest).to.equal("8545.27");
         });
     });
-});
-
-
-describe("Differentiated Loan Schedule", () => {
-    let loanSchedule = new LoanSchedule();
-
-    it("with params($50000/12m/11.5%/25.10.2016/25) has overall interest eq 3111.18", () => {
-        expect(loanSchedule.calculateSchedule({
-            amount: 50000,
-            rate: 11.5,
-            term: 12,
-            paymentOnDay: 25,
-            issueDate: "25.10.2016",
-            scheduleType: LoanSchedule.DIFFERENTIATED_SCHEDULE
-        }).overAllInterest, "3111.18");
-    });
-});
-
-describe("Bubble Loan Schedule", () => {
-    let loanSchedule = new LoanSchedule();
-
-    it("with params($50000/12m/11.5%/25.10.2016/25) has overall interest eq 5747.13 ", () => {
-        expect(loanSchedule.calculateSchedule({
-            amount: 50000,
-            rate: 11.5,
-            term: 12,
-            paymentOnDay: 25,
-            issueDate: "25.10.2016",
-            scheduleType: LoanSchedule.BUBBLE_SCHEDULE
-        }).overAllInterest, "5747.13");
-    });
-});
-
-describe("Interest for period", () => {
-    it("from 10.12.2015 to 10.01.2016 with params($1000,16.7%) is $14.17", () => {
-        let loanSchedule = new LoanSchedule();
-        expect(loanSchedule.calculateInterestByPeriod({
-            from: "10.12.2015",
-            to: "10.01.2016",
-            amount: 1000,
-            rate: 16.7
-        })).to.equal("14.17");
-    });
-
-    it("from 10.11.2015 to 10.12.2015 with params($1000,16.8%) is $13.81", () => {
-        let loanSchedule = new LoanSchedule();
-        expect(loanSchedule.calculateInterestByPeriod({
-            from: "10.11.2015",
-            to: "10.12.2015",
-            amount: 1000,
-            rate: 16.8
-        })).to.equal("13.81");
-    });
-
 });
