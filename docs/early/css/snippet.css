@@ -258,7 +258,7 @@
 }
 
 .snippet-wrap .snippet-num li {
-    list-style: decimal-leading-zero outside none;
+    list-style: Decimal-leading-zero outside none;
 }
 
 .snippet-wrap .snippet-no-num li.box {

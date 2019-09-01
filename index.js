@@ -18,7 +18,7 @@ class LoanSchedule {
 
     calculateSchedule(p) {
         if (mapping.hasOwnProperty(p.scheduleType)) {
-            return (new LoanSchedule.getLoanSchedule(p.scheduleType, this.options)).calculateSchedule(p);
+            return LoanSchedule.getLoanSchedule(p.scheduleType, this.options).calculateSchedule(p);
         }
     }
 

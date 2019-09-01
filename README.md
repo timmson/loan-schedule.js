@@ -26,7 +26,7 @@ let loanSchedule = new LoanSchedule({});
 let LoanSchedule = require('loan-schedule.js');
 
 let loanSchedule = new LoanSchedule({
-    decimalDigit : 2,
+    DecimalDigit : 2,
     dateFormat: 'DD.MM.YYYY',
     prodCalendar: "ru"
 });
