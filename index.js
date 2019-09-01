@@ -18,8 +18,20 @@ class LoanSchedule {
 
     calculateSchedule(p) {
         if (mapping.hasOwnProperty(p.scheduleType)) {
-            return new mapping[p.scheduleType](this.options).calculateSchedule(p);
+            return (new LoanSchedule.getLoanSchedule(p.scheduleType, this.options)).calculateSchedule(p);
         }
+    }
+
+    calculateInterestByPeriod(p) {
+        return new AnnuitySchedule(this.options).calculateInterestByPeriod(p);
+    }
+
+    calculateAnnuityPaymentAmount(p) {
+        return new AnnuitySchedule(this.options).calculateAnnuityPaymentAmount(p);
+    }
+
+    calculateMaxLoanAmount(p) {
+        return new AnnuitySchedule(this.options).calculateMaxLoanAmount(p);
     }
 }
 

@@ -72,7 +72,7 @@ let schedule = loanSchedule.calculateSchedule({
                    paymentOnDay: 25,
                    issueDate: '25.10.2016',
                    scheduleType : loanSchedule.ANNUITY_SCHEDULE
-}).payments.forEach(function (pay) {
+}).payments.forEach((pay) => {
     console.log(pay.paymentDate + '\t|\t\t'
      + pay.initialBalance + '\t|\t\t'
      + pay.paymentAmount + '\t|\t\t'
@@ -93,7 +93,7 @@ let schedule = loanSchedule.calculateSchedule({
                    paymentOnDay: 25,
                    issueDate: '25.10.2016',
                    scheduleType : loanSchedule.ANNUITY_SCHEDULE
-}).payments.forEach(function (pay) {
+}).payments.forEach((pay) => {
     console.log(pay.paymentDate + '\t|\t\t'
      + pay.initialBalance + '\t|\t\t'
      + pay.paymentAmount + '\t|\t\t'
@@ -113,7 +113,7 @@ let schedule = loanSchedule.calculateSchedule({
                    paymentOnDay: 25,
                    issueDate: '25.10.2016',
                    scheduleType : loanSchedule.DIFFERENTIATED_SCHEDULE
-}).payments.forEach(function (pay) {
+}).payments.forEach((pay) => {
     console.log(pay.paymentDate + '\t|\t\t'
      + pay.initialBalance + '\t|\t\t'
      + pay.paymentAmount + '\t|\t\t'
@@ -133,7 +133,7 @@ let schedule = loanSchedule.calculateSchedule({
                    paymentOnDay: 25,
                    issueDate: '25.10.2016',
                    scheduleType : loanSchedule.BUUBLE_SCHEDULE
-}).payments.forEach(function (pay) {
+}).payments.forEach((pay) => {
     console.log(pay.paymentDate + '\t|\t\t'
      + pay.initialBalance + '\t|\t\t'
      + pay.paymentAmount + '\t|\t\t'
