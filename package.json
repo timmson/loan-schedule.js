@@ -4,7 +4,7 @@
   "description": "Library for loan amortization schedule manipulation",
   "main": "index.js",
   "scripts": {
-    "lint": "npx eslint index.js ./test",
+    "lint": "npx eslint index.js ./lib ./test",
     "test": "npx mocha",
     "coverage": "npx nyc mocha && npx nyc report --reporter=text-lcov > coverage.lcov"
   },
@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "decimal.js": "~6.0.0",
+    "eslint-plugin-security": "1.4.0",
     "log4js": "3.0.6",
     "moment": "~2.22.2",
     "prod-cal": "1.1.3"

@@ -3,9 +3,12 @@ module.exports = {
         "browser": true,
         "commonjs": true,
         "es6": true,
-        "mocha":true
+        "mocha": true
     },
-    "extends": "eslint:recommended",
+    "extends": [
+        "eslint:recommended",
+        "plugin:security/recommended"
+    ],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
@@ -13,5 +16,10 @@ module.exports = {
     "parserOptions": {
         "ecmaVersion": 2018
     },
-    "rules": {}
+    "rules": {
+        "security/detect-object-injection" : "off"
+    },
+    "plugins": [
+        "security"
+    ]
 };

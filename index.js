@@ -7,7 +7,7 @@ const mapping = {};
 class LoanSchedule {
 
     static getLoanSchedule(scheduleType, options) {
-        if (mapping.hasOwnProperty(scheduleType)) {
+        if (Object.prototype.hasOwnProperty.call(mapping, scheduleType)) {
             return new mapping[scheduleType](options);
         }
     }
@@ -17,7 +17,7 @@ class LoanSchedule {
     }
 
     calculateSchedule(p) {
-        if (mapping.hasOwnProperty(p.scheduleType)) {
+        if (Object.prototype.hasOwnProperty.call(mapping, p.scheduleType)) {
             return LoanSchedule.getLoanSchedule(p.scheduleType, this.options).calculateSchedule(p);
         }
     }
