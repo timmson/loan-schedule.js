@@ -6,33 +6,33 @@ const mapping = {};
 
 class LoanSchedule {
 
-    static getLoanSchedule(scheduleType, options) {
-        if (Object.prototype.hasOwnProperty.call(mapping, scheduleType)) {
-            return new mapping[scheduleType](options);
-        }
-    }
+	static getLoanSchedule(scheduleType, options) {
+		if (Object.prototype.hasOwnProperty.call(mapping, scheduleType)) {
+			return new mapping[scheduleType](options);
+		}
+	}
 
-    constructor(options) {
-        this.options = options;
-    }
+	constructor(options) {
+		this.options = options;
+	}
 
-    calculateSchedule(p) {
-        if (Object.prototype.hasOwnProperty.call(mapping, p.scheduleType)) {
-            return LoanSchedule.getLoanSchedule(p.scheduleType, this.options).calculateSchedule(p);
-        }
-    }
+	calculateSchedule(p) {
+		if (Object.prototype.hasOwnProperty.call(mapping, p.scheduleType)) {
+			return LoanSchedule.getLoanSchedule(p.scheduleType, this.options).calculateSchedule(p);
+		}
+	}
 
-    calculateInterestByPeriod(p) {
-        return new AnnuitySchedule(this.options).calculateInterestByPeriod(p);
-    }
+	calculateInterestByPeriod(p) {
+		return new AnnuitySchedule(this.options).calculateInterestByPeriod(p);
+	}
 
-    calculateAnnuityPaymentAmount(p) {
-        return new AnnuitySchedule(this.options).calculateAnnuityPaymentAmount(p);
-    }
+	calculateAnnuityPaymentAmount(p) {
+		return new AnnuitySchedule(this.options).calculateAnnuityPaymentAmount(p);
+	}
 
-    calculateMaxLoanAmount(p) {
-        return new AnnuitySchedule(this.options).calculateMaxLoanAmount(p);
-    }
+	calculateMaxLoanAmount(p) {
+		return new AnnuitySchedule(this.options).calculateMaxLoanAmount(p);
+	}
 }
 
 LoanSchedule.ANNUITY_SCHEDULE = "ANNUITY";

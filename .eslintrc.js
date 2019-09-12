@@ -6,8 +6,8 @@ module.exports = {
         "mocha": true
     },
     "extends": [
-        "eslint:recommended",
-        "plugin:security/recommended"
+        "eslint:recommended"/*,
+        "plugin:mocha/recommended"*/
     ],
     "globals": {
         "Atomics": "readonly",
@@ -17,9 +17,24 @@ module.exports = {
         "ecmaVersion": 2018
     },
     "rules": {
-        "security/detect-object-injection" : "off"
-    },
+        "indent": [
+            "error",
+            "tab"
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
+    }/*,
     "plugins": [
-        "security"
-    ]
+        "mocha"
+    ]*/
 };

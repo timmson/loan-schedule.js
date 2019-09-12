@@ -1,9 +1,0 @@
-language: node_js
-node_js:
-  - 10
-install:
-  - npm i mocha nyc codecov  -g
-  - npm i
-script:
-  - npm run coverage
-  - codecov
