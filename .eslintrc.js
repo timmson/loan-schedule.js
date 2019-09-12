@@ -6,8 +6,7 @@ module.exports = {
         "mocha": true
     },
     "extends": [
-        "eslint:recommended"/*,
-        "plugin:mocha/recommended"*/
+        "eslint:recommended"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -33,8 +32,5 @@ module.exports = {
             "error",
             "always"
         ]
-    }/*,
-    "plugins": [
-        "mocha"
-    ]*/
+    }
 };
