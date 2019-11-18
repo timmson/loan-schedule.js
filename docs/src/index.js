@@ -37,13 +37,15 @@ let app = new Vue({
         schedule: {}
     },
 
-    // Nethods???
+    // Sending data to objects inside the `data` object.
     methods: {
+        // Data sent to the `schedule` object.
         updateSchedule: function (event) {
             this.schedule = loanSchedule.calculateSchedule(this.request);
             this.schedule.lastPaymentDate = this.schedule.payments[this.schedule.payments.length - 1].paymentDate;
             this.schedule.termInYear = Math.ceil(this.schedule.term / 12);
         },
+        // Loan data sent to the `request` object.
         copyPayment: function (event, paymentId) {
             this.request.amount = this.schedule.payments[paymentId - 1].finalBalance;
             this.request.term = this.request.term - paymentId - 1;
@@ -52,20 +54,25 @@ let app = new Vue({
             this.updateSchedule(null);
 
         },
+        // Extra payment data
         addEarlyRepayment: function (event) {
             this.request.earlyRepayment[this.earlyRepayment.date] = {
                 "erAmount": this.earlyRepayment.amount,
                 "erType": LoanSchedule.ER_TYPE_MATURITY
             };
+            // Rerun amortization schedule
             this.updateSchedule(null);
         },
+        // Return data in financial format
         toMoney: function (number) {
             return Accounting.formatMoney(number, {symbol: "$", format: "%s%v", thousand: " "});
         }
     },
+    // Run amortization schedule
     mounted() {
         this.updateSchedule(null);
     },
+    // If payment due after 28, check it's not February.
     beforeUpdate() {
         this.request.paymentOnDay = parseInt(this.request.paymentOnDay) > 28 ? 28 : this.request.paymentOnDay;
     }
