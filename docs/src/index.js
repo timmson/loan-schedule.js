@@ -1,16 +1,23 @@
+// Appearances
 import "bootstrap";
 import "./index.scss";
 
-import LoanSchedule from "../../index.js"
+// Major modules
 import Accounting from "accounting"
 import Vue from "vue"
+
+// Timmson's working files
+import LoanSchedule from "../../index.js"
 
 let loanSchedule = new LoanSchedule({
     prodCalendar: "ru"
 });
 
+// Instantiate Vue
 let app = new Vue({
     el: '#app',
+
+    // Set data for web example
     data: {
         currentYear: new Date().getFullYear().toString(),
         request: {
@@ -29,6 +36,8 @@ let app = new Vue({
         },
         schedule: {}
     },
+
+    // Nethods???
     methods: {
         updateSchedule: function (event) {
             this.schedule = loanSchedule.calculateSchedule(this.request);
@@ -61,4 +70,3 @@ let app = new Vue({
         this.request.paymentOnDay = parseInt(this.request.paymentOnDay) > 28 ? 28 : this.request.paymentOnDay;
     }
 });
-
