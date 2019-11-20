@@ -20,8 +20,9 @@ class LoanSchedule {
 		this.options = options;
 	}
 
-	// Calling a `prototype`? Why?
+	// also defined in differentiated-loan-schedule.js
 	calculateSchedule(p) {
+		// Calling data on a `prototype`? Why?
 		if (Object.prototype.hasOwnProperty.call(mapping, p.scheduleType)) {
 			return LoanSchedule.getLoanSchedule(p.scheduleType, this.options).calculateSchedule(p);
 		}
