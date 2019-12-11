@@ -14,11 +14,11 @@ let app = new Vue({
     data: {
         currentYear: new Date().getFullYear().toString(),
         request: {
-            amount: 8185715.57,
+            amount: 8180085.27,
             rate: 9.5,
-            term: 342,
+            term: 341,
             paymentAmount: 69546.16,
-            issueDate: "05.11.2019",
+            issueDate: "05.12.2019",
             paymentOnDay: 5,
             scheduleType: LoanSchedule.ANNUITY_SCHEDULE,
             earlyRepayment: {}
