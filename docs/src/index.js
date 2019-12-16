@@ -39,7 +39,8 @@ let app = new Vue({
             this.request.amount = this.schedule.payments[paymentId - 1].finalBalance;
             this.request.term = this.request.term - paymentId - 1;
             this.request.issueDate = this.schedule.payments[paymentId - 1].paymentDate;
-            this.request.paymentAmount = this.schedule.payments[paymentId - 1].paymentAmount;
+            //this.request.paymentAmount = this.schedule.payments[paymentId].paymentAmount;
+            this.request.earlyRepayment = {};
             this.updateSchedule(null);
 
         },
