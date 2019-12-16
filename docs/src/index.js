@@ -50,6 +50,10 @@ let app = new Vue({
             };
             this.updateSchedule(null);
         },
+        resetEarlyPayment: function (event, date) {
+            delete this.request.earlyRepayment[date];
+            this.updateSchedule(null);
+        },
         toMoney: function (number) {
             return Accounting.formatMoney(number, {symbol: "$", format: "%s%v", thousand: " "});
         }

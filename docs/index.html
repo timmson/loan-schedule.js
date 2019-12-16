@@ -92,7 +92,7 @@
             <label for="earlyRepaymentAmount">Early repayment amount, $</label>
         </div>
         <div class="col-sm-2">
-            <input class="form-control" placeholder="1000.00" type="text" id="earlyRepaymentAmount" v-model="earlyRepayment.amount">
+            <input class="form-control" placeholder="Early rep. amount" type="text" id="earlyRepaymentAmount" v-model="earlyRepayment.amount">
         </div>
         <div class="col-sm-1 text-left pt-2">
             <a style="cursor:pointer;" @click="addEarlyRepayment">➕</a>
@@ -128,10 +128,17 @@
                     <th>Percents</th>
                 </tr>
                 <tr class="pays" v-for="(pay,i) in schedule.payments">
-                    <td v-if="i==0">{{ pay.paymentDate }}</td>
+                    <td v-if="i === 0">{{ pay.paymentDate }}</td>
                     <td v-else><a style="cursor:pointer;" v-on:click="copyPayment($event, i)">{{ pay.paymentDate }}</a></td>
                     <td>{{ toMoney(pay.initialBalance) }}</td>
-                    <td>{{ toMoney(pay.paymentAmount) }}</td>
+                    <td>{{ toMoney(pay.paymentAmount) }}
+                        <a style="cursor:pointer;"
+                           title="Reset payment"
+                           v-on:click="resetEarlyPayment($event, pay.paymentDate)"
+                           v-if="(parseInt(pay.principalAmount) > 0) && (parseInt(pay.interestAmount) === 0)">
+                            ➖
+                        </a>
+                    </td>
                     <td>{{ toMoney(pay.annuityPaymentAmount) }}</td>
                     <td>{{ toMoney(pay.principalAmount) }}</td>
                     <td>{{ toMoney(pay.interestAmount) }}</td>
