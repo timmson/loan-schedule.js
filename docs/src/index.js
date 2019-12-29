@@ -17,7 +17,7 @@ let app = new Vue({
             amount: 8180085.27,
             rate: 9.5,
             term: 341,
-            paymentAmount: 69546.16,
+            paymentAmount: 140000,
             issueDate: "05.12.2019",
             paymentOnDay: 5,
             scheduleType: LoanSchedule.ANNUITY_SCHEDULE,
