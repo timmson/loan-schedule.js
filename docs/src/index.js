@@ -1,28 +1,36 @@
 import "bootstrap";
 import "./index.scss";
 
-import LoanSchedule from "../../index.js"
-import Accounting from "accounting"
-import Vue from "vue"
+import LoanSchedule from "../../index.js";
+import Accounting from "accounting";
+import URL from "url";
+import QueryString from "querystring";
+import Vue from "vue";
+
 
 let loanSchedule = new LoanSchedule({
     prodCalendar: "ru"
 });
 
+let url = URL.parse(window.location.href);
+let params = QueryString.parse(url.query);
+
+let request = {
+    amount: params["amount"] || 2000000,
+    rate: params["rate"] || 9.5,
+    term: params["term"] || 240,
+    paymentAmount: params["paymentAmount"] || 50000,
+    issueDate: params["issueDate"] || "01.12.2019",
+    paymentOnDay: params["paymentOnDay"] || 1,
+    scheduleType: LoanSchedule.ANNUITY_SCHEDULE,
+    earlyRepayment: {}
+};
+
 let app = new Vue({
     el: '#app',
     data: {
         currentYear: new Date().getFullYear().toString(),
-        request: {
-            amount: 8180085.27,
-            rate: 9.5,
-            term: 341,
-            paymentAmount: 140000,
-            issueDate: "05.12.2019",
-            paymentOnDay: 5,
-            scheduleType: LoanSchedule.ANNUITY_SCHEDULE,
-            earlyRepayment: {}
-        },
+        request: request,
         earlyRepayment: {
             date: "",
             amount: ""
@@ -34,6 +42,7 @@ let app = new Vue({
             this.schedule = loanSchedule.calculateSchedule(this.request);
             this.schedule.lastPaymentDate = this.schedule.payments[this.schedule.payments.length - 1].paymentDate;
             this.schedule.termInYear = Math.ceil(this.schedule.term / 12);
+            window.history.replaceState({}, "Loan Amortization Schedule", "?" + QueryString.stringify(this.request));
         },
         copyPayment: function (event, paymentId) {
             this.request.amount = this.schedule.payments[paymentId - 1].finalBalance;
