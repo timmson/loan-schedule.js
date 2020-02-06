@@ -46,7 +46,7 @@ let app = new Vue({
         },
         copyPayment: function (event, paymentId) {
             this.request.amount = this.schedule.payments[paymentId - 1].finalBalance;
-            this.request.term = this.request.term - paymentId - 1;
+            this.request.term = this.request.term - paymentId + 1;
             this.request.issueDate = this.schedule.payments[paymentId - 1].paymentDate;
             this.request.earlyRepayment = {};
             this.updateSchedule(null);
