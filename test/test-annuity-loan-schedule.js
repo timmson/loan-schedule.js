@@ -2,14 +2,11 @@ const LoanSchedule = require("../lib/annuity-loan-schedule");
 const {expect} = require("chai");
 require("mocha");
 
-const log = require("log4js").getLogger("test");
-log.level = "info";
-
 /*function printSchedule(schedule) {
-    log.info("Payment = {" + schedule.minPaymentAmount + ", " + schedule.maxPaymentAmount + "}, Term = " + schedule.term);
-    log.info("OverallInterest = " + schedule.overAllInterest + " , EfficientRate = " + schedule.efficientRate);
+    console.log("Payment = {" + schedule.minPaymentAmount + ", " + schedule.maxPaymentAmount + "}, Term = " + schedule.term);
+    console.log("OverallInterest = " + schedule.overAllInterest + " , EfficientRate = " + schedule.efficientRate);
     schedule.payments.forEach(pay => {
-        log.info(pay.paymentDate + "\t|\t"
+        console.log(pay.paymentDate + "\t|\t"
             + pay.initialBalance + "\t|\t"
             + pay.paymentAmount + "\t|\t\t"
             + pay.annuityPaymentAmount + "\t|\t"
@@ -32,8 +29,8 @@ describe("Annuity loan schedule", () => {
 		});
 
 		expect(paymentAmount).to.equal("2497.21");
-	});
 
+	});
 	it("with params($2497.21/60m/12.9%) has max amount eq 109999.97", () => {
 		loanSchedule = new LoanSchedule();
 

@@ -25,9 +25,7 @@
     "url": "https://github.com/timmson/loan-schedule.js/issues"
   },
   "dependencies": {
-    "@types/mocha": "7.0.2",
     "decimal.js": "~6.0.0",
-    "log4js": "3.0.6",
     "moment": "~2.22.2",
     "prod-cal": "1.1.5"
   },
@@ -36,6 +34,7 @@
     "eslint": "6.8.0",
     "eslint-plugin-security": "1.4.0",
     "mocha": "6.2.3",
+    "@types/mocha": "7.0.2",
     "nyc": "15.0.1"
   }
 }
