@@ -1,6 +1,6 @@
 {
   "name": "loan-schedule-web-view",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Loan schedule WebView",
   "private": true,
   "dependencies": {
@@ -18,8 +18,8 @@
     "postcss-loader": "3.0.0",
     "precss": "4.0.0",
     "sass-loader": "7.2.0",
-    "webpack": "4.35.3",
-    "webpack-cli": "3.3.10"
+    "webpack": "4.42.1",
+    "webpack-cli": "3.3.11"
   },
   "scripts": {
     "watch": "npx webpack --mode development --watch",
