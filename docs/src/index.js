@@ -19,8 +19,8 @@ let request = {
     amount: params["amount"] || 2000000,
     rate: params["rate"] || 9.5,
     term: params["term"] || 240,
-    paymentAmount: params["paymentAmount"] || 50000,
-    issueDate: params["issueDate"] || "01.12.2019",
+    paymentAmount: params["paymentAmount"],
+    issueDate: params["issueDate"] || new Intl.DateTimeFormat("ru").format(new Date()),
     paymentOnDay: params["paymentOnDay"] || 1,
     scheduleType: LoanSchedule.ANNUITY_SCHEDULE,
     earlyRepayment: {}
