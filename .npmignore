@@ -12,10 +12,10 @@ test/
 # Git
 .git
 .gitignore
+.github/
 
 # Other
 .eslintrc.js
-.github/
 
 # Webview
 docs/

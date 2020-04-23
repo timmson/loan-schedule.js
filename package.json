@@ -1,10 +1,10 @@
 {
   "name": "loan-schedule.js",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "Library for loan amortization schedule manipulation",
   "main": "index.js",
   "scripts": {
-    "lint": "npx eslint index.js ./lib ./test",
+    "lint": "npx eslint index.js ./lib ./test --fix",
     "test": "npx mocha",
     "coverage": "npx nyc mocha && npx nyc report --reporter=text-lcov > coverage.lcov"
   },

@@ -33,11 +33,19 @@ class LoanSchedule {
 	calculateMaxLoanAmount(p) {
 		return new AnnuitySchedule(this.options).calculateMaxLoanAmount(p);
 	}
-}
 
-LoanSchedule.ANNUITY_SCHEDULE = "ANNUITY";
-LoanSchedule.DIFFERENTIATED_SCHEDULE = "DIFFERENTIATED";
-LoanSchedule.BUBBLE_SCHEDULE = "BUBBLE";
+	static get ANNUITY_SCHEDULE() {
+		return "ANNUITY";
+	}
+
+	static get DIFFERENTIATED_SCHEDULE() {
+		return "DIFFERENTIATED";
+	}
+
+	static get BUBBLE_SCHEDULE() {
+		return "BUBBLE";
+	}
+}
 
 mapping[LoanSchedule.ANNUITY_SCHEDULE] = AnnuitySchedule;
 mapping[LoanSchedule.BUBBLE_SCHEDULE] = BubbleLoanSchedule;

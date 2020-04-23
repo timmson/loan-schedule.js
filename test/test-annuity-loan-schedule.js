@@ -2,20 +2,6 @@ const LoanSchedule = require("../lib/annuity-loan-schedule");
 const {expect} = require("chai");
 require("mocha");
 
-/*function printSchedule(schedule) {
-    console.log("Payment = {" + schedule.minPaymentAmount + ", " + schedule.maxPaymentAmount + "}, Term = " + schedule.term);
-    console.log("OverallInterest = " + schedule.overAllInterest + " , EfficientRate = " + schedule.efficientRate);
-    schedule.payments.forEach(pay => {
-        console.log(pay.paymentDate + "\t|\t"
-            + pay.initialBalance + "\t|\t"
-            + pay.paymentAmount + "\t|\t\t"
-            + pay.annuityPaymentAmount + "\t|\t"
-            + pay.principalAmount + "\t|\t"
-            + pay.interestAmount + "\t|\t"
-            + pay.finalBalance);
-    });
-}*/
-
 describe("Annuity loan schedule", () => {
 	let loanSchedule = null;
 
