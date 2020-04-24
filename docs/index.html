@@ -25,13 +25,13 @@
                 <label for="amount">Loan amount, $</label>
             </div>
             <div class="col-sm-2">
-                <input class="form-control" id="amount" type="text" v-model="request.amount"/>
+                <input class="form-control" id="amount" type="number" step="0.01" v-model="request.amount"/>
             </div>
             <div class="col-sm-3 pt-2">
                 <label for="paymentAmount">Payment amount, $</label>
             </div>
             <div class="col-sm-2">
-                <input class="form-control" id="paymentAmount" placeholder="Payment amount" type="text" v-model="request.paymentAmount">
+                <input class="form-control" id="paymentAmount" placeholder="Payment amount" type="number" step="0.01" v-model="request.paymentAmount">
             </div>
             <div class="col-sm-1">
                 &nbsp;
@@ -65,7 +65,7 @@
                 <label for="rate">Annual rate, %</label>
             </div>
             <div class="col-sm-2">
-                <input class="form-control" id="rate" placeholder="Annual rate, %" type="text" v-model="request.rate">
+                <input class="form-control" id="rate" placeholder="Annual rate, %" type="number" step="0.1" v-model="request.rate">
             </div>
             <div class="col-sm-3 pt-2">
                 <label for="paymentOnDay">Payment on day</label>
@@ -92,7 +92,7 @@
             <label for="earlyRepaymentAmount">Early repayment amount, $</label>
         </div>
         <div class="col-sm-2">
-            <input class="form-control" placeholder="Early rep. amount" type="text" id="earlyRepaymentAmount" v-model="earlyRepayment.amount">
+            <input class="form-control" placeholder="Early rep. amount" type="number" step="0.01" id="earlyRepaymentAmount" v-model="earlyRepayment.amount">
         </div>
         <div class="col-sm-1 text-left pt-2">
             <a style="cursor:pointer;" @click="addEarlyRepayment">➕</a>
