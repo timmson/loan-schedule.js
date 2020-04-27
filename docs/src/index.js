@@ -63,7 +63,7 @@ let app = new Vue({
             this.updateSchedule(null);
         },
         toMoney: function (number) {
-            return Accounting.formatMoney(number, {symbol: "$", format: "%s%v", thousand: " "});
+            return Accounting.formatMoney(number, {symbol: "", format: "%s%v", thousand: " "});
         }
     },
     mounted() {

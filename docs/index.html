@@ -102,15 +102,15 @@
             <table class="table-bordered w-100" id="schedule">
                 <tr>
                     <th rowspan="2">Date</th>
-                    <th rowspan="2">Initial balance</th>
-                    <th rowspan="2">Payment</th>
-                    <th rowspan="2">Min. payment</th>
+                    <th rowspan="2">Initial balance, $</th>
+                    <th rowspan="2">Payment, $</th>
+                    <th rowspan="2">Min. payment , $</th>
                     <th colspan="2">Inc.</th>
-                    <th rowspan="2">Final balance</th>
+                    <th rowspan="2">Final balance , $</th>
                 </tr>
                 <tr>
-                    <th>Principal</th>
-                    <th>Percents</th>
+                    <th>Principal, $</th>
+                    <th>Percents, $</th>
                 </tr>
                 <tr class="pays" v-for="(pay,i) in schedule.payments">
                     <td v-if="i === 0">{{ pay.paymentDate }}</td>
