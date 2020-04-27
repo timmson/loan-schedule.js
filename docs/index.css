@@ -7082,18 +7082,41 @@ a.text-dark:hover, a.text-dark:focus {
     color: inherit;
     border-color: #dee2e6; } }
 
-@media (max-width: 720px) {
+.container {
+  width: 100%;
+  padding-right: 3px;
+  padding-left: 3px;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 100%; }
+
+@media (min-width: 768px) {
+  .container {
+    padding-right: 15px;
+    padding-left: 15px;
+    max-width: 720px; } }
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px; } }
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px; } }
+
+@media (max-width: 767px) {
   html {
     font-size: 9pt; }
   .bg-light {
     width: 100%; }
-  .container {
-    width: 100%;
-    max-width: 100%;
-    padding-right: 1px;
-    padding-left: 1px;
-    margin-right: 0;
-    margin-left: 0; }
+  /*  .container {
+      width: 100%;
+      max-width: 100%;
+      padding-right: 1px;
+      padding-left: 1px;
+      margin-right: 0;
+      margin-left: 0;
+    }*/
   .row {
     width: 100%;
     margin-left: 0;
