@@ -28,7 +28,8 @@
                 <label for="paymentAmount">Payment amount, $</label>
             </div>
             <div class="col-sm-3">
-                <input class="form-control" id="paymentAmount" placeholder="Payment amount" type="number" step="0.01" v-model="request.paymentAmount">
+                <input class="form-control" id="paymentAmount" placeholder="Payment amount" type="number" step="0.01"
+                       v-model="request.paymentAmount">
             </div>
         </div>
         <div class="row mt-2 text-left">
@@ -50,32 +51,36 @@
                 <label for="rate">Annual rate, %</label>
             </div>
             <div class="col-sm-3">
-                <input class="form-control" id="rate" placeholder="Annual rate, %" type="number" step="0.1" v-model="request.rate">
+                <input class="form-control" id="rate" placeholder="Annual rate, %" type="number" step="0.1"
+                       v-model="request.rate">
             </div>
             <div class="col-sm-3 pt-2">
                 <label for="paymentOnDay">Payment on day</label>
             </div>
             <div class="col-sm-3">
-                <input class="form-control" id="paymentOnDay" max="28" min="0" placeholder="Payment on day" type="number" v-model="request.paymentOnDay">
+                <input class="form-control" id="paymentOnDay" max="28" min="0" placeholder="Payment on day" type="number"
+                       v-model="request.paymentOnDay">
             </div>
         </div>
     </form>
     <hr/>
-    <div class="row mt-2 text-left" >
+    <div class="row mt-2 text-left">
         <div class="col-sm-3 pt-2">
             <label for="earlyRepaymentDate">Early repayment date</label>
         </div>
         <div class="col-sm-3">
-            <input class="form-control" placeholder="dd.mm.yyyy" type="text" id="earlyRepaymentDate" v-model="earlyRepayment.date">
+            <input class="form-control" placeholder="dd.mm.yyyy" type="text" id="earlyRepaymentDate"
+                   v-model="earlyRepayment.date">
         </div>
         <div class="col-sm-3 pt-2">
             <label for="earlyRepaymentAmount">Early repayment amount, $</label>
         </div>
         <div class="col-sm-3">
-            <input class="form-control" placeholder="Early rep. amount" type="number" step="0.01" id="earlyRepaymentAmount" v-model="earlyRepayment.amount">
+            <input class="form-control" placeholder="Early rep. amount" type="number" step="0.01" id="earlyRepaymentAmount"
+                   v-model="earlyRepayment.amount">
         </div>
     </div>
-    <div class="row mt-1 text-right" >
+    <div class="row mt-1 text-right">
         <div class="col-sm-12 pt-2">
             <a href="" @click="addEarlyRepayment">Add +</a>
         </div>
@@ -92,9 +97,9 @@
             <a href="#footer" name="header">Bottom &darr;</a>
         </div>
     </div>
-    <div class="row" style="text-align: center;">
-        <div class="col-sm-12" style="text-align: center;">
-            <table class="table-bordered" id="schedule" style="width:100%">
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <table class="table-bordered w-100" id="schedule">
                 <tr>
                     <th rowspan="2">Date</th>
                     <th rowspan="2">Initial balance</th>
