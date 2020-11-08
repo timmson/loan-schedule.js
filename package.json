@@ -1,6 +1,6 @@
 {
   "name": "loan-schedule.js",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "description": "Library for loan amortization schedule manipulation",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
   "dependencies": {
     "decimal.js": "~6.0.0",
     "moment": "~2.22.2",
-    "prod-cal": "^1.2.1"
+    "prod-cal": "^1.2.2"
   },
   "devDependencies": {
     "chai": "4.2.0",
