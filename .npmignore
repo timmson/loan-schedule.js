@@ -5,8 +5,7 @@
 node_modules/
 
 # Test & Coverage
-.nyc_output/
-coverage.lcov
+coverage/
 test/
 
 # Git

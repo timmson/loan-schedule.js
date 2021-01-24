@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x]
+        node-version: [12.x]
 
     steps:
     - uses: actions/checkout@v1
@@ -17,14 +17,33 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Install
-      run: |
-        npm i mocha nyc codecov  -g
-        npm i
+
     - name: Lint and coverage
       run: |
+        npm i
         npm run lint
-        npm run coverage && codecov
+        npm run coverage && npx codecov
       env:
         CI: true
         CODECOV_TOKEN: 000c0032-edb5-4b49-a413-e98f16a5623d
+
+    - name: Lint and coverage
+      run: |
+        cd ./docs
+        npm i
+        npm run prod
+      env:
+        CI: true
+
+    - name: Commit files
+      run: |
+        git config --local user.email "loan-schedule[bot]@users.noreply.github.com"
+        git config --local user.name "loan-schedule[bot]"
+        git add -A
+        git diff-index --quiet HEAD || git commit -m "Compile App"
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
