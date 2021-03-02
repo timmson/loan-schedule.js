@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
@@ -22,14 +22,13 @@
                 <label for="amount">Loan amount, $</label>
             </div>
             <div class="col-sm-3">
-                <input class="form-control" id="amount" type="number" step="500" v-model="request.amount"/>
+                <input class="form-control" id="amount" v-model="request.amount"/>
             </div>
             <div class="col-sm-3 pt-2">
                 <label for="paymentAmount">Payment amount, $</label>
             </div>
             <div class="col-sm-3">
-                <input class="form-control" id="paymentAmount" placeholder="Payment amount" type="number" step="100"
-                       v-model="request.paymentAmount">
+                <input class="form-control" id="paymentAmount" placeholder="Payment amount" v-model="request.paymentAmount">
             </div>
         </div>
         <div class="row mt-2 text-left">
@@ -75,7 +74,7 @@
                 <label for="earlyRepaymentAmount">Early repayment amount, $</label>
             </div>
             <div class="col-sm-3">
-                <input class="form-control" placeholder="Early rep. amount" type="number" step="1" id="earlyRepaymentAmount"
+                <input class="form-control" placeholder="Early rep. amount" id="earlyRepaymentAmount"
                        v-model="earlyRepayment.amount">
             </div>
         </div>
@@ -107,7 +106,8 @@
                     <th>Principal, $</th>
                     <th>Percents, $</th>
                 </tr>
-                <tr class="pays" v-for="(pay,i) in schedule.payments" v-bind:style="{color: ((parseInt(pay.principalAmount) > 0) && (parseInt(pay.interestAmount) === 0)) ? '#fd680e' : ''}">
+                <tr class="pays" v-for="(pay,i) in schedule.payments"
+                    v-bind:style="{color: ((parseInt(pay.principalAmount) > 0) && (parseInt(pay.interestAmount) === 0)) ? '#fd680e' : ''}">
                     <td v-if="i === 0">{{ pay.paymentDate }}</td>
                     <td v-else><a style="cursor:pointer;" v-on:click="copyPayment($event, i)">{{ pay.paymentDate }}</a></td>
                     <td>{{ toMoney(pay.initialBalance) }}</td>
