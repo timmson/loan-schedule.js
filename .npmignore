@@ -5,6 +5,7 @@
 node_modules/
 
 # Test & Coverage
+jest.config.js
 coverage/
 test/
 
