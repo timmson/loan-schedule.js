@@ -14,18 +14,18 @@ npm i loan-schedule.js
 
 ## Init
 ```js
-let LoanSchedule = require('loan-schedule.js');
+const LoanSchedule = require("loan-schedule.js");
 
-let loanSchedule = new LoanSchedule({});
+const loanSchedule = new LoanSchedule({});
 ```
 
 ## Init with options
 ```js
-let LoanSchedule = require('loan-schedule.js');
+const LoanSchedule = require("loan-schedule.js");
 
-let loanSchedule = new LoanSchedule({
+const loanSchedule = new LoanSchedule({
     DecimalDigit : 2,
-    dateFormat: 'DD.MM.YYYY',
+    dateFormat: "DD.MM.YYYY",
     prodCalendar: "ru"
 });
 ```
@@ -33,8 +33,8 @@ let loanSchedule = new LoanSchedule({
 ## Interest by period
 ```js
 let interest = loanSchedule.calculateInterestByPeriod({
-                   from: '10.12.2015', 
-                   to: '10.01.2016', 
+                   from: "10.12.2015", 
+                   to: "10.01.2016", 
                    amount: 1000, 
                    rate: 16.7
 });
@@ -63,19 +63,19 @@ console.log(loanAmount);
 
 ## Annuity loan schedule (payment amount will be calculated)
 ```js
-let schedule = loanSchedule.calculateSchedule({
+loanSchedule.calculateSchedule({
                    amount: 50000,
                    rate: 11.5,
                    term: 12,
                    paymentOnDay: 25,
-                   issueDate: '25.10.2016',
-                   scheduleType : loanSchedule.ANNUITY_SCHEDULE
+                   issueDate: "25.10.2016",
+                   scheduleType : LoanSchedule.ANNUITY_SCHEDULE
 }).payments.forEach((pay) => {
-    console.log(pay.paymentDate + '\t|\t\t'
-     + pay.initialBalance + '\t|\t\t'
-     + pay.paymentAmount + '\t|\t\t'
-     + pay.principalAmount + '\t|\t\t'
-     + pay.interestAmount + '\t|\t\t'
+    console.log(pay.paymentDate + "\t|\t\t"
+     + pay.initialBalance + "\t|\t\t"
+     + pay.paymentAmount + "\t|\t\t"
+     + pay.principalAmount + "\t|\t\t"
+     + pay.interestAmount + "\t|\t\t"
      + pay.finalBalance
      );
 });
@@ -83,20 +83,20 @@ let schedule = loanSchedule.calculateSchedule({
 
 ## Annuity loan schedule (payment amount is set)
 ```js
-let schedule = loanSchedule.calculateSchedule({
+loanSchedule.calculateSchedule({
                    amount: 50000,
                    rate: 11.5,
                    term: 12,
                    paymentAmount: 40000,
                    paymentOnDay: 25,
-                   issueDate: '25.10.2016',
-                   scheduleType : loanSchedule.ANNUITY_SCHEDULE
+                   issueDate: "25.10.2016",
+                   scheduleType : LoanSchedule.ANNUITY_SCHEDULE
 }).payments.forEach((pay) => {
-    console.log(pay.paymentDate + '\t|\t\t'
-     + pay.initialBalance + '\t|\t\t'
-     + pay.paymentAmount + '\t|\t\t'
-     + pay.principalAmount + '\t|\t\t'
-     + pay.interestAmount + '\t|\t\t'
+    console.log(pay.paymentDate + "\t|\t\t"
+     + pay.initialBalance + "\t|\t\t"
+     + pay.paymentAmount + "\t|\t\t"
+     + pay.principalAmount + "\t|\t\t"
+     + pay.interestAmount + "\t|\t\t"
      + pay.finalBalance
      );
 });
@@ -104,19 +104,19 @@ let schedule = loanSchedule.calculateSchedule({
 
 ## Differentiated loan schedule
 ```js
-let schedule = loanSchedule.calculateSchedule({
+loanSchedule.calculateSchedule({
                    amount: 50000,
                    rate: 11.5,
                    term: 12,
                    paymentOnDay: 25,
-                   issueDate: '25.10.2016',
-                   scheduleType : loanSchedule.DIFFERENTIATED_SCHEDULE
+                   issueDate: "25.10.2016",
+                   scheduleType : LoanSchedule.DIFFERENTIATED_SCHEDULE
 }).payments.forEach((pay) => {
-    console.log(pay.paymentDate + '\t|\t\t'
-     + pay.initialBalance + '\t|\t\t'
-     + pay.paymentAmount + '\t|\t\t'
-     + pay.principalAmount + '\t|\t\t'
-     + pay.interestAmount + '\t|\t\t'
+    console.log(pay.paymentDate + "\t|\t\t"
+     + pay.initialBalance + "\t|\t\t"
+     + pay.paymentAmount + "\t|\t\t"
+     + pay.principalAmount + "\t|\t\t"
+     + pay.interestAmount + "\t|\t\t"
      + pay.finalBalance
      );
 });
@@ -124,22 +124,20 @@ let schedule = loanSchedule.calculateSchedule({
 
 ## Bubble loan schedule
 ```js
-let schedule = loanSchedule.calculateSchedule({
+loanSchedule.calculateSchedule({
                    amount: 50000,
                    rate: 11.5,
                    term: 12,
                    paymentOnDay: 25,
-                   issueDate: '25.10.2016',
-                   scheduleType : loanSchedule.BUUBLE_SCHEDULE
+                   issueDate: "25.10.2016",
+                   scheduleType : LoanSchedule.BUUBLE_SCHEDULE
 }).payments.forEach((pay) => {
-    console.log(pay.paymentDate + '\t|\t\t'
-     + pay.initialBalance + '\t|\t\t'
-     + pay.paymentAmount + '\t|\t\t'
-     + pay.principalAmount + '\t|\t\t'
-     + pay.interestAmount + '\t|\t\t'
+    console.log(pay.paymentDate + "\t|\t\t"
+     + pay.initialBalance + "\t|\t\t"
+     + pay.paymentAmount + "\t|\t\t"
+     + pay.principalAmount + "\t|\t\t"
+     + pay.interestAmount + "\t|\t\t"
      + pay.finalBalance
      );
 });
 ```
-
-If you have any questions, you could send their via email: [timmson666@mail.ru](mailto:timmson666@mail.ru?subjet=loan-schedule.js)
