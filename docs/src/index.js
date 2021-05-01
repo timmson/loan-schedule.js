@@ -43,7 +43,7 @@ let app = new Vue({
 
 			this.request.amount = this.fromMoney(this.request.amount);
 			this.request.paymentAmount = this.fromMoney(this.request.paymentAmount);
-			this.request.paymentOnDay = parseInt(this.request.paymentOnDay) > 28 ? 28 : this.request.paymentOnDay;
+			this.request.paymentOnDay = parseInt(this.request.paymentOnDay) > 31 ? 31 : this.request.paymentOnDay;
 
 			if (this.earlyRepayment.date) {
 				delete this.request.earlyRepayment[this.earlyRepayment.date];

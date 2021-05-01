@@ -1,6 +1,6 @@
 {
   "name": "loan-schedule-web-view",
-  "version": "0.8.7",
+  "version": "1.0.0",
   "description": "Loan schedule WebView",
   "private": true,
   "dependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "loan-schedule.js",
-  "version": "0.8.7",
+  "version": "1.0.0",
   "description": "Library for loan amortization schedule manipulation",
   "main": "index.js",
   "scripts": {
@@ -26,8 +26,9 @@
   },
   "dependencies": {
     "decimal.js": "~6.0.0",
+    "jest": "26.6.3",
     "moment": "~2.22.2",
-    "prod-cal": "^1.2.2"
+    "prod-cal": "^1.2.9"
   },
   "devDependencies": {
     "eslint-plugin-security": "1.4.0"

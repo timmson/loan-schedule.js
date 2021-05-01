@@ -59,6 +59,23 @@ describe("Annuity loan schedule", () => {
 		expect(schedule.overAllInterest).toEqual("31742.50");
 	});
 
+	test("with params($50000/12m/11.5%/31.10.2018/25) uses ruCalendar and has total interest eq 31742.50", () => {
+		loanSchedule = new LoanSchedule({
+			prodCalendar: "ru"
+		});
+
+		let schedule = loanSchedule.calculateSchedule({
+			amount: 500000,
+			rate: 11.5,
+			term: 12,
+			paymentOnDay: 31,
+			issueDate: "31.10.2018",
+			scheduleType: LoanSchedule.ANNUITY_SCHEDULE,
+		});
+
+		expect(schedule.overAllInterest).toEqual("31477.89");
+	});
+
 	test("uses otherCalendar and has error", () => {
 		expect(() => loanSchedule = new LoanSchedule({prodCalendar: "en"})).toThrow();
 	});
