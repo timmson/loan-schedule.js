@@ -15,30 +15,19 @@ module.exports = {
                 use: [
                     MiniCssExtractPlugin.loader,
                     "css-loader",
-                    {
-                        loader: "postcss-loader",
-                        options: {
-                            plugins: function () { // post css plugins, can be exported to postcss.config.js
-                                return [
-                                    require("precss"),
-                                    require("autoprefixer")
-                                ];
-                            }
-                        }
-                    },
                     "sass-loader"
                 ]
             },
-            /*{
+            {
                 test: /\.m?js$/,
                 exclude: /node_modules/,
                 use: {
                     loader: "babel-loader",
                     options: {
-                        presets: ["@babel/preset-es2016"]
+                        presets: ["@babel/preset-env"]
                     }
                 }
-            }*/
+            }
         ]
     },
     resolve: {
