@@ -5,7 +5,7 @@ import LoanSchedule from "../../index.js";
 import Accounting from "accounting";
 import Vue from "vue";
 
-const telegramShareUrl = "https://t.me/share/url"
+const telegramShareUrl = "https://t.me/share/url";
 
 const loanSchedule = new LoanSchedule({
 	prodCalendar: "ru"
