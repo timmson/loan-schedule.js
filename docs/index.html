@@ -81,13 +81,13 @@
     </form>
     <hr/>
     <div class="row mt-5">
-        <div class="col-sm-10">
+        <div class="col-sm-9">
             <div style="color:#fd680e;">
                 {{ toMoney(schedule.overAllInterest) }} ({{ toMoney(schedule.fullAmount)}}),
                 {{schedule.lastPaymentDate}} (~{{schedule.termInYear}}Y)
             </div>
         </div>
-        <div class="col-sm-2 text-right">
+        <div class="col-sm-3 text-right">
             <a v-bind:href="shareUrl" target="_blank">[Share via TG]</a>
             <a href="#footer" id="header">[Bottom &darr;]</a>
         </div>
