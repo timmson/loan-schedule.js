@@ -5,6 +5,8 @@ import LoanSchedule from "../../index.js";
 import Accounting from "accounting";
 import Vue from "vue";
 
+const telegramShareUrl = "https://t.me/share/url"
+
 const loanSchedule = new LoanSchedule({
 	prodCalendar: "ru"
 });
@@ -14,7 +16,7 @@ const request = {
 	amount: params.get("amount") || 2000000,
 	rate: params.get("rate") || 9.5,
 	term: params.get("term") || 240,
-	paymentAmount: params.get("paymentAmount"),
+	paymentAmount: params.get("paymentAmount") || "",
 	issueDate: params.get("issueDate") || new Intl.DateTimeFormat("ru").format(new Date()),
 	paymentOnDay: params.get("paymentOnDay") || 1,
 	scheduleType: LoanSchedule.ANNUITY_SCHEDULE,
@@ -25,6 +27,7 @@ new Vue({
 	el: "#app",
 	data: {
 		currentYear: new Date().getFullYear().toString(),
+		shareUrl: "",
 		request: request,
 		earlyRepayment: {
 			date: "",
@@ -61,6 +64,7 @@ new Vue({
 			params.set("issueDate", this.request.issueDate);
 			params.set("paymentOnDay", this.request.paymentOnDay);
 			window.history.replaceState({}, "Loan Amortization Schedule", "?" + params.toString());
+			this.shareUrl = `${telegramShareUrl}?url=${encodeURIComponent(window.location.href)}`;
 
 			this.request.amount = this.toMoney(this.request.amount);
 			this.request.paymentAmount = this.toMoney(this.request.paymentAmount);
