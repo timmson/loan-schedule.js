@@ -105,7 +105,7 @@
                 </tr>
                 <tr>
                     <th>Principal, $</th>
-                    <th>Percents, $</th>
+                    <th>Interest, $</th>
                 </tr>
                 <tr class="pays" v-for="(pay,i) in schedule.payments"
                     v-bind:style="{color: ((parseInt(pay.principalAmount) > 0) && (parseInt(pay.interestAmount) === 0)) ? '#fd680e' : ''}">
