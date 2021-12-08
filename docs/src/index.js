@@ -84,7 +84,7 @@ new Vue({
 		},
 
 		fromMoney: function (numberWithSpaces) {
-			return numberWithSpaces ? numberWithSpaces.toString().split(" ").join("") : numberWithSpaces;
+			return numberWithSpaces ? numberWithSpaces.toString().split(" ").join("").replaceAll(",", ".") : numberWithSpaces;
 		}
 	},
 
