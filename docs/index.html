@@ -85,11 +85,12 @@
     <div class="row mt-5">
         <div class="col-sm-9">
             <div style="color:#fd680e;">
-                {{ toMoney(schedule.overAllInterest) }} ({{ toMoney(schedule.fullAmount)}}),
-                {{schedule.lastPaymentDate}} (~{{schedule.termInYear}}Y)
+                {{ toMoney(schedule.overAllInterest) }} ({{ toMoney(schedule.fullAmount) }}),
+                {{ schedule.lastPaymentDate }} (~{{ schedule.termInYear }}Y)
             </div>
         </div>
         <div class="col-sm-3 text-right">
+            <a href="#" @click.prevent="reset">[Reset]</a>
             <a v-bind:href="shareUrl" target="_blank">[Share via TG]</a>
             <a href="#footer" id="header">[Bottom &darr;]</a>
         </div>
@@ -126,7 +127,7 @@
                     <td>{{ toMoney(schedule.fullAmount) }}</td>
                     <td>&nbsp;</td>
                     <td>{{ toMoney(schedule.amount) }}</td>
-                    <td>{{ toMoney(schedule.overAllInterest)}}</td>
+                    <td>{{ toMoney(schedule.overAllInterest) }}</td>
                     <td>&nbsp;</td>
                 </tr>
             </table>

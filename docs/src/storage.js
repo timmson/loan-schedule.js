@@ -33,6 +33,7 @@ export default function storage(window) {
 
 		reset: () => {
 			window.localStorage.clear();
+			window.history.replaceState({}, "Loan Amortization Schedule", "");
 		}
 
 	};

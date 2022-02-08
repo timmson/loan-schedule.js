@@ -70,6 +70,11 @@ new Vue({
 
 		fromMoney: function (numberWithSpaces) {
 			return numberWithSpaces ? numberWithSpaces.toString().split(" ").join("").replaceAll(",", ".") : numberWithSpaces;
+		},
+
+		reset: function () {
+			storage.reset();
+			this.request = storage.load();
 		}
 	},
 
