@@ -74,7 +74,7 @@ new Vue({
 
 		reset: function () {
 			storage.reset();
-			this.request = storage.load();
+			window.location = ".";
 		}
 	},
 
