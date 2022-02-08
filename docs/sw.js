@@ -6,12 +6,12 @@ const assets = [
 	"index.css"
 ];
 
-self.addEventListener("install", async (event) => {
+self.addEventListener("install", async () => {
 	const cache = await caches.open(version);
 	await cache.addAll(assets);
 });
 
-self.addEventListener("activate", async (event) => {
+self.addEventListener("activate", async () => {
 	const cacheNames = await caches.keys();
 	await Promise.all(
 		cacheNames
@@ -21,12 +21,12 @@ self.addEventListener("activate", async (event) => {
 });
 
 
-/*self.addEventListener("fetch", event => {
+self.addEventListener("fetch", event => {
 	const {request} = event;
 	event.respondWith(cacheFirst(request));
 });
 
 async function cacheFirst(request) {
 	const cached = await caches.match(request);
-	return cached ?? await fetch(request);
-}*/
+	return cached || await fetch(request);
+}
