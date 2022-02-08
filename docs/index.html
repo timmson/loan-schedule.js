@@ -10,6 +10,8 @@
     <title>Loan Amortization Schedule</title>
 
     <link rel="stylesheet" href="index.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="img/icon-48x48.png">
 </head>
 <body class="bg-light">
 <div id="app" class="container">
@@ -142,4 +144,15 @@
     </div>
 </div>
 <script src="index.js"></script>
+<script type="application/javascript">
+	window.addEventListener("load", async () => {
+		if ("serviceWorker" in navigator) {
+			try {
+				await navigator.serviceWorker.register("sw.js");
+			} catch (e) {
+				console.log("Service worker register fail");
+			}
+		}
+	});
+</script>
 </body>

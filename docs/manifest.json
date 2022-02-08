@@ -1,0 +1,30 @@
+{
+  "name": "Loan Amortization Schedule",
+  "short_name": "loan-schedule.js",
+  "theme_color": "#343a40",
+  "background_color": "#f8f9fa",
+  "display": "standalone",
+  "start_url": ".",
+  "icons": [
+    {
+      "src": "/img/icon-48x48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "/img/icon-96x96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "/img/icon-144x144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "/img/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ]
+}

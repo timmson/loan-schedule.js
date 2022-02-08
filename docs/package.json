@@ -14,18 +14,20 @@
     "@babel/preset-env": "^7.14.2",
     "babel-loader": "8.2.2",
     "babel-polyfill": "^6.26.0",
-    "css-loader": "^6.5.1",
+    "css-loader": "^6.6.0",
     "mini-css-extract-plugin": "^2.4.6",
     "node-sass": "^7.0.1",
     "postcss-loader": "^6.2.1",
     "sass-loader": "^12.4.0",
     "webpack": "^5.65.0",
-    "webpack-cli": "^4.9.1"
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "4.7.4"
   },
   "scripts": {
     "watch": "npx webpack --mode development --watch",
     "dev": "npx webpack --mode development",
-    "prod": "npx webpack --mode production"
+    "prod": "npx webpack --mode production",
+    "start": "npx webpack serve --mode development"
   },
   "repository": {
     "type": "git",
