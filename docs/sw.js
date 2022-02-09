@@ -15,18 +15,21 @@ self.addEventListener("activate", async () => {
 	const cacheNames = await caches.keys();
 	await Promise.all(
 		cacheNames
-			.filter(name => name !== version)
-			.map(name => caches.delete(name))
+			.filter((name) => name !== version)
+			.map((name) => caches.delete(name))
 	);
 });
 
 
-self.addEventListener("fetch", event => {
-	const {request} = event;
-	event.respondWith(cacheFirst(request));
+self.addEventListener("fetch", async (event) => {
+	const response = networkFirst(event.request);
+	event.respondWith(response);
 });
 
-async function cacheFirst(request) {
-	const cached = await caches.match(request);
-	return cached || await fetch(request);
+async function networkFirst(request) {
+	try {
+		return await fetch(request);
+	} catch (e) {
+		return caches.match(request);
+	}
 }
