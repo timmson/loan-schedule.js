@@ -5,7 +5,7 @@
 [![version](https://img.shields.io/npm/v/loan-schedule.js.svg)](https://www.npmjs.com/package/loan-schedule.js)
 [![license](https://img.shields.io/npm/l/loan-schedule.js.svg)](https://www.npmjs.com/package/loan-schedule.js)
 
-[..::Live demo::..](https://timmson.github.io/loan-schedule.js/)
+[..::Live demo::..](https://timmson.github.io/loan-schedule-ui/)
 
 ## Install
 ```sh

@@ -4,9 +4,8 @@
   "description": "Library for loan amortization schedule manipulation",
   "main": "index.js",
   "scripts": {
-    "lint": "npx eslint index.js ./lib ./test ./docs/src/ --fix",
+    "lint": "npx eslint index.js ./lib ./test --fix",
     "test": "npx jest",
-    "check": "npm run lint && npm run test",
     "coverage": "npx jest --collectCoverage"
   },
   "repository": {
