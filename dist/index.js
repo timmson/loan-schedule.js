@@ -2,7 +2,6 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 const annuity_loan_schedule_1 = __importDefault(require("./annuity-loan-schedule"));
 const bubble_loan_schedule_1 = __importDefault(require("./bubble-loan-schedule"));
 const differentiated_loan_schedule_1 = __importDefault(require("./differentiated-loan-schedule"));
@@ -43,4 +42,4 @@ class LoanSchedule {
 mapping[LoanSchedule.ANNUITY_SCHEDULE] = annuity_loan_schedule_1.default;
 mapping[LoanSchedule.BUBBLE_SCHEDULE] = bubble_loan_schedule_1.default;
 mapping[LoanSchedule.DIFFERENTIATED_SCHEDULE] = differentiated_loan_schedule_1.default;
-exports.default = LoanSchedule;
+module.exports = LoanSchedule;

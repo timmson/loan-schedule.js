@@ -1,7 +1,7 @@
 import Decimal from "decimal.js"
 import moment, {Moment} from "moment"
 import ProdCal from "prod-cal"
-import {LSOptions, LSPayment, LSSchedule} from "./index"
+import {LSOptions, LSPayment, LSSchedule} from "./types"
 
 class AbstractLoanSchedule {
 

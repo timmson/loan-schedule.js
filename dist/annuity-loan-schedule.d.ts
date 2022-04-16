@@ -1,5 +1,5 @@
 import AbstractLoanSchedule from "./abstract-loan-schedule"
-import {LSOptions, LSParameters, LSSchedule} from "./index"
+import {LSOptions, LSParameters, LSSchedule} from "./types"
 
 declare class AnnuityLoanSchedule extends AbstractLoanSchedule {
     constructor(options?: LSOptions);

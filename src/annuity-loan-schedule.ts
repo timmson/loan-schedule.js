@@ -1,7 +1,7 @@
 import Decimal from "decimal.js"
 import moment from "moment"
 import AbstractLoanSchedule from "./abstract-loan-schedule"
-import {LSOptions, LSParameters, LSPayment, LSSchedule} from "./index"
+import {LSOptions, LSParameters, LSPayment, LSSchedule} from "./types"
 
 class AnnuityLoanSchedule extends AbstractLoanSchedule {
 

@@ -1,54 +1,9 @@
 import AnnuitySchedule from "./annuity-loan-schedule"
 import BubbleLoanSchedule from "./bubble-loan-schedule"
 import DifferentiatedSchedule from "./differentiated-loan-schedule"
+import {LSOptions} from "./types"
 
 const mapping = {}
-
-export type LSOptions = {
-	decimalDigit?: number
-	dateFormat?: string
-	prodCalendar?: string
-}
-
-export type LSEarlyRepayment = {
-	erType: string
-	erAmount: string
-}
-
-export type LSEarlyRepayments = {
-	[date: string]: LSEarlyRepayment
-}
-
-export type LSParameters = {
-	earlyRepayment: LSEarlyRepayments
-	amount: string
-	issueDate: string
-	term: string
-	rate: string
-	paymentAmount?: string
-	paymentOnDay: number
-
-}
-
-export type LSPayment = {
-	paymentDate?: string
-	initialBalance?: string
-	interestRate?: string
-	annuityPaymentAmount?: string
-	interestAmount?: string
-	principalAmount?: string
-	paymentAmount?: string
-	finalBalance?: string
-}
-
-export type LSSchedule = {
-	payments?: Array<LSPayment>
-	minPaymentAmount: string
-	maxPaymentAmount: string
-	efficientRate: string
-	term: string
-	overAllInterest: string
-}
 
 class LoanSchedule {
 
@@ -99,5 +54,5 @@ mapping[LoanSchedule.ANNUITY_SCHEDULE] = AnnuitySchedule
 mapping[LoanSchedule.BUBBLE_SCHEDULE] = BubbleLoanSchedule
 mapping[LoanSchedule.DIFFERENTIATED_SCHEDULE] = DifferentiatedSchedule
 
-export default LoanSchedule
+export = LoanSchedule
 
