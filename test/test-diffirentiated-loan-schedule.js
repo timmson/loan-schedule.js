@@ -1,4 +1,4 @@
-const LoanSchedule = require("../lib/differentiated-loan-schedule");
+const LoanSchedule = require("../dist/differentiated-loan-schedule");
 
 describe("Differentiated Loan Schedule should", () => {
 	let loanSchedule = new LoanSchedule();

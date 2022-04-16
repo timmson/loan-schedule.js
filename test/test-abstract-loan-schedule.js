@@ -1,5 +1,5 @@
 const moment = require("moment");
-const LoanSchedule = require("../lib/abstract-loan-schedule");
+const LoanSchedule = require("../dist/abstract-loan-schedule");
 
 describe("AbstractLoan should", () => {
 

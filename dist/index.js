@@ -1,6 +1,6 @@
-const AnnuitySchedule = require("./lib/annuity-loan-schedule");
-const BubbleLoanSchedule = require("./lib/bubble-loan-schedule");
-const DifferentiatedSchedule  = require("./lib/differentiated-loan-schedule");
+const AnnuitySchedule = require("./annuity-loan-schedule");
+const BubbleLoanSchedule = require("./bubble-loan-schedule");
+const DifferentiatedSchedule  = require("./differentiated-loan-schedule");
 
 const mapping = {};
 

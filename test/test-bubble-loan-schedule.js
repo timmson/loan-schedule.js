@@ -1,4 +1,4 @@
-const LoanSchedule = require("../lib/bubble-loan-schedule");
+const LoanSchedule = require("../dist/bubble-loan-schedule");
 
 describe("Bubble Loan Schedule should", () => {
 	let loanSchedule = new LoanSchedule();
