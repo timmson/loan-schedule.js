@@ -25,6 +25,7 @@ jobs:
       run: |
         npm i
         npm run lint
+        npm run build
         npm run coverage && npx codecov
       env:
         CI: true

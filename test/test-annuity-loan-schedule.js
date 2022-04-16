@@ -1,4 +1,4 @@
-const LoanSchedule = require("../lib/annuity-loan-schedule");
+const LoanSchedule = require("../dist/annuity-loan-schedule");
 
 describe("Annuity loan schedule", () => {
 	let loanSchedule = null;
