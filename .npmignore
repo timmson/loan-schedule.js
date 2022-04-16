@@ -4,18 +4,21 @@
 # Node modules
 node_modules/
 
+# Sources & Build
+src/
+tsconfig.json
+
 # Test & Coverage
-jest.config.js
 coverage/
 test/
+.eslintrc.json
+babel.config.js
+jest.config.js
 
 # Git
-.git
+.git/
 .gitignore
 .github/
-
-# Other
-.eslintrc.js
 
 # Webview
 docs/
