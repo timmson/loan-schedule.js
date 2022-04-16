@@ -1,17 +1,16 @@
 import Decimal from "decimal.js"
-import moment from "moment"
+import moment, {Moment} from "moment"
 import ProdCal from "prod-cal"
-import LoanSchedule, {LoanScheduleOptions, LoanSchedulePayment} from "./index"
+import {LSOptions, LSPayment, LSSchedule} from "./index"
 
-class AbstractLoanSchedule extends LoanSchedule {
+class AbstractLoanSchedule {
 
 	decimal = 2
 	dateFormat = "DD.MM.YYYY"
 	prodCalendar: ProdCal = null
 
-	constructor(options: LoanScheduleOptions) {
-		super(options)
-		
+	constructor(options?: LSOptions) {
+
 		if (options) {
 			this.decimal = options.decimalDigit || this.decimal
 			this.dateFormat = options.dateFormat || this.dateFormat
@@ -42,7 +41,7 @@ class AbstractLoanSchedule extends LoanSchedule {
 		return schedule
 	}
 
-	getInitialPayment(amount, date, rate): LoanSchedulePayment {
+	getInitialPayment(amount: Decimal, date: Moment, rate: Decimal): LSPayment {
 		return {
 			paymentDate: date.format(this.dateFormat),
 			initialBalance: new Decimal(0).toFixed(this.decimal),
@@ -55,7 +54,7 @@ class AbstractLoanSchedule extends LoanSchedule {
 		}
 	}
 
-	calculateInterestByPeriod(p) {
+	calculateInterestByPeriod(p): string {
 		let currentInterest = new Decimal(0)
 		const dateFrom = moment(p.from, this.dateFormat)
 		const dateTo = moment(p.to, this.dateFormat)
@@ -84,7 +83,7 @@ class AbstractLoanSchedule extends LoanSchedule {
 		return currentInterest.toFixed(this.decimal)
 	}
 
-	getInterestByPeriod(p) {
+	getInterestByPeriod(p): Decimal {
 		return new Decimal(p.rate).div(100).div(p.to.year() % 4 === 0 ? 366 : 365).mul(moment.duration(p.to.diff(p.from)).asDays()).mul(p.amount)
 	}
 
@@ -94,20 +93,16 @@ class AbstractLoanSchedule extends LoanSchedule {
 		return paymentDate.date(endOfMonth < paymentOnDay ? endOfMonth : paymentOnDay)
 	}
 
-	isHoliday(date) {
+	isHoliday(date: Moment): boolean {
 		return this.prodCalendar && this.prodCalendar.getDay(date.year(), date.month() + 1, date.date()) === ProdCal.DAY_HOLIDAY
 	}
 
 	getSchedulePoint(paymentDate, paymentType, paymentAmount) {
 		paymentDate = this.getPaymentDateOnWorkingDay(paymentDate)
-		return {
-			paymentDate,
-			paymentType,
-			paymentAmount
-		}
+		return {paymentDate, paymentType, paymentAmount}
 	}
 
-	getPaymentDateOnWorkingDay(paymentDate) {
+	getPaymentDateOnWorkingDay(paymentDate: Moment) {
 		const paymentDateOnWorkingDay = paymentDate.clone()
 		let amount = 1
 
@@ -122,18 +117,18 @@ class AbstractLoanSchedule extends LoanSchedule {
 		return paymentDateOnWorkingDay
 	}
 
-	printSchedule(schedule, printFunction) {
+	printSchedule(schedule: LSSchedule, printFunction) {
 		const pf = printFunction || console.log
 		pf("Payment = {" + schedule.minPaymentAmount + ", " + schedule.maxPaymentAmount + "}, Term = " + schedule.term)
 		pf("OverallInterest = " + schedule.overAllInterest + " , EfficientRate = " + schedule.efficientRate)
 		schedule.payments.forEach(pay => {
 			pf(pay.paymentDate + "\t|\t"
-                + pay.initialBalance + "\t|\t"
-                + pay.paymentAmount + "\t|\t\t"
-                + (pay.annuityPaymentAmount || "--") + "\t|\t"
-                + pay.principalAmount + "\t|\t"
-                + pay.interestAmount + "\t|\t"
-                + pay.finalBalance)
+				+ pay.initialBalance + "\t|\t"
+				+ pay.paymentAmount + "\t|\t\t"
+				+ (pay.annuityPaymentAmount || "--") + "\t|\t"
+				+ pay.principalAmount + "\t|\t"
+				+ pay.interestAmount + "\t|\t"
+				+ pay.finalBalance)
 		})
 	}
 
@@ -150,4 +145,4 @@ class AbstractLoanSchedule extends LoanSchedule {
 	}
 }
 
-export default AbstractLoanSchedule
+export = AbstractLoanSchedule

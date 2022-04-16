@@ -1,7 +1,7 @@
 import Decimal from "decimal.js"
 import moment from "moment"
 import AbstractLoanSchedule from "./abstract-loan-schedule"
-import {LoanSchedulePayment} from "./index"
+import {LSPayment} from "./index"
 
 class DifferentiatedLoanSchedule extends AbstractLoanSchedule {
 
@@ -19,7 +19,7 @@ class DifferentiatedLoanSchedule extends AbstractLoanSchedule {
 		const payments = [this.getInitialPayment(amount, date, rate)]
 		let i = 1
 		while (i <= term.toNumber()) {
-			const pay:LoanSchedulePayment = {}
+			const pay:LSPayment = {}
 
 			date = date.add(1, "months").date(p.paymentOnDay)
 			pay.paymentDate = date.format(this.dateFormat)
@@ -48,4 +48,4 @@ class DifferentiatedLoanSchedule extends AbstractLoanSchedule {
 
 }
 
-export default DifferentiatedLoanSchedule
+export = DifferentiatedLoanSchedule

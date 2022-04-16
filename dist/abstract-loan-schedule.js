@@ -2,14 +2,11 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 const decimal_js_1 = __importDefault(require("decimal.js"));
 const moment_1 = __importDefault(require("moment"));
 const prod_cal_1 = __importDefault(require("prod-cal"));
-const index_1 = __importDefault(require("./index"));
-class AbstractLoanSchedule extends index_1.default {
+class AbstractLoanSchedule {
     constructor(options) {
-        super(options);
         this.decimal = 2;
         this.dateFormat = "DD.MM.YYYY";
         this.prodCalendar = null;
@@ -92,11 +89,7 @@ class AbstractLoanSchedule extends index_1.default {
     }
     getSchedulePoint(paymentDate, paymentType, paymentAmount) {
         paymentDate = this.getPaymentDateOnWorkingDay(paymentDate);
-        return {
-            paymentDate,
-            paymentType,
-            paymentAmount
-        };
+        return { paymentDate, paymentType, paymentAmount };
     }
     getPaymentDateOnWorkingDay(paymentDate) {
         const paymentDateOnWorkingDay = paymentDate.clone();
@@ -134,4 +127,4 @@ class AbstractLoanSchedule extends index_1.default {
         return "REGULAR";
     }
 }
-exports.default = AbstractLoanSchedule;
+module.exports = AbstractLoanSchedule;

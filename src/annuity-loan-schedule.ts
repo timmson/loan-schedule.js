@@ -1,15 +1,15 @@
 import Decimal from "decimal.js"
 import moment from "moment"
 import AbstractLoanSchedule from "./abstract-loan-schedule"
-import {LoanSchedulePayment} from "./index"
+import {LSOptions, LSParameters, LSPayment, LSSchedule} from "./index"
 
 class AnnuityLoanSchedule extends AbstractLoanSchedule {
 
-	constructor(options) {
+	constructor(options?: LSOptions) {
 		super(options)
 	}
 
-	calculateSchedule(p) {
+	calculateSchedule(p: LSParameters): LSSchedule {
 		const date = moment(p.issueDate, this.dateFormat)
 		const term = new Decimal(p.term)
 		const amount = new Decimal(p.amount)
@@ -21,9 +21,9 @@ class AnnuityLoanSchedule extends AbstractLoanSchedule {
 			rate: p.rate
 		}))
 
-		const payments: Array<LoanSchedulePayment> = [this.getInitialPayment(amount, date, rate)]
+		const payments: Array<LSPayment> = [this.getInitialPayment(amount, date, rate)]
 
-		const schedulePoints = Array.apply(null, {length: term.toNumber() + 1}).map(Number.call, Number).map((i) =>
+		const schedulePoints = Array.from(Array(term.toNumber() + 1).keys()).map(Number.call, Number).map((i) =>
 			this.getSchedulePoint(
 				(i === 0) ? date.clone() : this.addMonths(i, date, p.paymentOnDay),
 				AnnuityLoanSchedule.ER_TYPE_REGULAR,
@@ -40,7 +40,7 @@ class AnnuityLoanSchedule extends AbstractLoanSchedule {
 
 		let paymentAmount = schedulePoints[i].paymentAmount
 		while (i < schedulePoints.length && new Decimal(payments[i - 1].finalBalance).gt(0)) {
-			const pay: LoanSchedulePayment = {}
+			const pay: LSPayment = {}
 
 			pay.paymentDate = schedulePoints[i].paymentDate.format(this.dateFormat)
 			pay.initialBalance = payments[i - 1].finalBalance
@@ -115,4 +115,4 @@ class AnnuityLoanSchedule extends AbstractLoanSchedule {
 	}
 }
 
-export default AnnuityLoanSchedule
+export = AnnuityLoanSchedule

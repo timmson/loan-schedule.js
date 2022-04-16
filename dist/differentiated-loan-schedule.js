@@ -2,7 +2,6 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 const decimal_js_1 = __importDefault(require("decimal.js"));
 const moment_1 = __importDefault(require("moment"));
 const abstract_loan_schedule_1 = __importDefault(require("./abstract-loan-schedule"));
@@ -41,4 +40,4 @@ class DifferentiatedLoanSchedule extends abstract_loan_schedule_1.default {
         return this.applyFinalCalculation(p, schedule);
     }
 }
-exports.default = DifferentiatedLoanSchedule;
+module.exports = DifferentiatedLoanSchedule;

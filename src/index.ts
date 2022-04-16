@@ -4,13 +4,33 @@ import DifferentiatedSchedule from "./differentiated-loan-schedule"
 
 const mapping = {}
 
-export type LoanScheduleOptions = {
-	decimalDigit: number
-	dateFormat: string
-	prodCalendar: string
+export type LSOptions = {
+	decimalDigit?: number
+	dateFormat?: string
+	prodCalendar?: string
 }
 
-export type LoanSchedulePayment = {
+export type LSEarlyRepayment = {
+	erType: string
+	erAmount: string
+}
+
+export type LSEarlyRepayments = {
+	[date: string]: LSEarlyRepayment
+}
+
+export type LSParameters = {
+	earlyRepayment: LSEarlyRepayments
+	amount: string
+	issueDate: string
+	term: string
+	rate: string
+	paymentAmount?: string
+	paymentOnDay: number
+
+}
+
+export type LSPayment = {
 	paymentDate?: string
 	initialBalance?: string
 	interestRate?: string
@@ -21,9 +41,18 @@ export type LoanSchedulePayment = {
 	finalBalance?: string
 }
 
+export type LSSchedule = {
+	payments?: Array<LSPayment>
+	minPaymentAmount: string
+	maxPaymentAmount: string
+	efficientRate: string
+	term: string
+	overAllInterest: string
+}
+
 class LoanSchedule {
-	
-	options: LoanScheduleOptions
+
+	options: LSOptions
 
 	static getLoanSchedule(scheduleType, options) {
 		if (Object.prototype.hasOwnProperty.call(mapping, scheduleType)) {
@@ -31,7 +60,7 @@ class LoanSchedule {
 		}
 	}
 
-	constructor(options: LoanScheduleOptions) {
+	constructor(options?: LSOptions) {
 		this.options = options
 	}
 

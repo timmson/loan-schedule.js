@@ -2,7 +2,6 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 const decimal_js_1 = __importDefault(require("decimal.js"));
 const moment_1 = __importDefault(require("moment"));
 const abstract_loan_schedule_1 = __importDefault(require("./abstract-loan-schedule"));
@@ -22,7 +21,7 @@ class AnnuityLoanSchedule extends abstract_loan_schedule_1.default {
             rate: p.rate
         }));
         const payments = [this.getInitialPayment(amount, date, rate)];
-        const schedulePoints = Array.apply(null, { length: term.toNumber() + 1 }).map(Number.call, Number).map((i) => this.getSchedulePoint((i === 0) ? date.clone() : this.addMonths(i, date, p.paymentOnDay), AnnuityLoanSchedule.ER_TYPE_REGULAR, regularPaymentAmount)).concat(Object.keys(p.earlyRepayment || new Object({}))
+        const schedulePoints = Array.from(Array(term.toNumber() + 1).keys()).map(Number.call, Number).map((i) => this.getSchedulePoint((i === 0) ? date.clone() : this.addMonths(i, date, p.paymentOnDay), AnnuityLoanSchedule.ER_TYPE_REGULAR, regularPaymentAmount)).concat(Object.keys(p.earlyRepayment || new Object({}))
             .map((d) => this.getSchedulePoint((0, moment_1.default)(d, this.dateFormat), p.earlyRepayment[d].erType, new decimal_js_1.default(p.earlyRepayment[d].erAmount))))
             .sort((a, b) => a.paymentDate.isSame(b.paymentDate, "day") ? 0 : (a.paymentDate.isAfter(b.paymentDate) ? 1 : -1));
         let i = 1;
@@ -94,4 +93,4 @@ class AnnuityLoanSchedule extends abstract_loan_schedule_1.default {
         return paymentAmount.toFixed(this.decimal);
     }
 }
-exports.default = AnnuityLoanSchedule;
+module.exports = AnnuityLoanSchedule;
