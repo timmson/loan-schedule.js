@@ -1,15 +1,17 @@
 import Decimal from "decimal.js"
 import moment from "moment"
 import ProdCal from "prod-cal"
+import LoanSchedule, {LoanScheduleOptions, LoanSchedulePayment} from "./index"
 
-class AbstractLoanSchedule {
+class AbstractLoanSchedule extends LoanSchedule {
 
 	decimal = 2
 	dateFormat = "DD.MM.YYYY"
 	prodCalendar: ProdCal = null
 
-	constructor(options) {
-
+	constructor(options: LoanScheduleOptions) {
+		super(options)
+		
 		if (options) {
 			this.decimal = options.decimalDigit || this.decimal
 			this.dateFormat = options.dateFormat || this.dateFormat
@@ -40,7 +42,7 @@ class AbstractLoanSchedule {
 		return schedule
 	}
 
-	getInitialPayment(amount, date, rate) {
+	getInitialPayment(amount, date, rate): LoanSchedulePayment {
 		return {
 			paymentDate: date.format(this.dateFormat),
 			initialBalance: new Decimal(0).toFixed(this.decimal),
@@ -93,7 +95,7 @@ class AbstractLoanSchedule {
 	}
 
 	isHoliday(date) {
-		return this.prodCalendar && this.prodCalendar.getCalendar(date.year(), date.month() + 1, date.date()) === ProdCal.DAY_HOLIDAY
+		return this.prodCalendar && this.prodCalendar.getDay(date.year(), date.month() + 1, date.date()) === ProdCal.DAY_HOLIDAY
 	}
 
 	getSchedulePoint(paymentDate, paymentType, paymentAmount) {

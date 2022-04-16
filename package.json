@@ -5,6 +5,8 @@
   "main": "./dist/index.js",
   "scripts": {
     "lint": "npx eslint ./src/*.ts --fix",
+    "watch": "npx tsc -p tsconfig.json --watch",
+    "build": "npx tsc -p tsconfig.json",
     "test": "npx jest",
     "coverage": "npx jest --collectCoverage"
   },

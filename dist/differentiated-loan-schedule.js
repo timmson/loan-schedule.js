@@ -1,50 +1,44 @@
-const Decimal = require("decimal.js");
-const moment = require("moment");
-const AbstractLoanSchedule = require("./abstract-loan-schedule");
-
-class DifferentiatedLoanSchedule extends AbstractLoanSchedule {
-
-	constructor(options) {
-		super(options);
-	}
-
-	calculateSchedule(p) {
-		let date = moment(p.issueDate, this.dateFormat);
-		let term = new Decimal(p.term);
-		let amount = new Decimal(p.amount);
-		let rate = new Decimal(p.rate);
-		let fixedPartOfPayment = amount.div(term);
-
-		let payments = [this.getInitialPayment(amount, date, rate)];
-		let i = 1;
-		while (i <= term.toNumber()) {
-			let pay = {};
-
-			date = date.add(1, "months").date(p.paymentOnDay);
-			pay.paymentDate = date.format(this.dateFormat);
-			pay.initialBalance = payments[i - 1].finalBalance;
-			pay.interestRate = rate.toFixed(this.decimal);
-			pay.principalAmount = i === term.toNumber() ? pay.initialBalance : fixedPartOfPayment.toFixed(this.decimal);
-			//pay.principalAmount = (i === term.toNumber() ? pay.initialBalance : new Decimal(0).toFixed(this.decimal));
-			pay.interestAmount = new Decimal(
-				this.calculateInterestByPeriod({
-					from: payments[i - 1].paymentDate,
-					to: pay.paymentDate,
-					amount: pay.initialBalance,
-					rate: pay.interestRate
-				})
-			).toFixed(this.decimal);
-			pay.paymentAmount = new Decimal(pay.principalAmount).plus(new Decimal(pay.interestAmount)).toFixed(this.decimal);
-			pay.finalBalance = new Decimal(pay.initialBalance).minus(new Decimal(pay.principalAmount)).toFixed(this.decimal);
-
-			payments.push(pay);
-			i++;
-		}
-
-		let schedule = {payments};
-		return this.applyFinalCalculation(p, schedule);
-	}
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const decimal_js_1 = __importDefault(require("decimal.js"));
+const moment_1 = __importDefault(require("moment"));
+const abstract_loan_schedule_1 = __importDefault(require("./abstract-loan-schedule"));
+class DifferentiatedLoanSchedule extends abstract_loan_schedule_1.default {
+    constructor(options) {
+        super(options);
+    }
+    calculateSchedule(p) {
+        let date = (0, moment_1.default)(p.issueDate, this.dateFormat);
+        const term = new decimal_js_1.default(p.term);
+        const amount = new decimal_js_1.default(p.amount);
+        const rate = new decimal_js_1.default(p.rate);
+        const fixedPartOfPayment = amount.div(term);
+        const payments = [this.getInitialPayment(amount, date, rate)];
+        let i = 1;
+        while (i <= term.toNumber()) {
+            const pay = {};
+            date = date.add(1, "months").date(p.paymentOnDay);
+            pay.paymentDate = date.format(this.dateFormat);
+            pay.initialBalance = payments[i - 1].finalBalance;
+            pay.interestRate = rate.toFixed(this.decimal);
+            pay.principalAmount = i === term.toNumber() ? pay.initialBalance : fixedPartOfPayment.toFixed(this.decimal);
+            //pay.principalAmount = (i === term.toNumber() ? pay.initialBalance : new Decimal(0).toFixed(this.decimal));
+            pay.interestAmount = new decimal_js_1.default(this.calculateInterestByPeriod({
+                from: payments[i - 1].paymentDate,
+                to: pay.paymentDate,
+                amount: pay.initialBalance,
+                rate: pay.interestRate
+            })).toFixed(this.decimal);
+            pay.paymentAmount = new decimal_js_1.default(pay.principalAmount).plus(new decimal_js_1.default(pay.interestAmount)).toFixed(this.decimal);
+            pay.finalBalance = new decimal_js_1.default(pay.initialBalance).minus(new decimal_js_1.default(pay.principalAmount)).toFixed(this.decimal);
+            payments.push(pay);
+            i++;
+        }
+        const schedule = { payments };
+        return this.applyFinalCalculation(p, schedule);
+    }
 }
-
-module.exports = DifferentiatedLoanSchedule;
+exports.default = DifferentiatedLoanSchedule;
