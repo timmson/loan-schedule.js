@@ -32,14 +32,14 @@ export declare type LSPayment = {
     finalBalance?: string;
 };
 export declare type LSSchedule = {
-    amount: string;
-    efficientRate: string;
-    fullAmount: string;
-    maxPaymentAmount: string;
-    minPaymentAmount: string;
-    overAllInterest: string;
+    amount?: string;
+    efficientRate?: string;
+    fullAmount?: string;
+    maxPaymentAmount?: string;
+    minPaymentAmount?: string;
+    overAllInterest?: string;
     payments?: Array<LSPayment>;
-    term: string;
+    term?: number;
 };
 export declare type LSInterestParameters = {
     from: string;
