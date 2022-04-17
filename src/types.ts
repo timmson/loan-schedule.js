@@ -38,12 +38,14 @@ export type LSPayment = {
 }
 
 export type LSSchedule = {
-	payments?: Array<LSPayment>
-	minPaymentAmount: string
-	maxPaymentAmount: string
+	amount: string
 	efficientRate: string
-	term: string
+	fullAmount: string
+	maxPaymentAmount: string
+	minPaymentAmount: string
 	overAllInterest: string
+	payments?: Array<LSPayment>
+	term: string
 }
 
 export type LSInterestParameters = {
