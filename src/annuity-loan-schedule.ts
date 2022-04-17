@@ -99,7 +99,7 @@ class AnnuityLoanSchedule extends AbstractLoanSchedule {
 
 	}
 
-	calculateMaxLoanAmount(p) {
+	calculateMaxLoanAmount(p: LSParameters): string {
 		const term = new Decimal(p.term)
 		const interestRate = new Decimal(p.rate).div(100).div(12)
 		const paymentAmount = new Decimal(p.paymentAmount)
@@ -107,7 +107,7 @@ class AnnuityLoanSchedule extends AbstractLoanSchedule {
 		return amount.toFixed(this.decimal)
 	}
 
-	calculateAnnuityPaymentAmount(p) {
+	calculateAnnuityPaymentAmount(p: LSParameters): string {
 		const term = new Decimal(p.term)
 		const interestRate = new Decimal(p.rate).div(100).div(12)
 		const paymentAmount = new Decimal(p.amount).mul(interestRate.div(interestRate.plus(1).pow(term.neg()).neg().plus(1)))

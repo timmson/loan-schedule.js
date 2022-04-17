@@ -1,7 +1,8 @@
 import AnnuitySchedule from "./annuity-loan-schedule"
 import BubbleLoanSchedule from "./bubble-loan-schedule"
 import DifferentiatedSchedule from "./differentiated-loan-schedule"
-import {LSOptions} from "./types"
+import {LSInterestParameters, LSOptions, LSParameters, LSSchedule} from "./types"
+import AbstractLoanSchedule from "./abstract-loan-schedule"
 
 const mapping = {}
 
@@ -9,7 +10,7 @@ class LoanSchedule {
 
 	options: LSOptions
 
-	static getLoanSchedule(scheduleType, options) {
+	static getLoanSchedule(scheduleType, options): AbstractLoanSchedule {
 		if (Object.prototype.hasOwnProperty.call(mapping, scheduleType)) {
 			return new mapping[scheduleType](options)
 		}
@@ -19,21 +20,21 @@ class LoanSchedule {
 		this.options = options
 	}
 
-	calculateSchedule(p) {
+	calculateSchedule(p): LSSchedule {
 		if (Object.prototype.hasOwnProperty.call(mapping, p.scheduleType)) {
 			return LoanSchedule.getLoanSchedule(p.scheduleType, this.options).calculateSchedule(p)
 		}
 	}
 
-	calculateInterestByPeriod(p) {
+	calculateInterestByPeriod(p: LSInterestParameters): string {
 		return new AnnuitySchedule(this.options).calculateInterestByPeriod(p)
 	}
 
-	calculateAnnuityPaymentAmount(p) {
+	calculateAnnuityPaymentAmount(p: LSParameters): string {
 		return new AnnuitySchedule(this.options).calculateAnnuityPaymentAmount(p)
 	}
 
-	calculateMaxLoanAmount(p) {
+	calculateMaxLoanAmount(p: LSParameters): string {
 		return new AnnuitySchedule(this.options).calculateMaxLoanAmount(p)
 	}
 

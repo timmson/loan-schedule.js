@@ -1,3 +1,5 @@
+import {Moment} from "moment"
+
 export type LSOptions = {
 	decimalDigit?: number
 	dateFormat?: string
@@ -14,13 +16,13 @@ export type LSEarlyRepayments = {
 }
 
 export type LSParameters = {
-	earlyRepayment: LSEarlyRepayments
 	amount: string
-	issueDate: string
-	term: string
+	issueDate?: string
+	term: number
 	rate: string
 	paymentAmount?: string
-	paymentOnDay: number
+	paymentOnDay?: number
+	earlyRepayment?: LSEarlyRepayments
 
 }
 
@@ -42,4 +44,18 @@ export type LSSchedule = {
 	efficientRate: string
 	term: string
 	overAllInterest: string
+}
+
+export type LSInterestParameters = {
+	from: string
+	to: string
+	amount: string
+	rate: string
+}
+
+export type LSInterestByPeriodParameters = {
+	from: Moment
+	to: Moment
+	amount: string
+	rate: string
 }

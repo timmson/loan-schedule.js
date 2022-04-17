@@ -1,25 +1,26 @@
 import Decimal from "decimal.js"
 import moment, {Moment} from "moment"
 import ProdCal from "prod-cal"
-import {LSOptions, LSPayment, LSSchedule} from "./types"
+import {LSInterestByPeriodParameters, LSInterestParameters, LSOptions, LSParameters, LSPayment, LSSchedule} from "./types"
 
-declare class AbstractLoanSchedule {
+declare abstract class AbstractLoanSchedule {
     decimal: number;
     dateFormat: string;
     prodCalendar: ProdCal;
-    constructor(options?: LSOptions);
-    applyFinalCalculation(p: any, schedule: any): any;
+    protected constructor(options?: LSOptions);
+    abstract calculateSchedule(p: LSParameters): LSSchedule;
+    applyFinalCalculation(p: LSParameters, schedule: any): LSSchedule;
     getInitialPayment(amount: Decimal, date: Moment, rate: Decimal): LSPayment;
-    calculateInterestByPeriod(p: any): string;
-    getInterestByPeriod(p: any): Decimal;
-    addMonths(number: any, date: any, paymentOnDay: any): any;
+    calculateInterestByPeriod(p: LSInterestParameters): string;
+    getInterestByPeriod(p: LSInterestByPeriodParameters): Decimal;
+    addMonths(number: number, date: Moment, paymentOnDay: number): Moment;
     isHoliday(date: Moment): boolean;
-    getSchedulePoint(paymentDate: any, paymentType: any, paymentAmount: any): {
-        paymentDate: any;
-        paymentType: any;
-        paymentAmount: any;
+    getSchedulePoint(paymentDate: Moment, paymentType: string, paymentAmount: Decimal): {
+        paymentDate: moment.Moment;
+        paymentType: string;
+        paymentAmount: Decimal;
     };
-    getPaymentDateOnWorkingDay(paymentDate: Moment): moment.Moment;
+    getPaymentDateOnWorkingDay(paymentDate: Moment): Moment;
     printSchedule(schedule: LSSchedule, printFunction: any): void;
     static get ER_TYPE_MATURITY(): string;
     static get ER_TYPE_ANNUITY(): string;

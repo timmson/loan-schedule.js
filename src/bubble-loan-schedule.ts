@@ -1,7 +1,7 @@
 import Decimal from "decimal.js"
 import moment from "moment"
 import AbstractLoanSchedule from "./abstract-loan-schedule"
-import {LSPayment} from "./types"
+import {LSParameters, LSPayment} from "./types"
 
 class BubbleLoanSchedule extends AbstractLoanSchedule {
 
@@ -9,7 +9,7 @@ class BubbleLoanSchedule extends AbstractLoanSchedule {
 		super(options)
 	}
 
-	calculateSchedule(p) {
+	calculateSchedule(p: LSParameters) {
 		let date = moment(p.issueDate, this.dateFormat)
 		const term = new Decimal(p.term)
 		const amount = new Decimal(p.amount)

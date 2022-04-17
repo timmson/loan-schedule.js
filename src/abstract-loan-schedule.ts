@@ -1,15 +1,15 @@
 import Decimal from "decimal.js"
 import moment, {Moment} from "moment"
 import ProdCal from "prod-cal"
-import {LSOptions, LSPayment, LSSchedule} from "./types"
+import {LSInterestByPeriodParameters, LSInterestParameters, LSOptions, LSParameters, LSPayment, LSSchedule} from "./types"
 
-class AbstractLoanSchedule {
+abstract class AbstractLoanSchedule {
 
 	decimal = 2
 	dateFormat = "DD.MM.YYYY"
 	prodCalendar: ProdCal = null
 
-	constructor(options?: LSOptions) {
+	protected constructor(options?: LSOptions) {
 
 		if (options) {
 			this.decimal = options.decimalDigit || this.decimal
@@ -18,7 +18,9 @@ class AbstractLoanSchedule {
 		}
 	}
 
-	applyFinalCalculation(p, schedule) {
+	abstract calculateSchedule(p: LSParameters): LSSchedule
+
+	applyFinalCalculation(p: LSParameters, schedule): LSSchedule {
 		const paymentLastIndex = schedule.payments.length - 1
 		const firstPayment = schedule.payments[1].paymentAmount
 		const lastPayment = schedule.payments[paymentLastIndex].paymentAmount
@@ -54,7 +56,7 @@ class AbstractLoanSchedule {
 		}
 	}
 
-	calculateInterestByPeriod(p): string {
+	calculateInterestByPeriod(p: LSInterestParameters): string {
 		let currentInterest = new Decimal(0)
 		const dateFrom = moment(p.from, this.dateFormat)
 		const dateTo = moment(p.to, this.dateFormat)
@@ -83,11 +85,11 @@ class AbstractLoanSchedule {
 		return currentInterest.toFixed(this.decimal)
 	}
 
-	getInterestByPeriod(p): Decimal {
+	getInterestByPeriod(p: LSInterestByPeriodParameters): Decimal {
 		return new Decimal(p.rate).div(100).div(p.to.year() % 4 === 0 ? 366 : 365).mul(moment.duration(p.to.diff(p.from)).asDays()).mul(p.amount)
 	}
 
-	addMonths(number, date, paymentOnDay) {
+	addMonths(number: number, date: Moment, paymentOnDay: number): Moment {
 		const paymentDate = date.clone().startOf("month").add(number, "months")
 		const endOfMonth = paymentDate.clone().endOf("month").date()
 		return paymentDate.date(endOfMonth < paymentOnDay ? endOfMonth : paymentOnDay)
@@ -97,12 +99,12 @@ class AbstractLoanSchedule {
 		return this.prodCalendar && this.prodCalendar.getDay(date.year(), date.month() + 1, date.date()) === ProdCal.DAY_HOLIDAY
 	}
 
-	getSchedulePoint(paymentDate, paymentType, paymentAmount) {
+	getSchedulePoint(paymentDate: Moment, paymentType: string, paymentAmount: Decimal) {
 		paymentDate = this.getPaymentDateOnWorkingDay(paymentDate)
 		return {paymentDate, paymentType, paymentAmount}
 	}
 
-	getPaymentDateOnWorkingDay(paymentDate: Moment) {
+	getPaymentDateOnWorkingDay(paymentDate: Moment): Moment {
 		const paymentDateOnWorkingDay = paymentDate.clone()
 		let amount = 1
 
