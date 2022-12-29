@@ -7,13 +7,13 @@ const bubble_loan_schedule_1 = __importDefault(require("./bubble-loan-schedule")
 const differentiated_loan_schedule_1 = __importDefault(require("./differentiated-loan-schedule"));
 const mapping = {};
 class LoanSchedule {
-    constructor(options) {
-        this.options = options;
-    }
     static getLoanSchedule(scheduleType, options) {
         if (Object.prototype.hasOwnProperty.call(mapping, scheduleType)) {
             return new mapping[scheduleType](options);
         }
+    }
+    constructor(options) {
+        this.options = options;
     }
     calculateSchedule(p) {
         if (Object.prototype.hasOwnProperty.call(mapping, p.scheduleType)) {

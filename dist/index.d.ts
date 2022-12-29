@@ -1,6 +1,5 @@
-import {LSInterestParameters, LSOptions, LSParameters, LSSchedule} from "./types"
-import AbstractLoanSchedule from "./abstract-loan-schedule"
-
+import { LSInterestParameters, LSOptions, LSParameters, LSSchedule } from "./types";
+import AbstractLoanSchedule from "./abstract-loan-schedule";
 declare class LoanSchedule {
     options: LSOptions;
     static getLoanSchedule(scheduleType: any, options: any): AbstractLoanSchedule;

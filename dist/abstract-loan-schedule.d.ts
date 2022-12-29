@@ -1,8 +1,7 @@
-import Decimal from "decimal.js"
-import moment, {Moment} from "moment"
-import ProdCal from "prod-cal"
-import {LSInterestByPeriodParameters, LSInterestParameters, LSOptions, LSParameters, LSPayment, LSSchedule} from "./types"
-
+import Decimal from "decimal.js";
+import moment, { Moment } from "moment";
+import ProdCal from "prod-cal";
+import { LSInterestByPeriodParameters, LSInterestParameters, LSOptions, LSParameters, LSPayment, LSSchedule } from "./types";
 declare abstract class AbstractLoanSchedule {
     decimal: number;
     dateFormat: string;
