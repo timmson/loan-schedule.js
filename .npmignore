@@ -12,13 +12,10 @@ tsconfig.json
 coverage/
 test/
 .eslintrc.json
-babel.config.js
-jest.config.js
+babel.config.json
+jest.config.json
 
 # Git
 .git/
 .gitignore
 .github/
-
-# Webview
-docs/
